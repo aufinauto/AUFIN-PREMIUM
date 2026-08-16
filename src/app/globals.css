@@ -32,6 +32,12 @@
   --duration-fast: 240ms;
   --duration-base: 520ms;
   --duration-slow: 900ms;
+
+  /* Typography — system font stacks (no external/network font loading) */
+  --font-bodoni: "Iowan Old Style", "Sitka Text", Georgia, "Times New Roman",
+    serif;
+  --font-inter: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 }
 
 @theme inline {
