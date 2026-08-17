@@ -32,6 +32,7 @@ export default function Hero() {
           alt="Sportovní vůz na lesní silnici"
           priority
           sizes="100vw"
+          unoptimized
           className="h-full w-full [object-position:center_78%]"
         />
       </motion.div>
@@ -48,6 +49,7 @@ export default function Hero() {
           alt="Sportovní vůz"
           priority
           sizes="100vw"
+          unoptimized
           className="h-full w-full object-cover"
         />
       </motion.div>

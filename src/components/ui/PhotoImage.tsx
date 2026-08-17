@@ -19,7 +19,7 @@ export default function PhotoImage({
   className = "",
   sizes = "100vw",
   priority = false,
-  unoptimized = false,
+  unoptimized = true,
   objectPosition = "50% 50%",
 }: PhotoImageProps) {
   return (
