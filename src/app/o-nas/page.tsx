@@ -34,7 +34,7 @@ export default function ONasPage() {
   return (
     <div>
       {/* HERO SECTION */}
-      <div className="mx-auto max-w-[1440px] px-6 pb-24 pt-14 lg:px-10 lg:pb-32 lg:pt-20">
+      <div className="mx-auto max-w-[1440px] px-6 pb-12 pt-8 lg:px-10 lg:pb-24 lg:pt-20">
         <Reveal>
           <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">O nás</p>
         </Reveal>

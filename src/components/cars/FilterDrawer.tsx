@@ -239,7 +239,7 @@ export default function FilterDrawer({
                 onClick={onClose}
                 className="flex-1 bg-graphite px-6 py-3.5 text-center font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent sm:flex-none"
               >
-                Zobrazit {resultCount} vozů
+                Zobrazit vozy
               </button>
             </div>
           </motion.div>

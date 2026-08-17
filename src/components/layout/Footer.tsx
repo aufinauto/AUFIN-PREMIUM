@@ -46,7 +46,7 @@ export default function Footer() {
     <footer className="bg-graphite text-white">
       <div className="mx-auto max-w-[1440px] px-6 py-12 lg:py-20 lg:px-10">
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-[1.6fr_1fr_1fr] lg:gap-14">
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <HomeLogoLink className="flex items-center gap-2.5 font-display text-2xl italic transition-opacity duration-300 hover:opacity-70">
               <LogoMark className="h-9 w-9" variant="light" />
               Aufin

@@ -41,7 +41,7 @@ export default function ProdejVozuPage() {
     <div>
       {/* HERO SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-6 py-16 lg:px-16 lg:py-24">
+        <div className="flex flex-col justify-center px-6 py-8 lg:px-16 lg:py-16">
           <Reveal>
             <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">
               Prodej vozu
