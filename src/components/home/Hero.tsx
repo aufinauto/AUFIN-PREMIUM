@@ -25,14 +25,30 @@ export default function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ y: parallaxY, scale }}
-        className="absolute inset-0"
+        className="absolute inset-0 hidden lg:block"
       >
         <PhotoImage
           src="/images/sections/hero-ferrari.jpg"
           alt="Sportovní vůz na lesní silnici"
           priority
           sizes="100vw"
-          className="h-full w-full [object-position:center_0%] lg:[object-position:center_78%]"
+          className="h-full w-full [object-position:center_78%]"
+        />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 1.06 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        style={{ y: parallaxY, scale }}
+        className="absolute inset-0 lg:hidden"
+      >
+        <PhotoImage
+          src="/images/sections/hero-mobile.jpg"
+          alt="Sportovní vůz"
+          priority
+          sizes="100vw"
+          className="h-full w-full object-cover"
         />
       </motion.div>
 

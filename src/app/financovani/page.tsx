@@ -62,7 +62,7 @@ export default async function FinancovaniPage({
       </div>
 
       <div className="border-t border-stone-200 bg-stone-50">
-        <div className="mx-auto max-w-[1440px] px-6 py-12 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1440px] px-6 py-6 lg:px-10 lg:py-16">
           <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">
             <Reveal y={0}>
               <FinanceCalculator
@@ -119,7 +119,7 @@ export default async function FinancovaniPage({
         </div>
       </div>
 
-      <div id="poptavka" className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-24 lg:px-10">
+      <div id="poptavka" className="mx-auto max-w-[1440px] scroll-mt-24 px-6 py-6 lg:px-10 lg:py-12">
         <div className="grid grid-cols-1 items-start gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
             <Reveal>

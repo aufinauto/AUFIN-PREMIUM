@@ -84,7 +84,7 @@ export default function ProdejVozuPage() {
       </div>
 
       {/* HOW IT WORKS SECTION */}
-      <section className="mx-auto max-w-[1440px] px-6 py-20 lg:px-10 lg:py-28">
+      <section className="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-16">
         <Reveal className="mb-16 text-center">
           <h2 className="font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
             Jak to funguje
@@ -111,7 +111,7 @@ export default function ProdejVozuPage() {
       </section>
 
       {/* FORM SECTION */}
-      <div className="mx-auto max-w-[1000px] px-6 py-20 lg:px-10">
+      <div className="mx-auto max-w-[1000px] border-t border-stone-200 px-6 py-10 lg:px-10 lg:py-16">
         <SellCarForm />
       </div>
 

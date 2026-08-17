@@ -34,7 +34,7 @@ export default function ONasPage() {
   return (
     <div>
       {/* HERO SECTION */}
-      <div className="mx-auto max-w-[1440px] px-6 pb-12 pt-8 lg:px-10 lg:pb-24 lg:pt-20">
+      <div className="mx-auto max-w-[1440px] px-6 pb-6 pt-8 lg:px-10 lg:pb-16 lg:pt-20">
         <Reveal>
           <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">O nás</p>
         </Reveal>
@@ -64,7 +64,7 @@ export default function ONasPage() {
       </Reveal>
 
       {/* PRINCIPLES SECTION */}
-      <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-32">
+      <div className="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-16">
         <StaggerGroup className="grid grid-cols-1 gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-4">
           {values.map((v, i) => (
             <StaggerItem key={v.title} className="flex flex-col">
@@ -80,7 +80,7 @@ export default function ONasPage() {
 
       {/* BRAND STATEMENT */}
       <div className="bg-stone-50">
-        <div className="mx-auto max-w-[1440px] px-6 py-16 lg:px-10 lg:py-20">
+        <div className="mx-auto max-w-[1440px] px-6 py-8 lg:px-10 lg:py-12">
           <Reveal delay={0.05}>
             <h2 className="max-w-3xl font-display text-5xl font-normal leading-[1.15] text-graphite balance sm:text-6xl">
               Méně vozů. Vyšší standard.
@@ -96,7 +96,7 @@ export default function ONasPage() {
       </div>
 
       {/* CTA SECTION */}
-      <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-32">
+      <div className="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-16">
         <div>
           <Reveal>
             <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">Hledáte vůz?</p>

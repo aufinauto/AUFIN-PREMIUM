@@ -22,7 +22,7 @@ export default async function VozyPage({
 
   return (
     <div>
-      <div className="mx-auto max-w-[1440px] px-6 pb-6 pt-8 lg:px-10 lg:pb-10 lg:pt-20">
+      <div className="mx-auto max-w-[1440px] px-6 pb-3 pt-8 lg:px-10 lg:pb-6 lg:pt-20">
         <Reveal>
           <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">
             Nabídka
