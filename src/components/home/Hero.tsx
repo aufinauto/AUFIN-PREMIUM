@@ -33,6 +33,7 @@ export default function Hero() {
           priority
           sizes="100vw"
           className="h-full w-full"
+          objectPosition="center 78%"
         />
       </motion.div>
 

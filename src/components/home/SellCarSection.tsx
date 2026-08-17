@@ -35,7 +35,7 @@ export default function SellCarSection() {
           <Reveal delay={0.18} className="mt-9">
             <Link
               href="/prodej-vozu"
-              className="inline-flex items-center justify-center border border-graphite/25 px-7 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-graphite transition-colors duration-300 hover:border-graphite hover:bg-graphite hover:text-white"
+              className="inline-flex items-center justify-center bg-accent px-7 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:bg-graphite"
             >
               Nabídnout vůz
             </Link>

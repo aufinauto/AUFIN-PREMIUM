@@ -34,7 +34,6 @@ export const fuelLabels: Record<FuelType, string> = {
   petrol: "Benzín",
   diesel: "Diesel",
   hybrid: "Hybrid",
-  "plugin-hybrid": "Plug-in hybrid",
   electric: "Elektro",
 };
 
@@ -56,7 +55,7 @@ export const bodyTypeLabels: Record<BodyType, string> = {
   suv: "SUV",
   cabrio: "Cabrio",
   hatchback: "Hatchback",
-  sportovni: "Sportovní",
+  pickup: "Pick-up",
 };
 
 export const statusLabels: Record<CarStatus, string> = {

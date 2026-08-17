@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Car } from "@/lib/types";
 import { displayName } from "@/lib/cars-data";
-import { formatMileage, formatPrice, fuelLabels, kwToHp } from "@/lib/utils";
+import { formatMileage, formatPrice, fuelLabels } from "@/lib/utils";
 import PhotoImage from "@/components/ui/PhotoImage";
 import { TagBadge, StatusBadge } from "@/components/ui/Badge";
 
@@ -52,13 +52,20 @@ export default function CarCard({
         <div>
           <h3 className="font-display text-xl text-graphite">{displayName(car)}</h3>
           <p className="mt-1.5 font-sans text-[13.5px] text-graphite-soft">
-            {car.year} · {formatMileage(car.mileage)} · {kwToHp(car.powerKw)} k ·{" "}
+            {car.year} · {formatMileage(car.mileage)} · {car.powerKw} kW ·{" "}
             {fuelLabels[car.fuel]}
           </p>
         </div>
-        <p className="whitespace-nowrap font-display text-lg text-graphite">
-          {formatPrice(car.price)}
-        </p>
+        <div className="text-right">
+          <p className="whitespace-nowrap font-display text-lg text-graphite">
+            {formatPrice(car.price)}
+          </p>
+          {car.vatDeductible && car.priceWithoutVat ? (
+            <p className="mt-0.5 whitespace-nowrap font-sans text-[11px] text-graphite-faint">
+              {formatPrice(car.priceWithoutVat)} bez DPH
+            </p>
+          ) : null}
+        </div>
       </div>
       <div className="mt-2">
         <StatusBadge status={car.status} />

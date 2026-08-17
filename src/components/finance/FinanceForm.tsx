@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Field, Input, Select, Textarea } from "@/components/ui/FormField";
+import { CurrencyInput, Field, Input, Select, Textarea } from "@/components/ui/FormField";
 import { submitLead } from "@/lib/submitLead";
 import { cars, displayName } from "@/lib/cars-data";
 
@@ -9,6 +9,9 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export default function FinanceForm({ preselectedCarSlug }: { preselectedCarSlug?: string }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [price, setPrice] = useState("");
+  const [downPayment, setDownPayment] = useState("");
+  const [applicantType, setApplicantType] = useState("Fyzická osoba");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -61,11 +64,16 @@ export default function FinanceForm({ preselectedCarSlug }: { preselectedCarSlug
             ))}
           </Select>
         </Field>
-        <Field label="Cena vozu (Kč)" htmlFor="f-price">
-          <Input id="f-price" name="price" type="number" step={10000} />
+        <Field label="Cena vozu" htmlFor="f-price">
+          <CurrencyInput id="f-price" name="price" value={price} onChange={setPrice} />
         </Field>
-        <Field label="Výše akontace (Kč)" htmlFor="f-down">
-          <Input id="f-down" name="downPayment" type="number" step={10000} />
+        <Field label="Výše akontace" htmlFor="f-down">
+          <CurrencyInput
+            id="f-down"
+            name="downPayment"
+            value={downPayment}
+            onChange={setDownPayment}
+          />
         </Field>
         <Field label="Preferovaná délka" htmlFor="f-term">
           <Select id="f-term" name="term" defaultValue="48">
@@ -76,11 +84,21 @@ export default function FinanceForm({ preselectedCarSlug }: { preselectedCarSlug
           </Select>
         </Field>
         <Field label="Typ žadatele" htmlFor="f-type">
-          <Select id="f-type" name="applicantType" defaultValue="Fyzická osoba">
+          <Select
+            id="f-type"
+            name="applicantType"
+            value={applicantType}
+            onChange={(e) => setApplicantType(e.target.value)}
+          >
             <option>Fyzická osoba</option>
             <option>Firma</option>
           </Select>
         </Field>
+        {applicantType === "Firma" ? (
+          <Field label="IČO" htmlFor="f-ico">
+            <Input id="f-ico" name="ico" inputMode="numeric" />
+          </Field>
+        ) : null}
         <div className="sm:col-span-2">
           <Field label="Poznámka" htmlFor="f-note">
             <Textarea id="f-note" name="note" rows={3} />

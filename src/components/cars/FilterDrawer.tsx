@@ -11,12 +11,10 @@ import {
   bodyTypeLabels,
   drivetrainLabels,
   fuelLabels,
-  statusLabels,
   transmissionLabels,
 } from "@/lib/utils";
 import type {
   BodyType,
-  CarStatus,
   DrivetrainType,
   FuelType,
   TransmissionType,
@@ -203,27 +201,28 @@ export default function FilterDrawer({
                 ))}
               </section>
 
-              <section className="mb-8">
+              <section>
                 <FilterGroupLabel>DPH</FilterGroupLabel>
                 <CheckRow
                   label="Možnost odpočtu DPH"
-                  checked={filters.vatDeductible}
-                  onChange={(v) => setFilters((f) => ({ ...f, vatDeductible: v }))}
+                  checked={filters.vatDeductible.includes("yes")}
+                  onChange={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      vatDeductible: toggle(f.vatDeductible, "yes"),
+                    }))
+                  }
                 />
-              </section>
-
-              <section>
-                <FilterGroupLabel>Dostupnost</FilterGroupLabel>
-                {(Object.keys(statusLabels) as CarStatus[]).map((s) => (
-                  <CheckRow
-                    key={s}
-                    label={statusLabels[s]}
-                    checked={filters.statuses.includes(s)}
-                    onChange={() =>
-                      setFilters((f) => ({ ...f, statuses: toggle(f.statuses, s) }))
-                    }
-                  />
-                ))}
+                <CheckRow
+                  label="Není možnost odpočtu DPH"
+                  checked={filters.vatDeductible.includes("no")}
+                  onChange={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      vatDeductible: toggle(f.vatDeductible, "no"),
+                    }))
+                  }
+                />
               </section>
             </div>
 

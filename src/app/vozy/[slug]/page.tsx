@@ -13,7 +13,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import CarGallery from "@/components/cars/CarGallery";
 import CarSpecs from "@/components/cars/CarSpecs";
 import CarEquipment from "@/components/cars/CarEquipment";
-import CarHistory from "@/components/cars/CarHistory";
 import PricePanel from "@/components/cars/PricePanel";
 import TradeInBlock from "@/components/cars/TradeInBlock";
 import InterestForm from "@/components/cars/InterestForm";
@@ -108,13 +107,21 @@ export default async function CarDetailPage({
             </Reveal>
             <Reveal delay={0.05}>
               <p className="mt-4 font-sans text-[15px] text-graphite-soft">
-                {car.year} · {formatMileage(car.mileage)} · {kwToHp(car.powerKw)} k ·{" "}
-                {fuelLabels[car.fuel]} · {transmissionLabels[car.transmission]}
+                {car.year} · {formatMileage(car.mileage)} · {car.powerKw} kW ·{" "}
+                {fuelLabels[car.fuel]}
               </p>
             </Reveal>
 
             <Reveal delay={0.1} className="mt-12">
               <Index n={1} />
+              <h2 className="mt-4 font-display text-2xl text-graphite">Specifikace</h2>
+              <div className="mt-5">
+                <CarSpecs car={car} />
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1} className="mt-14">
+              <Index n={2} />
               <h2 className="mt-4 font-display text-2xl text-graphite">O vozu</h2>
               <div className="mt-5 space-y-4">
                 {car.description.map((p, i) => (
@@ -126,37 +133,31 @@ export default async function CarDetailPage({
             </Reveal>
 
             <Reveal delay={0.1} className="mt-14">
-              <Index n={2} />
-              <h2 className="mt-4 font-display text-2xl text-graphite">Specifikace</h2>
-              <div className="mt-5">
-                <CarSpecs car={car} />
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.1} className="mt-14">
               <Index n={3} />
               <h2 className="mt-4 font-display text-2xl text-graphite">Výbava</h2>
               <div className="mt-6">
                 <CarEquipment equipment={car.equipment} />
               </div>
             </Reveal>
-
-            <Reveal delay={0.1} className="mt-14">
-              <Index n={4} />
-              <h2 className="mt-4 font-display text-2xl text-graphite">Historie a prověření</h2>
-              <div className="mt-6">
-                <CarHistory history={car.history} />
-              </div>
-            </Reveal>
           </div>
 
-          <div className="lg:sticky lg:top-28">
+          <div className="flex flex-col gap-6 lg:sticky lg:top-28">
             <PricePanel car={car} />
+            <TradeInBlock />
           </div>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr]">
           <Reveal>
+            <div>
+              <p className="mb-2 font-sans text-xs uppercase tracking-[0.22em] text-accent">
+                Zájem o vůz
+              </p>
+              <h2 className="mb-6 font-display text-2xl text-graphite">Mám zájem</h2>
+              <InterestForm carLabel={name} />
+            </div>
+          </Reveal>
+          <Reveal delay={0.05}>
             <div>
               <p className="mb-2 font-sans text-xs uppercase tracking-[0.22em] text-accent">
                 Financování
@@ -167,16 +168,10 @@ export default async function CarDetailPage({
               <FinanceCalculator
                 initialPrice={car.price}
                 ctaHref={`/financovani?vuz=${car.slug}`}
+                className="pb-10 sm:pb-14"
               />
             </div>
           </Reveal>
-          <Reveal delay={0.1}>
-            <TradeInBlock />
-          </Reveal>
-        </div>
-
-        <div className="mt-16 max-w-2xl">
-          <InterestForm carLabel={name} />
         </div>
       </div>
     </div>

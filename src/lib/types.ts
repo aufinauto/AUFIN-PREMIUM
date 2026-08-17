@@ -1,11 +1,6 @@
 export type CarStatus = "available" | "reserved" | "sold" | "preparing";
 
-export type FuelType =
-  | "petrol"
-  | "diesel"
-  | "hybrid"
-  | "plugin-hybrid"
-  | "electric";
+export type FuelType = "petrol" | "diesel" | "hybrid" | "electric";
 
 export type TransmissionType = "automatic" | "manual";
 
@@ -18,7 +13,7 @@ export type BodyType =
   | "suv"
   | "cabrio"
   | "hatchback"
-  | "sportovni";
+  | "pickup";
 
 export interface EquipmentGroup {
   category:

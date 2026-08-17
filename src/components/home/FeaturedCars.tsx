@@ -19,7 +19,7 @@ export default function FeaturedCars() {
         </Link>
       </div>
 
-      <StaggerGroup className="mt-14 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2">
+      <StaggerGroup className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14">
         {featured.map((car, i) => (
           <StaggerItem key={car.id}>
             <CarCard car={car} priority={i === 0} />

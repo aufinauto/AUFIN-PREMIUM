@@ -45,8 +45,7 @@ export default function InterestForm({ carLabel }: { carLabel: string }) {
 
   return (
     <form id="zajem" onSubmit={handleSubmit} className="scroll-mt-24 border border-stone-200 bg-white p-6 sm:p-8">
-      <h3 className="font-display text-2xl text-graphite">Mám zájem</h3>
-      <p className="mt-2 font-sans text-sm text-graphite-soft">
+      <p className="font-sans text-sm text-graphite-soft">
         {carLabel} — dejte nám vědět a ozveme se vám zpět.
       </p>
 

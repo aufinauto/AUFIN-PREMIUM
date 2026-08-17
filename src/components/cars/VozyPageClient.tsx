@@ -85,10 +85,6 @@ export default function VozyPageClient({
         </div>
       </div>
 
-      <p className="mt-6 font-sans text-sm text-graphite-soft">
-        {filteredCars.length} {filteredCars.length === 1 ? "vůz" : "vozů"}
-      </p>
-
       <div className="mt-8">
         <CarGrid cars={filteredCars} />
       </div>

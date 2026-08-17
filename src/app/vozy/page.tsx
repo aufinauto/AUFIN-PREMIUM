@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { getAvailableCars } from "@/lib/cars-data";
 import VozyPageClient from "@/components/cars/VozyPageClient";
 import Reveal from "@/components/ui/Reveal";
 
@@ -19,7 +18,6 @@ export default async function VozyPage({
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
-  const count = getAvailableCars().length;
   const { q } = await searchParams;
 
   return (
@@ -38,11 +36,6 @@ export default async function VozyPage({
         <Reveal delay={0.1}>
           <p className="mt-5 max-w-lg text-[17px] leading-relaxed text-graphite-soft">
             Pečlivě vybrané automobily, které máme aktuálně v nabídce.
-          </p>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-3 font-sans text-sm text-graphite-faint">
-            {count} {count === 1 ? "vůz" : "vozů"}
           </p>
         </Reveal>
       </div>

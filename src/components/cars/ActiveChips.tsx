@@ -6,7 +6,6 @@ import {
   drivetrainLabels,
   formatPrice,
   fuelLabels,
-  statusLabels,
   transmissionLabels,
 } from "@/lib/utils";
 
@@ -71,14 +70,6 @@ export default function ActiveChips({
         })),
     })
   );
-  filters.statuses.forEach((s) =>
-    chips.push({
-      key: `status-${s}`,
-      label: statusLabels[s],
-      onRemove: () =>
-        setFilters((f) => ({ ...f, statuses: f.statuses.filter((x) => x !== s) })),
-    })
-  );
   if (filters.yearMin != null) {
     chips.push({
       key: "year",
@@ -93,11 +84,26 @@ export default function ActiveChips({
       onRemove: () => setFilters((f) => ({ ...f, priceMin: null, priceMax: null })),
     });
   }
-  if (filters.vatDeductible) {
+  if (filters.vatDeductible.includes("yes")) {
     chips.push({
-      key: "vat",
+      key: "vat-yes",
       label: "Odpočet DPH",
-      onRemove: () => setFilters((f) => ({ ...f, vatDeductible: false })),
+      onRemove: () =>
+        setFilters((f) => ({
+          ...f,
+          vatDeductible: f.vatDeductible.filter((v) => v !== "yes"),
+        })),
+    });
+  }
+  if (filters.vatDeductible.includes("no")) {
+    chips.push({
+      key: "vat-no",
+      label: "Bez odpočtu DPH",
+      onRemove: () =>
+        setFilters((f) => ({
+          ...f,
+          vatDeductible: f.vatDeductible.filter((v) => v !== "no"),
+        })),
     });
   }
 

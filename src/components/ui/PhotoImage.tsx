@@ -9,6 +9,8 @@ interface PhotoImageProps {
   /** Skip Next.js image optimization — needed for transparent PNGs, since the
    * optimizer's palette output currently drops the alpha channel. */
   unoptimized?: boolean;
+  /** CSS object-position for the cropped image, e.g. "center 75%". */
+  objectPosition?: string;
 }
 
 export default function PhotoImage({
@@ -18,6 +20,7 @@ export default function PhotoImage({
   sizes = "100vw",
   priority = false,
   unoptimized = false,
+  objectPosition = "50% 50%",
 }: PhotoImageProps) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -29,6 +32,7 @@ export default function PhotoImage({
         priority={priority}
         unoptimized={unoptimized}
         className="object-cover"
+        style={{ objectPosition }}
       />
     </div>
   );

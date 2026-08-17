@@ -11,7 +11,6 @@ import {
 
 export default function CarSpecs({ car }: { car: Car }) {
   const rows: [string, string][] = [
-    ["Rok výroby", String(car.year)],
     ...(car.registrationDate
       ? ([["První registrace", formatDate(car.registrationDate)]] as [string, string][])
       : []),
@@ -25,14 +24,7 @@ export default function CarSpecs({ car }: { car: Car }) {
     ["Pohon", drivetrainLabels[car.drivetrain]],
     ["Karoserie", bodyTypeLabels[car.bodyType]],
     ["Barva", car.color],
-    ...(car.vin ? ([["VIN", car.vin]] as [string, string][]) : []),
     ...(car.origin ? ([["Země původu", car.origin]] as [string, string][]) : []),
-    ...(car.owners != null
-      ? ([["Počet majitelů", String(car.owners)]] as [string, string][])
-      : []),
-    ...(car.stkValidUntil
-      ? ([["STK platná do", formatDate(car.stkValidUntil)]] as [string, string][])
-      : []),
   ];
 
   return (

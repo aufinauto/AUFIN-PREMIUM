@@ -1,7 +1,6 @@
 import type {
   BodyType,
   Car,
-  CarStatus,
   DrivetrainType,
   FuelType,
   TransmissionType,
@@ -22,7 +21,6 @@ export interface FilterState {
   fuels: FuelType[];
   transmissions: TransmissionType[];
   drivetrains: DrivetrainType[];
-  statuses: CarStatus[];
   priceMin: number | null;
   priceMax: number | null;
   yearMin: number | null;
@@ -31,7 +29,7 @@ export interface FilterState {
   mileageMax: number | null;
   powerMin: number | null;
   powerMax: number | null;
-  vatDeductible: boolean;
+  vatDeductible: ("yes" | "no")[];
   sort: SortOption;
 }
 
@@ -42,7 +40,6 @@ export const defaultFilterState: FilterState = {
   fuels: [],
   transmissions: [],
   drivetrains: [],
-  statuses: [],
   priceMin: null,
   priceMax: null,
   yearMin: null,
@@ -51,15 +48,12 @@ export const defaultFilterState: FilterState = {
   mileageMax: null,
   powerMin: null,
   powerMax: null,
-  vatDeductible: false,
+  vatDeductible: [],
   sort: "newest",
 };
 
 export function applyFilters(cars: Car[], f: FilterState): Car[] {
-  let result =
-    f.statuses.length > 0
-      ? cars.filter((car) => f.statuses.includes(car.status))
-      : cars.filter((car) => car.status !== "sold");
+  let result = cars.filter((car) => car.status !== "sold");
 
   if (f.query.trim()) {
     const q = f.query.trim().toLowerCase();
@@ -90,7 +84,13 @@ export function applyFilters(cars: Car[], f: FilterState): Car[] {
     result = result.filter((car) => car.mileage <= f.mileageMax!);
   if (f.powerMin != null) result = result.filter((car) => car.powerKw >= f.powerMin!);
   if (f.powerMax != null) result = result.filter((car) => car.powerKw <= f.powerMax!);
-  if (f.vatDeductible) result = result.filter((car) => car.vatDeductible);
+  if (f.vatDeductible.length > 0) {
+    result = result.filter(
+      (car) =>
+        (f.vatDeductible.includes("yes") && car.vatDeductible) ||
+        (f.vatDeductible.includes("no") && !car.vatDeductible)
+    );
+  }
 
   switch (f.sort) {
     case "price-asc":
@@ -121,11 +121,10 @@ export function countActiveFilters(f: FilterState): number {
   if (f.fuels.length) count += f.fuels.length;
   if (f.transmissions.length) count += f.transmissions.length;
   if (f.drivetrains.length) count += f.drivetrains.length;
-  if (f.statuses.length) count += f.statuses.length;
   if (f.priceMin != null || f.priceMax != null) count += 1;
   if (f.yearMin != null || f.yearMax != null) count += 1;
   if (f.mileageMin != null || f.mileageMax != null) count += 1;
   if (f.powerMin != null || f.powerMax != null) count += 1;
-  if (f.vatDeductible) count += 1;
+  if (f.vatDeductible.length) count += f.vatDeductible.length;
   return count;
 }

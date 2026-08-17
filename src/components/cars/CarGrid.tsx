@@ -15,7 +15,10 @@ export default function CarGrid({ cars }: { cars: Car[] }) {
   }
 
   return (
-    <StaggerGroup className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+    <StaggerGroup
+      key={cars.map((car) => car.id).join(",")}
+      className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"
+    >
       {cars.map((car) => (
         <StaggerItem key={car.id}>
           <CarCard car={car} />

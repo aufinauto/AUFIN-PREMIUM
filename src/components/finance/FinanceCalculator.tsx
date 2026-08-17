@@ -2,15 +2,17 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { formatPrice } from "@/lib/utils";
+import { formatNumber, formatPrice } from "@/lib/utils";
 
 const TERMS = [24, 36, 48, 60];
+const ANNUAL_RATE = 6.9;
 
 interface FinanceCalculatorProps {
   initialPrice?: number;
   priceEditable?: boolean;
   ctaHref?: string;
   ctaLabel?: string;
+  className?: string;
 }
 
 export default function FinanceCalculator({
@@ -18,6 +20,7 @@ export default function FinanceCalculator({
   priceEditable = false,
   ctaHref = "/financovani",
   ctaLabel = "Získat konkrétní nabídku",
+  className = "",
 }: FinanceCalculatorProps) {
   const [price, setPrice] = useState(initialPrice);
   const [downPaymentPct, setDownPaymentPct] = useState(30);
@@ -28,22 +31,31 @@ export default function FinanceCalculator({
     [price, downPaymentPct]
   );
   const financedAmount = Math.max(price - downPayment, 0);
-  const monthlyEstimate = Math.round(financedAmount / term);
+  const monthlyRate = ANNUAL_RATE / 100 / 12;
+  const monthlyEstimate = Math.round(
+    (financedAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -term))
+  );
 
   return (
-    <div className="border border-stone-200 bg-white p-6 sm:p-8">
+    <div className={`border border-stone-200 bg-white p-6 sm:p-8 ${className}`}>
       {priceEditable ? (
         <div className="mb-7">
           <label className="mb-2 block font-sans text-xs uppercase tracking-[0.14em] text-graphite-faint">
             Cena vozu
           </label>
-          <input
-            type="number"
-            step={10000}
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value) || 0)}
-            className="w-full border-b border-stone-200 bg-transparent py-2 font-display text-2xl text-graphite focus:border-graphite focus:outline-none"
-          />
+          <div className="flex items-baseline gap-2 border-b border-stone-200 focus-within:border-graphite">
+            <input
+              type="text"
+              inputMode="numeric"
+              value={formatNumber(price)}
+              onChange={(e) => {
+                const digits = e.target.value.replace(/[^\d]/g, "");
+                setPrice(digits ? Number(digits) : 0);
+              }}
+              className="w-full bg-transparent py-2 font-display text-2xl text-graphite focus:outline-none"
+            />
+            <span className="shrink-0 pb-2 font-sans text-sm text-graphite-faint">Kč</span>
+          </div>
         </div>
       ) : (
         <div className="mb-7 flex items-baseline justify-between">
@@ -105,9 +117,8 @@ export default function FinanceCalculator({
           <span className="ml-1 font-sans text-sm text-graphite-faint">/ měsíc</span>
         </p>
         <p className="mt-3 text-[13px] leading-relaxed text-graphite-faint">
-          Orientační výpočet bez úroku a poplatků, slouží pouze pro ilustraci.
-          Konkrétní podmínky financování závisí na individuálním posouzení
-          žadatele a schválení financující institucí.
+          Orientační výpočet při úrokové sazbě{" "}
+          {ANNUAL_RATE.toString().replace(".", ",")} % p.a.
         </p>
       </div>
 

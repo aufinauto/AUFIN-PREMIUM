@@ -40,3 +40,31 @@ export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
     </select>
   );
 }
+
+export function CurrencyInput({
+  id,
+  name,
+  value,
+  onChange,
+}: {
+  id: string;
+  name: string;
+  value: string;
+  onChange: (digits: string) => void;
+}) {
+  const formatted = value ? new Intl.NumberFormat("cs-CZ").format(Number(value)) : "";
+  return (
+    <div className="flex items-center border border-stone-200 bg-transparent px-4 py-3 transition-colors focus-within:border-graphite">
+      <input
+        id={id}
+        name={name}
+        type="text"
+        inputMode="numeric"
+        value={formatted}
+        onChange={(e) => onChange(e.target.value.replace(/[^\d]/g, ""))}
+        className="w-full bg-transparent font-sans text-sm text-graphite placeholder:text-graphite-faint focus:outline-none"
+      />
+      <span className="shrink-0 font-sans text-sm text-graphite-faint">Kč</span>
+    </div>
+  );
+}

@@ -3,7 +3,7 @@ import { statusLabels } from "@/lib/utils";
 
 export function TagBadge({ children }: { children: string }) {
   return (
-    <span className="inline-flex items-center border border-graphite/15 bg-white/80 px-2.5 py-1 font-sans text-[11px] uppercase tracking-[0.12em] text-graphite-soft backdrop-blur-sm">
+    <span className="inline-flex items-center rounded-full border border-graphite/15 bg-white/80 px-2.5 py-1 font-sans text-[11px] uppercase tracking-[0.12em] text-graphite-soft backdrop-blur-sm">
       {children}
     </span>
   );
