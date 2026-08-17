@@ -31,7 +31,7 @@ export default function KontaktPage() {
         </Reveal>
       </div>
 
-      <div className="mx-auto max-w-[1440px] px-6 pb-24 lg:px-10">
+      <div className="mx-auto max-w-[1440px] px-6 pb-3 lg:px-10 lg:pb-8">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1fr]">
           <Reveal y={0} className="relative aspect-[4/3] overflow-hidden lg:aspect-auto">
             <PhotoImage

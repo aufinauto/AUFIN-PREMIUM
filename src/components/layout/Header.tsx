@@ -22,10 +22,13 @@ export default function Header() {
   const pathname = usePathname();
   const [lastPathname, setLastPathname] = useState(pathname);
 
-  if (pathname !== lastPathname) {
-    setLastPathname(pathname);
-    setMobileOpen(false);
-  }
+  useEffect(() => {
+    if (pathname !== lastPathname) {
+      setLastPathname(pathname);
+      setMobileOpen(false);
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lastPathname]);
 
   useEffect(() => {
     function onScroll() {

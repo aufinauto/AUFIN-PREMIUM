@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileStickyCTA from "@/components/layout/MobileStickyCTA";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 
 const siteUrl = "https://www.aufin.cz";
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <MobileStickyCTA />
+        <ScrollToTop />
       </body>
     </html>
   );
