@@ -15,7 +15,7 @@ const benefits = [
 
 export default function FinanceSection() {
   return (
-    <section className="mx-auto max-w-[1440px] px-6 pb-6 pt-12 lg:px-10 lg:pb-8 lg:pt-16">
+    <section className="mx-auto max-w-[1440px] px-6 pb-6 pt-6 lg:px-10 lg:pb-8 lg:pt-16">
       <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">
         <div>
           <SectionHeader

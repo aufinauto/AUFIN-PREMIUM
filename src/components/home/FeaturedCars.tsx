@@ -5,10 +5,10 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import { StaggerGroup, StaggerItem } from "@/components/ui/StaggerReveal";
 
 export default function FeaturedCars() {
-  const featured = getFeaturedCars().slice(0, 4);
+  const featured = getFeaturedCars().slice(0, 2);
 
   return (
-    <section className="mx-auto max-w-[1440px] px-6 pb-6 pt-24 lg:px-10 lg:pb-8 lg:pt-32">
+    <section className="mx-auto max-w-[1440px] px-6 pb-6 pt-12 lg:px-10 lg:pb-8 lg:pt-32">
       <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
         <SectionHeader eyebrow="Aktuálně v nabídce" title="Vybrané vozy" />
         <Link
@@ -19,7 +19,7 @@ export default function FeaturedCars() {
         </Link>
       </div>
 
-      <StaggerGroup className="mt-14 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14">
+      <StaggerGroup className="mt-14 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14">
         {featured.map((car, i) => (
           <StaggerItem key={car.id}>
             <CarCard car={car} priority={i === 0} />

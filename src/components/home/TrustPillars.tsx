@@ -28,7 +28,7 @@ const points = [
 export default function TrustPillars() {
   return (
     <section className="border-y border-stone-200 bg-graphite text-white">
-      <div className="mx-auto max-w-[1440px] px-6 py-20 lg:px-10 lg:py-28">
+      <div className="mx-auto max-w-[1440px] px-6 py-12 lg:px-10 lg:py-28">
         <Reveal>
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-accent-soft">
             Proč zvolit nás

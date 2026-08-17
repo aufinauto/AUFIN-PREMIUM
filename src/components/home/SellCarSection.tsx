@@ -15,7 +15,7 @@ export default function SellCarSection() {
           />
         </Reveal>
 
-        <div className="px-6 py-20 lg:px-16 lg:py-0">
+        <div className="px-6 py-12 lg:px-16 lg:py-0">
           <Reveal>
             <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">
               Prodej vozu

@@ -32,8 +32,7 @@ export default function Hero() {
           alt="Sportovní vůz na lesní silnici"
           priority
           sizes="100vw"
-          className="h-full w-full"
-          objectPosition="center 78%"
+          className="h-full w-full [object-position:center_35%] lg:[object-position:center_78%]"
         />
       </motion.div>
 
