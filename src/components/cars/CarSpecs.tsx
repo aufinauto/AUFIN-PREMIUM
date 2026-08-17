@@ -4,6 +4,7 @@ import {
   drivetrainLabels,
   formatDate,
   formatMileage,
+  formatPrice,
   fuelLabels,
   kwToHp,
   transmissionLabels,
@@ -11,6 +12,7 @@ import {
 
 export default function CarSpecs({ car }: { car: Car }) {
   const rows: [string, string][] = [
+    ["Cena", formatPrice(car.price)],
     ...(car.registrationDate
       ? ([["První registrace", formatDate(car.registrationDate)]] as [string, string][])
       : []),

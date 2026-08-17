@@ -20,6 +20,7 @@ export default function Hero() {
       ref={ref}
       className="relative h-[92svh] min-h-[600px] w-full overflow-hidden"
     >
+      {/* Desktop */}
       <motion.div
         initial={{ opacity: 0, scale: 1.06 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -33,16 +34,35 @@ export default function Hero() {
           priority
           sizes="100vw"
           unoptimized
-          className="h-full w-full [object-position:center_78%]"
+          className="h-full w-full object-cover"
         />
       </motion.div>
 
+      {/* Tablet/MacBook */}
       <motion.div
         initial={{ opacity: 0, scale: 1.06 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ y: parallaxY, scale }}
-        className="absolute inset-0 lg:hidden"
+        className="absolute inset-0 hidden md:block lg:hidden"
+      >
+        <PhotoImage
+          src="/images/sections/hero-tablet.jpg"
+          alt="Sportovní vůz"
+          priority
+          sizes="100vw"
+          unoptimized
+          className="h-full w-full object-cover"
+        />
+      </motion.div>
+
+      {/* Mobile */}
+      <motion.div
+        initial={{ opacity: 0, scale: 1.06 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        style={{ y: parallaxY, scale }}
+        className="absolute inset-0 md:hidden"
       >
         <PhotoImage
           src="/images/sections/hero-mobile.jpg"

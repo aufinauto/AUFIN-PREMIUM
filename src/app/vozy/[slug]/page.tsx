@@ -141,7 +141,7 @@ export default async function CarDetailPage({
             </Reveal>
           </div>
 
-          <div className="flex flex-col gap-6 lg:sticky lg:top-28">
+          <div className="hidden flex-col gap-6 lg:flex lg:sticky lg:top-28">
             <PricePanel car={car} />
             <TradeInBlock />
           </div>

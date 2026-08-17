@@ -26,18 +26,18 @@ export default function PricePanel({ car }: { car: Car }) {
       </div>
 
       <div className="mt-7 flex flex-col gap-3">
-        <a
-          href="#zajem"
-          className="flex items-center justify-center bg-graphite px-6 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent"
-        >
-          Mám zájem
-        </a>
         <Link
           href={`/financovani?vuz=${car.slug}`}
-          className="flex items-center justify-center border border-graphite/25 px-6 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-graphite transition-colors hover:border-graphite"
+          className="flex items-center justify-center bg-graphite px-6 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent"
         >
           Financování
         </Link>
+        <a
+          href="#zajem"
+          className="flex items-center justify-center border border-graphite/25 px-6 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-graphite transition-colors hover:border-graphite"
+        >
+          Mám zájem
+        </a>
         <div className="grid grid-cols-2 gap-3">
           <a
             href={`tel:${PHONE}`}
