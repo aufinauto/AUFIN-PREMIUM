@@ -4,7 +4,6 @@ import {
   drivetrainLabels,
   formatDate,
   formatMileage,
-  formatPrice,
   fuelLabels,
   kwToHp,
   transmissionLabels,

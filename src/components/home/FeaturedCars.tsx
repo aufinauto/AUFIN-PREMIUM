@@ -27,7 +27,7 @@ export default function FeaturedCars() {
         ))}
       </StaggerGroup>
 
-      <div className="mt-14 flex justify-center sm:hidden">
+      <div className="mt-6 flex justify-center sm:hidden">
         <Link
           href="/vozy"
           className="inline-flex items-center border border-graphite/25 px-6 py-3 font-sans text-sm uppercase tracking-[0.08em] text-graphite"

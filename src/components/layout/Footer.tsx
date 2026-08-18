@@ -36,6 +36,7 @@ const columns = [
         href: "https://instagram.com",
         label: "Instagram",
         external: true,
+        icon: "instagram"
       },
     ],
   },
@@ -77,6 +78,13 @@ export default function Footer() {
                           {link.icon === "email" && <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />}
                           {link.icon === "email" && <polyline points="22 6 12 13 2 6" />}
                           {link.icon === "whatsapp" && <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />}
+                          {link.icon === "instagram" && (
+                            <>
+                              <rect x="2" y="2" width="20" height="20" rx="5" />
+                              <circle cx="12" cy="12" r="4" />
+                              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                            </>
+                          )}
                         </svg>
                       )}
                       {link.label}
