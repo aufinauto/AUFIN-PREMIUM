@@ -40,7 +40,7 @@ export default function ONasPage() {
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="max-w-4xl font-display text-5xl font-normal leading-[1.1] text-graphite balance sm:text-7xl">
-            Auta vybíráme stejně, jako bychom je kupovali sami.
+            Auta vybíráme stejně, jako bychom je kupovali sami
           </h1>
         </Reveal>
         <Reveal delay={0.1}>

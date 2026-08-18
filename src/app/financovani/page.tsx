@@ -38,7 +38,7 @@ export default async function FinancovaniPage({
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="max-w-md font-display text-5xl font-normal leading-[1.05] text-graphite balance sm:text-6xl">
-              Vaše auto. Financování podle vás.
+              Vaše auto. Financování podle vás
             </h1>
           </Reveal>
           <Reveal delay={0.1}>

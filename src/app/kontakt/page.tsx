@@ -19,7 +19,7 @@ export default function KontaktPage() {
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="font-display text-5xl font-normal text-graphite sm:text-6xl">
-            Rádi vás uvidíme v showroomu.
+            Rádi vás uvidíme v showroomu
           </h1>
         </Reveal>
         <Reveal delay={0.1}>

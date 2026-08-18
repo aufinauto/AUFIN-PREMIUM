@@ -102,7 +102,7 @@ export default function Hero() {
               <RevealText text="Auta, která" delay={0.7} />
               <br />
               <span className="italic text-accent-soft">
-                <RevealText text="stojí za pozornost." delay={1.05} />
+                <RevealText text="stojí za pozornost" delay={1.05} />
               </span>
             </h1>
 

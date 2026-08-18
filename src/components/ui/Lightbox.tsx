@@ -75,7 +75,7 @@ export default function Lightbox({
           type="button"
           onClick={prev}
           aria-label="Předchozí fotografie"
-          className="absolute left-2 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center text-white transition-colors hover:text-accent-soft sm:flex"
+          className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-white transition-colors hover:text-accent-soft"
         >
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
             <path d="m15 6-6 6 6 6" />
@@ -104,7 +104,7 @@ export default function Lightbox({
           type="button"
           onClick={next}
           aria-label="Další fotografie"
-          className="absolute right-2 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center text-white transition-colors hover:text-accent-soft sm:flex"
+          className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center text-white transition-colors hover:text-accent-soft"
         >
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
             <path d="m9 6 6 6-6 6" />

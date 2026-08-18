@@ -49,7 +49,7 @@ export default function ProdejVozuPage() {
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="max-w-md font-display text-5xl font-normal leading-[1.05] text-graphite balance sm:text-6xl">
-              Nabídněte nám svůj vůz.
+              Nabídněte nám svůj vůz
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
