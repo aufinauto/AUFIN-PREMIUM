@@ -102,19 +102,19 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-16 flex items-start justify-between gap-4 border-t border-white/10 pt-8 font-sans text-xs text-white/40">
+        <div className="mt-16 border-t border-white/10 pt-8 font-sans text-xs text-white/40">
           <p>
             © {new Date().getFullYear()} Aufin. Všechna práva vyhrazena. —
             Dejvetech s.r.o., IČO 22491872, DIČ CZ22491872, Humpolecká 1886/26,
-            Krč, 140 00 Praha, spisová značka C 417382/MSPH Městský soud v Praze
+            Krč, 140 00 Praha, spisová značka C 417382/MSPH Městský soud v Praze{" "}
+            <Link
+              href="/admin"
+              aria-label="Administrace"
+              className="text-base text-white/50 transition-colors hover:text-white/90"
+            >
+              ●
+            </Link>
           </p>
-          <Link
-            href="/admin"
-            aria-label="Administrace"
-            className="shrink-0 px-1 text-base text-white/40 transition-colors hover:text-white/80"
-          >
-            ●
-          </Link>
         </div>
       </div>
     </footer>
