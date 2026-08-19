@@ -8,6 +8,11 @@ import { getAllCars } from "@/lib/cars-data";
 
 const siteUrl = "https://www.aufin.cz";
 
+// Car inventory changes at runtime via /admin — never prerender pages that
+// depend on it at build time (also avoids build-container network/clock
+// issues talking to Supabase during `next build`).
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {

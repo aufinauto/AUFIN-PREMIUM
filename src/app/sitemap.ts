@@ -3,6 +3,8 @@ import { getAllCars } from "@/lib/cars-data";
 
 const baseUrl = "https://www.aufin.cz";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cars = await getAllCars();
 
