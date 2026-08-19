@@ -2,9 +2,8 @@
 
 import { useMemo } from "react";
 import type { FilterState } from "@/lib/filters";
-import { cars } from "@/lib/cars-data";
 import { bodyTypeLabels, fuelLabels, formatPrice } from "@/lib/utils";
-import type { BodyType, FuelType } from "@/lib/types";
+import type { BodyType, Car, FuelType } from "@/lib/types";
 import Popover from "@/components/ui/Popover";
 import { CheckRow, RangePair } from "./filter-controls";
 
@@ -34,11 +33,13 @@ const triggerClass =
   "inline-flex items-center gap-2 border border-stone-200 px-4 py-2.5 font-sans text-[13px] text-graphite-soft transition-colors hover:border-graphite hover:text-graphite";
 
 export default function QuickFilterBar({
+  cars,
   filters,
   setFilters,
   onOpenAll,
   activeCount,
 }: {
+  cars: Car[];
   filters: FilterState;
   setFilters: (updater: (f: FilterState) => FilterState) => void;
   onOpenAll: () => void;
@@ -46,7 +47,7 @@ export default function QuickFilterBar({
 }) {
   const brands = useMemo(
     () => Array.from(new Set(cars.map((c) => c.brand))).sort(),
-    []
+    [cars]
   );
 
   const toggle = <T,>(list: T[], value: T): T[] =>

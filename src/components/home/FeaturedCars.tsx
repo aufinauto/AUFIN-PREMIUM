@@ -4,8 +4,8 @@ import CarCard from "@/components/cars/CarCard";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { StaggerGroup, StaggerItem } from "@/components/ui/StaggerReveal";
 
-export default function FeaturedCars() {
-  const featured = getFeaturedCars().slice(0, 2);
+export default async function FeaturedCars() {
+  const featured = (await getFeaturedCars()).slice(0, 2);
 
   return (
     <section className="mx-auto max-w-[1440px] px-6 pb-6 pt-12 lg:px-10 lg:pb-8 lg:pt-32">

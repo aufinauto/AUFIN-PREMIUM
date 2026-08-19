@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import VozyPageClient from "@/components/cars/VozyPageClient";
 import Reveal from "@/components/ui/Reveal";
+import { getAllCars } from "@/lib/cars-data";
 
 export const metadata: Metadata = {
   title: "Vozy",
@@ -19,6 +20,7 @@ export default async function VozyPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q } = await searchParams;
+  const cars = await getAllCars();
 
   return (
     <div>
@@ -40,7 +42,7 @@ export default async function VozyPage({
         </Reveal>
       </div>
 
-      <VozyPageClient initialQuery={q ?? ""} />
+      <VozyPageClient cars={cars} initialQuery={q ?? ""} />
     </div>
   );
 }

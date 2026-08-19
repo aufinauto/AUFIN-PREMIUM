@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { cars } from "@/lib/cars-data";
+import type { Car } from "@/lib/types";
 import {
   applyFilters,
   countActiveFilters,
@@ -15,8 +15,10 @@ import SortSelect from "./SortSelect";
 import CarGrid from "./CarGrid";
 
 export default function VozyPageClient({
+  cars,
   initialQuery = "",
 }: {
+  cars: Car[];
   initialQuery?: string;
 }) {
   const [filters, setFiltersState] = useState<FilterState>({
@@ -28,7 +30,7 @@ export default function VozyPageClient({
   const setFilters = (updater: (f: FilterState) => FilterState) =>
     setFiltersState((prev) => updater(prev));
 
-  const filteredCars = useMemo(() => applyFilters(cars, filters), [filters]);
+  const filteredCars = useMemo(() => applyFilters(cars, filters), [cars, filters]);
   const activeCount = countActiveFilters(filters);
 
   return (
@@ -55,6 +57,7 @@ export default function VozyPageClient({
 
           <div className="hidden lg:flex lg:items-center lg:justify-between">
             <QuickFilterBar
+              cars={cars}
               filters={filters}
               setFilters={setFilters}
               onOpenAll={() => setDrawerOpen(true)}
@@ -90,6 +93,7 @@ export default function VozyPageClient({
       </div>
 
       <FilterDrawer
+        cars={cars}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         filters={filters}

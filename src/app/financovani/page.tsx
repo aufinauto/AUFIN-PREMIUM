@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCarBySlug } from "@/lib/cars-data";
+import { getAllCars, getCarBySlug } from "@/lib/cars-data";
 import Reveal from "@/components/ui/Reveal";
 import PhotoImage from "@/components/ui/PhotoImage";
 import FinanceCalculator from "@/components/finance/FinanceCalculator";
@@ -25,7 +25,10 @@ export default async function FinancovaniPage({
   searchParams: Promise<{ vuz?: string }>;
 }) {
   const { vuz } = await searchParams;
-  const selectedCar = vuz ? getCarBySlug(vuz) : undefined;
+  const [selectedCar, cars] = await Promise.all([
+    vuz ? getCarBySlug(vuz) : Promise.resolve(undefined),
+    getAllCars(),
+  ]);
 
   return (
     <div>
@@ -157,7 +160,7 @@ export default async function FinancovaniPage({
           </div>
 
           <Reveal y={0} delay={0.05}>
-            <FinanceForm preselectedCarSlug={selectedCar?.slug} />
+            <FinanceForm cars={cars} preselectedCarSlug={selectedCar?.slug} />
           </Reveal>
         </div>
       </div>

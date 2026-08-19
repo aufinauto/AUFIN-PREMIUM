@@ -7,6 +7,7 @@ import HeaderSearch from "./HeaderSearch";
 import MobileMenu from "./MobileMenu";
 import LogoMark from "@/components/ui/LogoMark";
 import HomeLogoLink from "@/components/ui/HomeLogoLink";
+import type { Car } from "@/lib/types";
 
 const NAV_LINKS = [
   { href: "/vozy", label: "Vozy" },
@@ -16,7 +17,7 @@ const NAV_LINKS = [
   { href: "/kontakt", label: "Kontakt" },
 ];
 
-export default function Header() {
+export default function Header({ cars }: { cars: Car[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -38,6 +39,8 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <>
@@ -71,7 +74,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-1 sm:gap-2">
-            <HeaderSearch />
+            <HeaderSearch cars={cars} />
             <Link
               href="/prodej-vozu"
               className="ml-2 hidden items-center rounded-full border border-accent/50 px-5 py-2.5 font-sans text-[13px] uppercase tracking-[0.1em] text-accent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white lg:inline-flex"

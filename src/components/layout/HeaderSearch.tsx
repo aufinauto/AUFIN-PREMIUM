@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { cars, displayName } from "@/lib/cars-data";
-import { formatMileage, formatPrice } from "@/lib/utils";
+import type { Car } from "@/lib/types";
+import { displayName, formatMileage, formatPrice } from "@/lib/utils";
 
-export default function HeaderSearch() {
+export default function HeaderSearch({ cars }: { cars: Car[] }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,7 +39,7 @@ export default function HeaderSearch() {
     return cars
       .filter((car) => displayName(car).toLowerCase().includes(q))
       .slice(0, 5);
-  }, [query]);
+  }, [cars, query]);
 
   return (
     <div ref={rootRef} className="relative">

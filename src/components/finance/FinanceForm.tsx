@@ -3,11 +3,18 @@
 import { useState, type FormEvent } from "react";
 import { CurrencyInput, Field, Input, Select, Textarea } from "@/components/ui/FormField";
 import { submitLead } from "@/lib/submitLead";
-import { cars, displayName } from "@/lib/cars-data";
+import type { Car } from "@/lib/types";
+import { displayName } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function FinanceForm({ preselectedCarSlug }: { preselectedCarSlug?: string }) {
+export default function FinanceForm({
+  cars,
+  preselectedCarSlug,
+}: {
+  cars: Car[];
+  preselectedCarSlug?: string;
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [price, setPrice] = useState("");
   const [downPayment, setDownPayment] = useState("");

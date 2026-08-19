@@ -1,561 +1,151 @@
+import "server-only";
+import { cache } from "react";
 import type { Car } from "./types";
+import { supabaseAdmin } from "./supabaseClient";
 
-const comfortCore = [
-  "Klimatizace",
-  "Elektricky ovládaná okna",
-  "Vyhřívání sedadel",
-  "Bezklíčové ovládání",
-];
+type CarRow = Record<string, unknown>;
 
-const techCore = [
-  "Navigace",
-  "Head-up displej",
-  "Bezdrátové nabíjení telefonu",
-  "Apple CarPlay / Android Auto",
-];
-
-const safetyCore = [
-  "ABS",
-  "ESP",
-  "Tempomat",
-  "Parkovací senzory",
-  "Couvací kamera",
-];
-
-const assistCore = ["Adaptivní tempomat", "Asistent jízdy v pruhu", "Asistent parkování"];
-
-export const cars: Car[] = [
-  {
-    id: "1",
-    slug: "bmw-m340i-xdrive-2021",
-    status: "available",
-    brand: "BMW",
-    model: "M340i",
-    version: "xDrive",
-    year: 2021,
-    registrationDate: "2021-04-12",
-    mileage: 38500,
-    price: 999000,
-    priceWithoutVat: 826446,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "awd",
-    powerKw: 275,
-    engineCapacity: 2998,
-    bodyType: "sedan",
-    color: "Alpine White",
-    vin: "WBA5R7C0*********",
-    origin: "Německo",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2027-04-12",
-    description: [
-      "BMW M340i xDrive kombinuje každodenní použitelnost řady 3 s charakterem, který se výrazně přibližuje vozům divize M. Nabízený vůz pochází z první majitele, má kompletní servisní historii u autorizovaného servisu a je bez nehodové minulosti.",
-      "Řadový šestiválec 3.0 v kombinaci s pohonem xDrive nabízí sportovní projev i za horších povětrnostních podmínek. Výbava zahrnuje M sportovní podvozek, adaptivní tlumiče a plně digitální přístrojový štít.",
-      "Vůz je v pravidelném servisním intervalu, na letních i zimních kolech, bez detekovaných závad při vstupní kontrole.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Elektricky nastavitelná sedadla", "Dvouzónová klimatizace"] },
-      { category: "Technologie", items: [...techCore, "Digitální přístrojový štít", "Harman Kardon audio"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: assistCore },
-      { category: "Sport", items: ["M sportovní podvozek", "Adaptivní tlumiče", "M sportovní diferenciál"] },
-      { category: "Exteriér", items: ["M paket", "LED Laserlight", "20\" M kola"] },
-      { category: "Interiér", items: ["Kožená sportovní sedadla", "Ambientní osvětlení"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Německo",
-      owners: 1,
-    },
-    photos: [
-      "/images/cars/bmw-m340i-xdrive-2021-1.jpg",
-      "/images/cars/bmw-m340i-xdrive-2021-2.jpg",
-      "/images/cars/bmw-m340i-xdrive-2021-3.jpg",
-      "/images/cars/bmw-m340i-xdrive-2021-4.jpg",
-    ],
-    tags: ["Odpočet DPH", "CZ původ"],
-    featured: false,
-    createdAt: "2026-06-02",
-  },
-  {
-    id: "2",
-    slug: "bmw-m4-competition-2022",
-    status: "available",
-    brand: "BMW",
-    model: "M4",
-    version: "Competition",
-    year: 2022,
-    registrationDate: "2022-02-18",
-    mileage: 21000,
-    price: 2190000,
-    priceWithoutVat: 1809917,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "rwd",
-    powerKw: 375,
-    engineCapacity: 2993,
-    bodyType: "coupe",
-    color: "Mineral White Metallic",
-    vin: "WBS3M9C0*********",
-    origin: "Německo",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2028-02-18",
-    description: [
-      "BMW M4 Competition je vůz, u kterého nemusíte hledat kompromisy. Biturbo šestiválec s výkonem 375 kW, zadní pohon a M Competition paket dělají z tohoto kupé jeden z nejcharakternějších sportovních vozů současnosti.",
-      "Nabízený exemplář je v elegantní barvě Mineral White Metallic, má kompletní servisní knihu a od nového byl provozován výhradně jedním majitelem.",
-      "Součástí výbavy je karbonová střecha, M Drivers Package a sportovní výfukový systém M Performance.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Elektricky nastavitelná M sedadla"] },
-      { category: "Technologie", items: [...techCore, "M Laptimer", "Digitální přístrojový štít"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: assistCore },
-      { category: "Sport", items: ["M Competition paket", "M sportovní výfuk", "M sportovní diferenciál", "Karbonová střecha"] },
-      { category: "Exteriér", items: ["Karbonové doplňky", "20\" M kovaná kola"] },
-      { category: "Interiér", items: ["M sportovní sedadla s karbonovou skořepinou", "Alcantara"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Německo",
-      owners: 1,
-    },
-    photos: [
-      "/images/cars/bmw-m4-competition-2022-showroom.jpg",
-      "/images/cars/bmw-m4-competition-2022-1.jpg",
-      "/images/cars/bmw-m4-competition-2022-2.jpg",
-      "/images/cars/bmw-m4-competition-2022-3.jpg",
-      "/images/cars/bmw-m4-competition-2022-4.jpg",
-    ],
-    tags: ["Novinka", "Odpočet DPH"],
-    featured: true,
-    createdAt: "2026-07-10",
-  },
-  {
-    id: "3",
-    slug: "porsche-911-carrera-2020",
-    status: "available",
-    brand: "Porsche",
-    model: "911",
-    version: "Carrera",
-    year: 2020,
-    registrationDate: "2020-06-05",
-    mileage: 29500,
-    price: 3390000,
-    priceWithoutVat: 2801653,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "rwd",
-    powerKw: 283,
-    engineCapacity: 2981,
-    bodyType: "coupe",
-    color: "GT Silver Metallic",
-    vin: "WP0ZZZ99*********",
-    origin: "Švýcarsko",
-    owners: 2,
-    serviceHistory: true,
-    stkValidUntil: "2028-06-05",
-    description: [
-      "Generace 992 přinesla novou definici toho, co má umět moderní 911. Nabízený Carrera s převodovkou PDK spojuje bezstarostné každodenní ovládání s výkonem, který nikdy nepřestane bavit.",
-      "Vůz má kompletní servisní historii u značkového servisu Porsche a je dovezen ze Švýcarska s ověřeným původem.",
-      "Výbava zahrnuje Sport Chrono paket, adaptivní podvozek PASM a Bose Surround Sound systém.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Paměťová sedadla"] },
-      { category: "Technologie", items: [...techCore, "Bose Surround Sound", "Porsche Communication Management"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: assistCore },
-      { category: "Sport", items: ["Sport Chrono paket", "PASM adaptivní podvozek", "Sportovní výfuk"] },
-      { category: "Exteriér", items: ["20/21\" kola Carrera S", "LED Matrix světlomety"] },
-      { category: "Interiér", items: ["Kožené čalounění", "Sportovní volant GT"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Švýcarsko",
-      owners: 2,
-    },
-    photos: [
-      "/images/cars/porsche-911-carrera-2020-1.jpg",
-      "/images/cars/porsche-911-carrera-2020-2.jpg",
-      "/images/cars/porsche-911-carrera-2020-3.jpg",
-      "/images/cars/porsche-911-carrera-2020-4.jpg",
-      "/images/cars/porsche-911-carrera-2020-5.jpg",
-    ],
-    tags: ["Odpočet DPH"],
-    featured: false,
-    createdAt: "2026-05-20",
-  },
-  {
-    id: "4",
-    slug: "porsche-cayenne-gts-2021",
-    status: "reserved",
-    brand: "Porsche",
-    model: "Cayenne",
-    version: "GTS",
-    year: 2021,
-    registrationDate: "2021-09-14",
-    mileage: 45000,
-    price: 2790000,
-    priceWithoutVat: 2305785,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "awd",
-    powerKw: 338,
-    engineCapacity: 3996,
-    bodyType: "suv",
-    color: "Carmine Red",
-    vin: "WP1ZZZ9Y*********",
-    origin: "Česká republika",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2027-09-14",
-    description: [
-      "Cayenne GTS zastupuje ve své nabídce pozici sportovního SUV s motorem V8 biturbo, které si zachovává praktičnost bez ztráty charakteru. Vozidlo je z prvního majitele, s kompletní servisní historií a bez záznamu nehody.",
-      "Vzduchové odpružení a řízení zadní nápravy zajišťují komfort na dálnici i jistotu v zatáčkách.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Vzduchové odpružení", "Tažné zařízení"] },
-      { category: "Technologie", items: [...techCore, "Bose Surround Sound"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: [...assistCore, "Noční vidění"] },
-      { category: "Sport", items: ["Sport Chrono paket", "Řízení zadní nápravy", "Sportovní výfuk"] },
-      { category: "Exteriér", items: ["21\" kola GTS", "Panoramatická střecha"] },
-      { category: "Interiér", items: ["Alcantara střešní obložení", "Sportovní sedadla Plus"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Česká republika",
-      owners: 1,
-    },
-    photos: [
-      "/images/cars/porsche-cayenne-gts-2021-1.jpg",
-      "/images/cars/porsche-cayenne-gts-2021-2.jpg",
-      "/images/cars/porsche-cayenne-gts-2021-3.jpg",
-      "/images/cars/porsche-cayenne-gts-2021-4.jpg",
-    ],
-    tags: ["Rezervováno", "CZ původ"],
-    featured: false,
-    createdAt: "2026-04-28",
-  },
-  {
-    id: "5",
-    slug: "mercedes-amg-c63-s-2019",
-    status: "available",
-    brand: "Mercedes-Benz",
-    model: "AMG C 63 S",
-    version: "",
-    year: 2019,
-    registrationDate: "2019-03-22",
-    mileage: 52000,
-    price: 1590000,
-    priceWithoutVat: 1314050,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "rwd",
-    powerKw: 350,
-    engineCapacity: 3982,
-    bodyType: "sedan",
-    color: "Diamond White Bright",
-    vin: "WDD2050*********",
-    origin: "Česká republika",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2027-03-22",
-    description: [
-      "AMG C 63 S je jedním z posledních zástupců éry atmosféricky laděných biturbo osmiválců u Mercedesu. Zvuk, projev i zpracování interiéru odpovídají divizi AMG v nejlepší formě.",
-      "Vůz má českou servisní historii od nového, je nehavarovaný a pravidelně udržovaný v autorizovaném servisu.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Masážní funkce sedadel"] },
-      { category: "Technologie", items: [...techCore, "Burmester audio systém"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: assistCore },
-      { category: "Sport", items: ["AMG sportovní výfuk", "AMG Ride Control", "Mechanický diferenciál"] },
-      { category: "Exteriér", items: ["19\" AMG kola", "AMG Night paket"] },
-      { category: "Interiér", items: ["AMG sportovní sedadla", "Karbonové dekory"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Česká republika",
-      owners: 1,
-    },
-    photos: [
-      "/images/cars/mercedes-amg-c63-s-2019-showroom.jpg",
-      "/images/cars/mercedes-amg-c63-s-2019-1.jpg",
-      "/images/cars/mercedes-amg-c63-s-2019-2.jpg",
-      "/images/cars/mercedes-amg-c63-s-2019-3.jpg",
-      "/images/cars/mercedes-amg-c63-s-2019-4.jpg",
-      "/images/cars/mercedes-amg-c63-s-2019-5.jpg",
-    ],
-    tags: ["CZ původ"],
-    featured: true,
-    createdAt: "2026-03-11",
-  },
-  {
-    id: "6",
-    slug: "audi-rs6-avant-2021",
-    status: "available",
-    brand: "Audi",
-    model: "RS6",
-    version: "Avant",
-    year: 2021,
-    registrationDate: "2021-11-03",
-    mileage: 33000,
-    price: 2990000,
-    priceWithoutVat: 2471074,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "awd",
-    powerKw: 441,
-    engineCapacity: 3996,
-    bodyType: "combi",
-    color: "Glacier White Metallic",
-    vin: "WUAZZZ4G*********",
-    origin: "Německo",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2028-11-03",
-    description: [
-      "RS6 Avant je definicí praktického supersportu. Kombinovaná karoserie skrývá 441 kW, quattro pohon a odezvu, která zahanbí řadu ryze sportovních kupé.",
-      "Nabízený vůz je ve svěží barvě Glacier White Metallic, s kompletní servisní historií a dokumentovaným původem z Německa.",
-      "Výbava zahrnuje keramické brzdy, dynamické odpružení a paket RS Design.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Vzduchové odpružení", "Elektricky sklopné tažné zařízení"] },
-      { category: "Technologie", items: [...techCore, "Bang & Olufsen 3D Sound", "Virtual Cockpit"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: [...assistCore, "Noční vidění"] },
-      { category: "Sport", items: ["Keramické brzdy", "RS sportovní výfuk", "Dynamický paket Plus"] },
-      { category: "Exteriér", items: ["22\" kola", "RS Design paket"] },
-      { category: "Interiér", items: ["RS sportovní sedadla", "Kontrastní prošití"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Německo",
-      owners: 1,
-    },
-    photos: [
-      "/images/cars/audi-rs6-avant-2021-showroom.jpg",
-      "/images/cars/audi-rs6-avant-2021-1.jpg",
-      "/images/cars/audi-rs6-avant-2021-2.jpg",
-      "/images/cars/audi-rs6-avant-2021-3.jpg",
-      "/images/cars/audi-rs6-avant-2021-4.jpg",
-    ],
-    tags: ["Odpočet DPH", "Novinka"],
-    featured: true,
-    createdAt: "2026-07-22",
-  },
-  {
-    id: "7",
-    slug: "ford-mustang-gt-2018",
-    status: "available",
-    brand: "Ford",
-    model: "Mustang",
-    version: "GT",
-    year: 2018,
-    registrationDate: "2018-08-16",
-    mileage: 61000,
-    price: 1190000,
-    priceWithoutVat: 983471,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "manual",
-    drivetrain: "rwd",
-    powerKw: 331,
-    engineCapacity: 5038,
-    bodyType: "coupe",
-    color: "Race Red",
-    vin: "1FA6P8CF*********",
-    origin: "USA",
-    owners: 2,
-    serviceHistory: true,
-    stkValidUntil: "2027-08-16",
-    description: [
-      "Atmosférický V8 5.0 a manuální šestistupňová převodovka — Mustang GT v této specifikaci je dnes už spíše výjimkou než pravidlem. Charakteristický zvuk a přímočarý projev bez elektronických kompromisů.",
-      "Vůz byl dovezen z USA a řádně registrován v ČR, k dispozici je dokumentace k historii a stavu najetých kilometrů.",
-    ],
-    equipment: [
-      { category: "Komfort", items: comfortCore },
-      { category: "Technologie", items: techCore },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: ["Tempomat", "Parkovací senzory"] },
-      { category: "Sport", items: ["Sportovní výfuk Active Valve", "Line-Lock", "Launch Control"] },
-      { category: "Exteriér", items: ["19\" kola", "Brembo brzdy"] },
-      { category: "Interiér", items: ["Kožená sportovní sedadla Recaro"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: false,
-      originCountry: "USA",
-      owners: 2,
-    },
-    photos: [
-      "/images/cars/ford-mustang-gt-2018-1.jpg",
-      "/images/cars/ford-mustang-gt-2018-2.jpg",
-      "/images/cars/ford-mustang-gt-2018-3.jpg",
-    ],
-    tags: [],
-    featured: false,
-    createdAt: "2026-02-14",
-  },
-  {
-    id: "8",
-    slug: "chevrolet-corvette-stingray-2021",
-    status: "preparing",
-    brand: "Chevrolet",
-    model: "Corvette",
-    version: "Stingray",
-    year: 2021,
-    registrationDate: "2021-12-01",
-    mileage: 18000,
-    price: 3190000,
-    priceWithoutVat: 2636364,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "rwd",
-    powerKw: 369,
-    engineCapacity: 6162,
-    bodyType: "coupe",
-    color: "Torch Red",
-    vin: "1G1YB2D4*********",
-    origin: "USA",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2027-12-01",
-    description: [
-      "Osmá generace Corvette přinesla motor uprostřed a výkon, který v přepočtu na cenu nemá v tomto srovnání konkurenci. Atmosférický V8 6.2 s dvouspojkovou převodovkou nabízí okamžitou odezvu.",
-      "Vůz aktuálně připravujeme — probíhá kompletní kontrola, detailing a příprava dokumentace před předáním novému majiteli.",
-    ],
-    equipment: [
-      { category: "Komfort", items: comfortCore },
-      { category: "Technologie", items: [...techCore, "Bose prémiový audio systém"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: ["Parkovací senzory", "Couvací kamera"] },
-      { category: "Sport", items: ["Z51 Performance paket", "Magnetické tlumiče", "Launch Control"] },
-      { category: "Exteriér", items: ["Sportovní výfukový systém", "19\"/20\" kola"] },
-      { category: "Interiér", items: ["GT2 sportovní sedadla", "Alcantara volant"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "USA",
-      owners: 1,
-    },
-    photos: [
-      "/images/cars/chevrolet-corvette-stingray-2021-1.jpg",
-      "/images/cars/chevrolet-corvette-stingray-2021-2.jpg",
-      "/images/cars/chevrolet-corvette-stingray-2021-3.jpg",
-      "/images/cars/chevrolet-corvette-stingray-2021-4.jpg",
-    ],
-    tags: [],
-    featured: false,
-    createdAt: "2026-06-30",
-  },
-  {
-    id: "9",
-    slug: "mercedes-s500-4matic-2023",
-    status: "available",
-    brand: "Mercedes-Benz",
-    model: "S 500",
-    version: "4MATIC",
-    year: 2023,
-    registrationDate: "2023-05-10",
-    mileage: 15500,
-    price: 3290000,
-    priceWithoutVat: 2719008,
-    vatDeductible: true,
-    fuel: "petrol",
-    transmission: "automatic",
-    drivetrain: "awd",
-    powerKw: 350,
-    engineCapacity: 2999,
-    bodyType: "sedan",
-    color: "Diamond White Bright",
-    vin: "WDD2233*********",
-    origin: "Německo",
-    owners: 1,
-    serviceHistory: true,
-    stkValidUntil: "2027-05-10",
-    description: [
-      "Nová generace S-Class (W223) posouvá pojem limuzíny o třídu výš. Řadový šestiválec 3.0 s mild-hybridní technologií a pohonem 4MATIC nabízí suverénní projev za každého počasí, aniž by cokoliv ubral na komfortu.",
-      "Nabízený vůz je z první majitele, s kompletní servisní historií u autorizovaného servisu a v elegantní barvě Diamond White Bright.",
-      "Výbava zahrnuje vzduchové odpružení AIRMATIC, masážní sedadla, systém MBUX s velkoformátovými displeji a prémiový zvukový systém Burmester.",
-    ],
-    equipment: [
-      { category: "Komfort", items: [...comfortCore, "Masážní funkce sedadel", "Vzduchové odpružení AIRMATIC"] },
-      { category: "Technologie", items: [...techCore, "MBUX velkoformátové displeje", "Burmester audio systém"] },
-      { category: "Bezpečnost", items: safetyCore },
-      { category: "Asistenti", items: [...assistCore, "Noční vidění"] },
-      { category: "Sport", items: ["Adaptivní podvozek", "Sportovní režim jízdy"] },
-      { category: "Exteriér", items: ["20\" kola AMG", "LED Digital Light"] },
-      { category: "Interiér", items: ["Kožené čalounění Nappa", "Ambientní osvětlení"] },
-    ],
-    history: {
-      verifiedOrigin: true,
-      serviceHistory: true,
-      vinChecked: true,
-      noLegalDefects: true,
-      independentInspection: true,
-      originCountry: "Německo",
-      owners: 1,
-    },
-    photos: ["/images/cars/mercedes-s500-4matic-2023-1.jpg"],
-    tags: ["Novinka", "Odpočet DPH"],
-    featured: true,
-    createdAt: "2026-08-16",
-  },
-];
-
-export function getCarBySlug(slug: string): Car | undefined {
-  return cars.find((car) => car.slug === slug);
+function rowToCar(row: CarRow): Car {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    status: row.status as Car["status"],
+    brand: row.brand as string,
+    model: row.model as string,
+    version: (row.version as string) ?? "",
+    year: row.year as number,
+    registrationDate: (row.registration_date as string) ?? undefined,
+    mileage: row.mileage as number,
+    price: row.price as number,
+    priceWithoutVat: (row.price_without_vat as number) ?? undefined,
+    vatDeductible: Boolean(row.vat_deductible),
+    fuel: row.fuel as Car["fuel"],
+    transmission: row.transmission as Car["transmission"],
+    drivetrain: row.drivetrain as Car["drivetrain"],
+    powerKw: row.power_kw as number,
+    engineCapacity: (row.engine_capacity as number) ?? undefined,
+    bodyType: row.body_type as Car["bodyType"],
+    color: row.color as string,
+    vin: (row.vin as string) ?? undefined,
+    origin: (row.origin as string) ?? undefined,
+    owners: (row.owners as number) ?? undefined,
+    serviceHistory: (row.service_history as boolean) ?? undefined,
+    stkValidUntil: (row.stk_valid_until as string) ?? undefined,
+    description: (row.description as string[]) ?? [],
+    equipment: (row.equipment as Car["equipment"]) ?? [],
+    history: (row.history as Car["history"]) ?? {},
+    photos: (row.photos as string[]) ?? [],
+    tags: (row.tags as Car["tags"]) ?? undefined,
+    featured: Boolean(row.featured),
+    createdAt: row.created_at as string,
+  };
 }
 
-export function getFeaturedCars(): Car[] {
-  return cars.filter((car) => car.featured);
+function carToRow(input: Partial<Car>): CarRow {
+  const row: CarRow = {};
+  if (input.id !== undefined) row.id = input.id;
+  if (input.slug !== undefined) row.slug = input.slug;
+  if (input.status !== undefined) row.status = input.status;
+  if (input.brand !== undefined) row.brand = input.brand;
+  if (input.model !== undefined) row.model = input.model;
+  if (input.version !== undefined) row.version = input.version;
+  if (input.year !== undefined) row.year = input.year;
+  if (input.registrationDate !== undefined) row.registration_date = input.registrationDate || null;
+  if (input.mileage !== undefined) row.mileage = input.mileage;
+  if (input.price !== undefined) row.price = input.price;
+  if (input.priceWithoutVat !== undefined) row.price_without_vat = input.priceWithoutVat ?? null;
+  if (input.vatDeductible !== undefined) row.vat_deductible = input.vatDeductible;
+  if (input.fuel !== undefined) row.fuel = input.fuel;
+  if (input.transmission !== undefined) row.transmission = input.transmission;
+  if (input.drivetrain !== undefined) row.drivetrain = input.drivetrain;
+  if (input.powerKw !== undefined) row.power_kw = input.powerKw;
+  if (input.engineCapacity !== undefined) row.engine_capacity = input.engineCapacity ?? null;
+  if (input.bodyType !== undefined) row.body_type = input.bodyType;
+  if (input.color !== undefined) row.color = input.color;
+  if (input.vin !== undefined) row.vin = input.vin || null;
+  if (input.origin !== undefined) row.origin = input.origin || null;
+  if (input.owners !== undefined) row.owners = input.owners ?? null;
+  if (input.serviceHistory !== undefined) row.service_history = input.serviceHistory ?? null;
+  if (input.stkValidUntil !== undefined) row.stk_valid_until = input.stkValidUntil || null;
+  if (input.description !== undefined) row.description = input.description;
+  if (input.equipment !== undefined) row.equipment = input.equipment;
+  if (input.history !== undefined) row.history = input.history;
+  if (input.photos !== undefined) row.photos = input.photos;
+  if (input.tags !== undefined) row.tags = input.tags ?? [];
+  if (input.featured !== undefined) row.featured = input.featured;
+  if (input.createdAt !== undefined) row.created_at = input.createdAt;
+  return row;
 }
 
-export function getAvailableCars(): Car[] {
-  return cars.filter((car) => car.status !== "sold");
+export const getAllCars = cache(async function getAllCars(): Promise<Car[]> {
+  const { data, error } = await supabaseAdmin
+    .from("cars")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`Failed to load cars: ${error.message}`);
+  return (data ?? []).map(rowToCar);
+});
+
+export const getCarBySlug = cache(async function getCarBySlug(
+  slug: string
+): Promise<Car | undefined> {
+  const { data, error } = await supabaseAdmin
+    .from("cars")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw new Error(`Failed to load car: ${error.message}`);
+  return data ? rowToCar(data) : undefined;
+});
+
+export const getCarById = cache(async function getCarById(
+  id: string
+): Promise<Car | undefined> {
+  const { data, error } = await supabaseAdmin
+    .from("cars")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw new Error(`Failed to load car: ${error.message}`);
+  return data ? rowToCar(data) : undefined;
+});
+
+export async function getFeaturedCars(): Promise<Car[]> {
+  const all = await getAllCars();
+  return all.filter((car) => car.featured);
 }
 
-export function displayName(car: Car): string {
-  return [car.brand, car.model, car.version].filter(Boolean).join(" ");
+export async function getAvailableCars(): Promise<Car[]> {
+  const all = await getAllCars();
+  return all.filter((car) => car.status !== "sold");
+}
+
+export async function createCar(
+  input: Omit<Car, "id" | "createdAt"> & { id?: string }
+): Promise<Car> {
+  const row = carToRow({
+    ...input,
+    id: input.id ?? crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+  });
+  const { data, error } = await supabaseAdmin.from("cars").insert(row).select().single();
+  if (error) throw new Error(`Failed to create car: ${error.message}`);
+  return rowToCar(data);
+}
+
+export async function updateCar(id: string, input: Partial<Car>): Promise<Car> {
+  const row = carToRow(input);
+  const { data, error } = await supabaseAdmin
+    .from("cars")
+    .update(row)
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw new Error(`Failed to update car: ${error.message}`);
+  return rowToCar(data);
+}
+
+export async function deleteCar(id: string): Promise<void> {
+  const { error } = await supabaseAdmin.from("cars").delete().eq("id", id);
+  if (error) throw new Error(`Failed to delete car: ${error.message}`);
 }

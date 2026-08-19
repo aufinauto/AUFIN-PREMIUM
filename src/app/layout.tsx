@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileStickyCTA from "@/components/layout/MobileStickyCTA";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import { getAllCars } from "@/lib/cars-data";
 
 const siteUrl = "https://www.aufin.cz";
 
@@ -28,14 +29,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const cars = await getAllCars();
+
   return (
     <html lang="cs" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-paper text-graphite">
-        <Header />
+        <Header cars={cars} />
         <main className="flex-1">{children}</main>
         <Footer />
-        <MobileStickyCTA />
+        <MobileStickyCTA cars={cars} />
         <ScrollToTop />
       </body>
     </html>

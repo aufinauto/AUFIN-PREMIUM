@@ -1,10 +1,15 @@
 import type {
   BodyType,
+  Car,
   CarStatus,
   DrivetrainType,
   FuelType,
   TransmissionType,
 } from "./types";
+
+export function displayName(car: Car): string {
+  return [car.brand, car.model, car.version].filter(Boolean).join(" ");
+}
 
 export function formatPrice(value: number): string {
   return new Intl.NumberFormat("cs-CZ", {

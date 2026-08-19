@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { cars, displayName, getCarBySlug } from "@/lib/cars-data";
+import { getCarBySlug } from "@/lib/cars-data";
 import {
   bodyTypeLabels,
+  displayName,
   formatMileage,
   formatPrice,
   fuelLabels,
@@ -20,17 +21,13 @@ import FinanceCalculator from "@/components/finance/FinanceCalculator";
 import Reveal from "@/components/ui/Reveal";
 import Index from "@/components/ui/Index";
 
-export function generateStaticParams() {
-  return cars.map((car) => ({ slug: car.slug }));
-}
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const car = getCarBySlug(slug);
+  const car = await getCarBySlug(slug);
   if (!car) return {};
 
   const title = `${displayName(car)} ${car.year}`;
@@ -52,7 +49,7 @@ export default async function CarDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const car = getCarBySlug(slug);
+  const car = await getCarBySlug(slug);
   if (!car) notFound();
 
   const name = displayName(car);

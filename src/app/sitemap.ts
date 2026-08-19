@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
-import { cars } from "@/lib/cars-data";
+import { getAllCars } from "@/lib/cars-data";
 
 const baseUrl = "https://www.aufin.cz";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const cars = await getAllCars();
+
   const staticRoutes = [
     "",
     "/vozy",

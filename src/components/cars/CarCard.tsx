@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Car } from "@/lib/types";
-import { displayName } from "@/lib/cars-data";
-import { formatMileage, formatPrice, fuelLabels } from "@/lib/utils";
+import { displayName, formatMileage, formatPrice, fuelLabels } from "@/lib/utils";
 import PhotoImage from "@/components/ui/PhotoImage";
 import { TagBadge, StatusBadge } from "@/components/ui/Badge";
 

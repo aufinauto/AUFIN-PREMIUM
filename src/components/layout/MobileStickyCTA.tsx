@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getCarBySlug } from "@/lib/cars-data";
+import type { Car } from "@/lib/types";
 
 const PHONE = "+420777123456";
 const PHONE_DISPLAY = "+420 777 123 456";
 
-export default function MobileStickyCTA() {
+export default function MobileStickyCTA({ cars }: { cars: Car[] }) {
   const pathname = usePathname();
   const isCarDetail = /^\/vozy\/[^/]+$/.test(pathname ?? "");
 
   if (!isCarDetail) return null;
 
   const slug = pathname?.split("/").pop();
-  const car = slug ? getCarBySlug(slug) : null;
+  const car = slug ? cars.find((c) => c.slug === slug) : null;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-3 border-t border-stone-200 bg-white/95 backdrop-blur-md lg:hidden">

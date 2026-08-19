@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo } from "react";
-import { cars } from "@/lib/cars-data";
 import {
   defaultFilterState,
   type FilterState,
@@ -15,6 +14,7 @@ import {
 } from "@/lib/utils";
 import type {
   BodyType,
+  Car,
   DrivetrainType,
   FuelType,
   TransmissionType,
@@ -22,12 +22,14 @@ import type {
 import { CheckRow, FilterGroupLabel, RangePair } from "./filter-controls";
 
 export default function FilterDrawer({
+  cars,
   open,
   onClose,
   filters,
   setFilters,
   resultCount,
 }: {
+  cars: Car[];
   open: boolean;
   onClose: () => void;
   filters: FilterState;
@@ -43,7 +45,7 @@ export default function FilterDrawer({
 
   const brands = useMemo(
     () => Array.from(new Set(cars.map((c) => c.brand))).sort(),
-    []
+    [cars]
   );
 
   const toggle = <T,>(list: T[], value: T): T[] =>

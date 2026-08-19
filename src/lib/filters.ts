@@ -5,7 +5,7 @@ import type {
   FuelType,
   TransmissionType,
 } from "./types";
-import { displayName } from "./cars-data";
+import { displayName } from "./utils";
 
 export type SortOption =
   | "newest"
