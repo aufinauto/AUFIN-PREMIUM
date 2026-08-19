@@ -111,7 +111,7 @@ export default function Footer() {
           <Link
             href="/admin"
             aria-label="Administrace"
-            className="shrink-0 px-1 text-white/25 transition-colors hover:text-white/60"
+            className="shrink-0 px-1 text-base text-white/40 transition-colors hover:text-white/80"
           >
             ●
           </Link>
