@@ -13,7 +13,7 @@ export default function PricePanel({ car }: { car: Car }) {
 
       <div className="mt-4">
         <p className="font-display text-4xl text-graphite">{formatPrice(car.price)}</p>
-        {car.priceWithoutVat ? (
+        {car.vatDeductible && car.priceWithoutVat ? (
           <p className="mt-1.5 font-sans text-sm text-graphite-faint">
             {formatPrice(car.priceWithoutVat)} bez DPH
           </p>

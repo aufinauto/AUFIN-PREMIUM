@@ -113,7 +113,7 @@ export default async function CarDetailPage({
               <p className="font-display text-3xl font-normal text-graphite sm:text-4xl">
                 {formatPrice(car.price)}
               </p>
-              {car.priceWithoutVat && (
+              {car.vatDeductible && car.priceWithoutVat && (
                 <p className="mt-2 font-sans text-sm text-graphite-faint">
                   {formatPrice(car.priceWithoutVat)} bez DPH
                 </p>
