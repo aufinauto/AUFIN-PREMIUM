@@ -2,11 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { Field, Input, Select, Textarea } from "@/components/ui/FormField";
+import { CurrencyInput, Field, Input, Select, Textarea } from "@/components/ui/FormField";
 import type { Car, EquipmentGroup } from "@/lib/types";
 import {
   bodyTypeLabels,
   drivetrainLabels,
+  formatPrice,
   fuelLabels,
   statusLabels,
   transmissionLabels,
@@ -14,15 +15,20 @@ import {
 import { saveCarAction } from "@/app/admin/actions";
 import EquipmentEditor from "./EquipmentEditor";
 import PhotoManager from "./PhotoManager";
+import TagsEditor from "./TagsEditor";
 
-const TAG_OPTIONS = ["Novinka", "Odpočet DPH", "CZ původ", "Rezervováno"] as const;
+const VAT_RATE = 1.21;
 
 export default function CarForm({ car }: { car?: Car }) {
   const router = useRouter();
   const [photos, setPhotos] = useState<string[]>(car?.photos ?? []);
   const [equipment, setEquipment] = useState<EquipmentGroup[]>(car?.equipment ?? []);
+  const [tags, setTags] = useState<string[]>(car?.tags ?? []);
+  const [price, setPrice] = useState(car?.price ? String(car.price) : "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const priceWithoutVat = price ? Math.round(Number(price) / VAT_RATE) : 0;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,10 +38,18 @@ export default function CarForm({ car }: { car?: Car }) {
     const formData = new FormData(e.currentTarget);
     formData.set("photosJson", JSON.stringify(photos));
     formData.set("equipmentJson", JSON.stringify(equipment));
+    formData.set("tagsJson", JSON.stringify(tags));
 
-    const result = await saveCarAction(car?.id ?? null, formData);
-    if (result?.error) {
-      setError(result.error);
+    try {
+      const result = await saveCarAction(car?.id ?? null, formData);
+      if (result?.error) {
+        setError(result.error);
+        setSaving(false);
+      }
+    } catch {
+      setError(
+        "Uložení se nezdařilo (možná jsou fotky moc velké nebo vypršelo spojení). Zkuste to prosím znovu."
+      );
       setSaving(false);
     }
   }
@@ -108,20 +122,7 @@ export default function CarForm({ car }: { car?: Car }) {
           <p className="mb-2 font-sans text-xs uppercase tracking-[0.12em] text-graphite-faint">
             Štítky
           </p>
-          <div className="flex flex-wrap gap-4">
-            {TAG_OPTIONS.map((tag) => (
-              <label key={tag} className="flex items-center gap-2 font-sans text-sm text-graphite">
-                <input
-                  type="checkbox"
-                  name="tags"
-                  value={tag}
-                  defaultChecked={car?.tags?.includes(tag)}
-                  className="h-4 w-4 accent-graphite"
-                />
-                {tag}
-              </label>
-            ))}
-          </div>
+          <TagsEditor value={tags} onChange={setTags} />
         </div>
       </section>
 
@@ -129,21 +130,12 @@ export default function CarForm({ car }: { car?: Car }) {
         <h2 className="font-display text-xl text-graphite">Cena</h2>
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
           <Field label="Cena (Kč)" htmlFor="price" required>
-            <Input
-              id="price"
-              name="price"
-              type="number"
-              defaultValue={car?.price}
-              required
-            />
+            <CurrencyInput id="price" name="price" value={price} onChange={setPrice} />
           </Field>
-          <Field label="Cena bez DPH (Kč)" htmlFor="priceWithoutVat">
-            <Input
-              id="priceWithoutVat"
-              name="priceWithoutVat"
-              type="number"
-              defaultValue={car?.priceWithoutVat}
-            />
+          <Field label="Cena bez DPH (dopočítá se)" htmlFor="priceWithoutVatDisplay">
+            <div className="flex items-center border border-stone-200 bg-stone-50 px-4 py-3 font-sans text-sm text-graphite-soft">
+              {price ? formatPrice(priceWithoutVat) : "—"}
+            </div>
           </Field>
           <div className="flex items-end pb-3">
             <label className="flex items-center gap-2 font-sans text-sm text-graphite">
@@ -215,79 +207,15 @@ export default function CarForm({ car }: { car?: Car }) {
           <Field label="VIN" htmlFor="vin">
             <Input id="vin" name="vin" defaultValue={car?.vin} />
           </Field>
+          <Field label="Země původu" htmlFor="origin">
+            <Input id="origin" name="origin" defaultValue={car?.origin} />
+          </Field>
           <Field label="Platnost STK do" htmlFor="stkValidUntil">
             <Input
               id="stkValidUntil"
               name="stkValidUntil"
               type="date"
               defaultValue={car?.stkValidUntil}
-            />
-          </Field>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="font-display text-xl text-graphite">Prověření a historie</h2>
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <Field label="Země původu" htmlFor="origin">
-            <Input id="origin" name="origin" defaultValue={car?.origin} />
-          </Field>
-          <Field label="Počet majitelů" htmlFor="owners">
-            <Input id="owners" name="owners" type="number" defaultValue={car?.owners} />
-          </Field>
-          <div className="flex items-end pb-3">
-            <label className="flex items-center gap-2 font-sans text-sm text-graphite">
-              <input
-                type="checkbox"
-                name="serviceHistory"
-                defaultChecked={car?.serviceHistory}
-                className="h-4 w-4 accent-graphite"
-              />
-              Kompletní servisní historie
-            </label>
-          </div>
-        </div>
-
-        <div className="mt-5 flex flex-wrap gap-5">
-          {(
-            [
-              ["history.verifiedOrigin", "Ověřený původ", car?.history.verifiedOrigin],
-              ["history.serviceHistory", "Servisní historie", car?.history.serviceHistory],
-              ["history.vinChecked", "Prověřené VIN", car?.history.vinChecked],
-              ["history.noLegalDefects", "Bez právních vad", car?.history.noLegalDefects],
-              [
-                "history.independentInspection",
-                "Nezávislá kontrola",
-                car?.history.independentInspection,
-              ],
-            ] as const
-          ).map(([name, label, checked]) => (
-            <label key={name} className="flex items-center gap-2 font-sans text-sm text-graphite">
-              <input
-                type="checkbox"
-                name={name}
-                defaultChecked={checked}
-                className="h-4 w-4 accent-graphite"
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <Field label="Země původu (prověření)" htmlFor="history.originCountry">
-            <Input
-              id="history.originCountry"
-              name="history.originCountry"
-              defaultValue={car?.history.originCountry}
-            />
-          </Field>
-          <Field label="Počet majitelů (prověření)" htmlFor="history.owners">
-            <Input
-              id="history.owners"
-              name="history.owners"
-              type="number"
-              defaultValue={car?.history.owners}
             />
           </Field>
         </div>

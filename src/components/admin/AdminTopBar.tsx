@@ -13,14 +13,23 @@ export default function AdminTopBar({ title }: { title: string }) {
             {title}
           </span>
         </div>
-        <form action={logoutAction}>
-          <button
-            type="submit"
+        <div className="flex items-center gap-6">
+          <Link
+            href="/"
+            target="_blank"
             className="font-sans text-xs uppercase tracking-[0.1em] text-graphite-soft hover:text-graphite"
           >
-            Odhlásit se
-          </button>
-        </form>
+            Zpět na web
+          </Link>
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              className="font-sans text-xs uppercase tracking-[0.1em] text-graphite-soft hover:text-graphite"
+            >
+              Odhlásit se
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

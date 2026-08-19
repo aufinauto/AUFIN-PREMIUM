@@ -66,7 +66,7 @@ export interface Car {
   equipment: EquipmentGroup[];
   history: CarHistory;
   photos: string[];
-  tags?: ("Novinka" | "Odpočet DPH" | "CZ původ" | "Rezervováno")[];
+  tags?: string[];
   featured?: boolean;
   createdAt: string;
 }

@@ -1,6 +1,10 @@
 import AdminTopBar from "@/components/admin/AdminTopBar";
 import CarForm from "@/components/admin/CarForm";
 
+// Photo uploads can take a few seconds on slower connections — give the
+// save action more headroom than the platform default.
+export const maxDuration = 60;
+
 export default function NewCarPage() {
   return (
     <div>

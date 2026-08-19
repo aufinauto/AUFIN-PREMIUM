@@ -15,6 +15,8 @@ export async function logoutAction() {
   redirect("/admin/login");
 }
 
+const VAT_RATE = 1.21;
+
 function parseMoney(formData: FormData, key: string): number | undefined {
   const raw = String(formData.get(key) ?? "").replace(/[^\d]/g, "");
   return raw ? Number(raw) : undefined;
@@ -82,19 +84,14 @@ export async function saveCarAction(
     .map((s) => s.trim())
     .filter(Boolean);
 
-  const tags = formData.getAll("tags").map(String) as NonNullable<Car["tags"]>;
+  let tags: string[] = [];
+  try {
+    tags = JSON.parse(String(formData.get("tagsJson") ?? "[]"));
+  } catch {
+    tags = [];
+  }
 
-  const history: Car["history"] = {
-    verifiedOrigin: formData.get("history.verifiedOrigin") === "on",
-    serviceHistory: formData.get("history.serviceHistory") === "on",
-    vinChecked: formData.get("history.vinChecked") === "on",
-    noLegalDefects: formData.get("history.noLegalDefects") === "on",
-    independentInspection: formData.get("history.independentInspection") === "on",
-    originCountry: textOrUndefined(formData, "history.originCountry"),
-    owners: formData.get("history.owners") ? Number(formData.get("history.owners")) : undefined,
-  };
-
-  const carInput: Omit<Car, "id" | "createdAt"> = {
+  const carInput: Omit<Car, "id" | "createdAt" | "history"> = {
     slug,
     status: String(formData.get("status") ?? "available") as Car["status"],
     brand,
@@ -104,7 +101,7 @@ export async function saveCarAction(
     registrationDate: textOrUndefined(formData, "registrationDate"),
     mileage,
     price,
-    priceWithoutVat: parseMoney(formData, "priceWithoutVat"),
+    priceWithoutVat: Math.round(price / VAT_RATE),
     vatDeductible: formData.get("vatDeductible") === "on",
     fuel: String(formData.get("fuel")) as Car["fuel"],
     transmission: String(formData.get("transmission")) as Car["transmission"],
@@ -117,12 +114,9 @@ export async function saveCarAction(
     color,
     vin: textOrUndefined(formData, "vin"),
     origin: textOrUndefined(formData, "origin"),
-    owners: formData.get("owners") ? Number(formData.get("owners")) : undefined,
-    serviceHistory: formData.get("serviceHistory") === "on",
     stkValidUntil: textOrUndefined(formData, "stkValidUntil"),
     description,
     equipment,
-    history,
     photos,
     tags,
     featured: formData.get("featured") === "on",
@@ -132,7 +126,7 @@ export async function saveCarAction(
     if (carId) {
       await updateCar(carId, carInput);
     } else {
-      await createCar(carInput);
+      await createCar({ ...carInput, history: {} });
     }
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Uložení vozu se nezdařilo." };
