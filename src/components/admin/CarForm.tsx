@@ -19,7 +19,13 @@ import TagsEditor from "./TagsEditor";
 
 const VAT_RATE = 1.21;
 
-export default function CarForm({ car }: { car?: Car }) {
+export default function CarForm({
+  car,
+  equipmentOptions = {},
+}: {
+  car?: Car;
+  equipmentOptions?: Record<string, string[]>;
+}) {
   const router = useRouter();
   const [photos, setPhotos] = useState<string[]>(car?.photos ?? []);
   const [equipment, setEquipment] = useState<EquipmentGroup[]>(car?.equipment ?? []);
@@ -74,20 +80,6 @@ export default function CarForm({ car }: { car?: Car }) {
           <Field label="Verze / doplněk" htmlFor="version">
             <Input id="version" name="version" defaultValue={car?.version} />
           </Field>
-          <Field label="Rok výroby" htmlFor="year" required>
-            <Input id="year" name="year" type="number" defaultValue={car?.year} required />
-          </Field>
-          <Field label="Datum první registrace" htmlFor="registrationDate">
-            <Input
-              id="registrationDate"
-              name="registrationDate"
-              type="date"
-              defaultValue={car?.registrationDate}
-            />
-          </Field>
-          <Field label="Barva" htmlFor="color" required>
-            <Input id="color" name="color" defaultValue={car?.color} required />
-          </Field>
           <Field label="Stav nabídky" htmlFor="status">
             <Select id="status" name="status" defaultValue={car?.status ?? "available"}>
               {Object.entries(statusLabels).map(([value, label]) => (
@@ -97,14 +89,7 @@ export default function CarForm({ car }: { car?: Car }) {
               ))}
             </Select>
           </Field>
-          <Field label="URL adresa (slug)" htmlFor="slug">
-            <Input
-              id="slug"
-              name="slug"
-              defaultValue={car?.slug}
-              placeholder="doplní se automaticky"
-            />
-          </Field>
+          <input type="hidden" name="slug" defaultValue={car?.slug} />
           <div className="flex items-end pb-3">
             <label className="flex items-center gap-2 font-sans text-sm text-graphite">
               <input
@@ -154,6 +139,18 @@ export default function CarForm({ car }: { car?: Car }) {
       <section>
         <h2 className="font-display text-xl text-graphite">Technické parametry</h2>
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Field label="Datum první registrace" htmlFor="registrationDate" required>
+            <Input
+              id="registrationDate"
+              name="registrationDate"
+              type="date"
+              defaultValue={car?.registrationDate}
+              required
+            />
+          </Field>
+          <Field label="Barva" htmlFor="color" required>
+            <Input id="color" name="color" defaultValue={car?.color} required />
+          </Field>
           <Field label="Nájezd (km)" htmlFor="mileage" required>
             <Input id="mileage" name="mileage" type="number" defaultValue={car?.mileage} required />
           </Field>
@@ -204,9 +201,6 @@ export default function CarForm({ car }: { car?: Car }) {
               ))}
             </Select>
           </Field>
-          <Field label="VIN" htmlFor="vin">
-            <Input id="vin" name="vin" defaultValue={car?.vin} />
-          </Field>
           <Field label="Země původu" htmlFor="origin">
             <Input id="origin" name="origin" defaultValue={car?.origin} />
           </Field>
@@ -238,7 +232,7 @@ export default function CarForm({ car }: { car?: Car }) {
       <section>
         <h2 className="font-display text-xl text-graphite">Výbava</h2>
         <div className="mt-5">
-          <EquipmentEditor value={equipment} onChange={setEquipment} />
+          <EquipmentEditor value={equipment} onChange={setEquipment} options={equipmentOptions} />
         </div>
       </section>
 

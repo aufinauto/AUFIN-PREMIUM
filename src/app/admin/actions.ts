@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
 import { createCar, deleteCar, updateCar } from "@/lib/cars-data";
+import { addEquipmentOptions } from "@/lib/equipmentOptions";
 import { CAR_PHOTOS_BUCKET, supabaseAdmin } from "@/lib/supabaseClient";
 import { slugify } from "@/lib/utils";
 import type { Car, EquipmentGroup } from "@/lib/types";
@@ -34,14 +35,15 @@ export async function saveCarAction(
   const brand = String(formData.get("brand") ?? "").trim();
   const model = String(formData.get("model") ?? "").trim();
   const version = String(formData.get("version") ?? "").trim();
-  const year = Number(formData.get("year"));
+  const registrationDate = textOrUndefined(formData, "registrationDate");
+  const year = registrationDate ? new Date(registrationDate).getFullYear() : NaN;
   const mileage = Number(formData.get("mileage") ?? 0);
   const powerKw = Number(formData.get("powerKw") ?? 0);
   const color = String(formData.get("color") ?? "").trim();
   const price = parseMoney(formData, "price") ?? 0;
 
-  if (!brand || !model || !year || !color || !price) {
-    return { error: "Vyplňte prosím značku, model, rok výroby, barvu a cenu." };
+  if (!brand || !model || !registrationDate || Number.isNaN(year) || !color || !price) {
+    return { error: "Vyplňte prosím značku, model, datum první registrace, barvu a cenu." };
   }
 
   const slugInput = String(formData.get("slug") ?? "").trim();
@@ -98,7 +100,7 @@ export async function saveCarAction(
     model,
     version,
     year,
-    registrationDate: textOrUndefined(formData, "registrationDate"),
+    registrationDate,
     mileage,
     price,
     priceWithoutVat: Math.round(price / VAT_RATE),
@@ -128,6 +130,7 @@ export async function saveCarAction(
     } else {
       await createCar({ ...carInput, history: {} });
     }
+    await addEquipmentOptions(equipment);
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Uložení vozu se nezdařilo." };
   }

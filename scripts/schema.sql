@@ -43,6 +43,16 @@ create index if not exists cars_featured_idx on cars (featured);
 -- using the public anon key can read/write anything — a safe default.
 alter table cars enable row level security;
 
+-- Shared library of equipment items per category, used by the admin to
+-- offer checkboxes instead of retyping the same items for every car. Grows
+-- automatically whenever an admin adds a genuinely new item.
+create table if not exists equipment_options (
+  category text not null,
+  item text not null,
+  primary key (category, item)
+);
+alter table equipment_options enable row level security;
+
 -- Storage bucket for car photos (public read, admin-only write via
 -- service role). Easiest done in the dashboard:
 --   Storage → New bucket → name "car-photos" → toggle "Public bucket" on.
