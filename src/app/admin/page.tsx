@@ -43,7 +43,14 @@ export default async function AdminDashboardPage() {
                     <div className="flex items-center gap-3">
                       <div className="relative h-12 w-16 shrink-0 overflow-hidden bg-stone-100">
                         {car.photos[0] ? (
-                          <PhotoImage src={car.photos[0]} alt="" sizes="64px" className="h-full w-full" />
+                          <PhotoImage
+                            src={car.photos[0]}
+                            alt=""
+                            width={64}
+                            height={48}
+                            unoptimized={false}
+                            className="h-full w-full"
+                          />
                         ) : null}
                       </div>
                       <div>

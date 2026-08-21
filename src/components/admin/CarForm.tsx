@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { CurrencyInput, Field, Input, Select, Textarea } from "@/components/ui/FormField";
 import type { Car, EquipmentGroup } from "@/lib/types";
 import {
@@ -12,6 +12,7 @@ import {
   statusLabels,
   transmissionLabels,
 } from "@/lib/utils";
+import { generateDescription } from "@/lib/generateDescription";
 import { saveCarAction } from "@/app/admin/actions";
 import EquipmentEditor from "./EquipmentEditor";
 import PhotoManager from "./PhotoManager";
@@ -27,15 +28,57 @@ export default function CarForm({
   equipmentOptions?: Record<string, string[]>;
 }) {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const [uploadFolder] = useState(() => car?.slug ?? crypto.randomUUID());
   const [photos, setPhotos] = useState<string[]>(car?.photos ?? []);
   const [equipment, setEquipment] = useState<EquipmentGroup[]>(car?.equipment ?? []);
   const [tags, setTags] = useState<string[]>(car?.tags ?? []);
   const [price, setPrice] = useState(car?.price ? String(car.price) : "");
+  const [description, setDescription] = useState(car?.description.join("\n") ?? "");
+  const [genError, setGenError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const priceWithoutVat = price ? Math.round(Number(price) / VAT_RATE) : 0;
+
+  function handleGenerateDescription() {
+    if (!formRef.current) return;
+    const fd = new FormData(formRef.current);
+    const brand = String(fd.get("brand") ?? "").trim();
+    const model = String(fd.get("model") ?? "").trim();
+    const mileage = Number(fd.get("mileage") ?? 0);
+    const powerKw = Number(fd.get("powerKw") ?? 0);
+    const color = String(fd.get("color") ?? "").trim();
+
+    if (!brand || !model || !mileage || !powerKw || !color) {
+      setGenError(
+        "Nejdřív vyplňte značku, model, barvu, nájezd a výkon — z toho se popis skládá."
+      );
+      return;
+    }
+    setGenError(null);
+
+    const registrationDate = String(fd.get("registrationDate") ?? "");
+    const year = registrationDate
+      ? new Date(registrationDate).getFullYear()
+      : new Date().getFullYear();
+
+    const generated = generateDescription({
+      brand,
+      model,
+      version: String(fd.get("version") ?? "").trim(),
+      year,
+      mileage,
+      powerKw,
+      fuel: String(fd.get("fuel") ?? "petrol") as Car["fuel"],
+      transmission: String(fd.get("transmission") ?? "automatic") as Car["transmission"],
+      drivetrain: String(fd.get("drivetrain") ?? "rwd") as Car["drivetrain"],
+      bodyType: String(fd.get("bodyType") ?? "sedan") as Car["bodyType"],
+      color,
+      equipment,
+    });
+    setDescription(generated.join("\n"));
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -46,6 +89,7 @@ export default function CarForm({
     formData.set("photosJson", JSON.stringify(photos));
     formData.set("equipmentJson", JSON.stringify(equipment));
     formData.set("tagsJson", JSON.stringify(tags));
+    formData.set("description", description);
 
     try {
       const result = await saveCarAction(car?.id ?? null, formData);
@@ -62,7 +106,7 @@ export default function CarForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-10 pb-24">
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-10 pb-24">
       {error ? (
         <div className="border border-status-reserved/40 bg-status-reserved/5 px-4 py-3 font-sans text-sm text-status-reserved">
           {error}
@@ -205,27 +249,33 @@ export default function CarForm({
           <Field label="Země původu" htmlFor="origin">
             <Input id="origin" name="origin" defaultValue={car?.origin} />
           </Field>
-          <Field label="Platnost STK do" htmlFor="stkValidUntil">
-            <Input
-              id="stkValidUntil"
-              name="stkValidUntil"
-              type="date"
-              defaultValue={car?.stkValidUntil}
-            />
-          </Field>
         </div>
       </section>
 
       <section>
-        <h2 className="font-display text-xl text-graphite">Popis vozu</h2>
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="font-display text-xl text-graphite">Popis vozu</h2>
+          <button
+            type="button"
+            onClick={handleGenerateDescription}
+            className="shrink-0 border border-graphite/25 px-4 py-2 font-sans text-xs uppercase tracking-[0.08em] text-graphite hover:border-graphite"
+          >
+            Vygenerovat popis
+          </button>
+        </div>
         <p className="mt-1 font-sans text-xs text-graphite-faint">
-          Každý odstavec na nový řádek.
+          Každý odstavec na nový řádek. Tlačítko sestaví návrh z vyplněných údajů — text si pak
+          můžete upravit.
         </p>
+        {genError ? (
+          <p className="mt-2 font-sans text-xs text-status-reserved">{genError}</p>
+        ) : null}
         <div className="mt-4">
           <Textarea
             name="description"
             rows={6}
-            defaultValue={car?.description.join("\n")}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
       </section>

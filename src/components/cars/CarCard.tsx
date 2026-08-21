@@ -19,6 +19,7 @@ export default function CarCard({
           alt={displayName(car)}
           priority={priority}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          unoptimized={false}
           className="h-full w-full transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover:scale-[1.045]"
         />
         <div className="corner-frame">

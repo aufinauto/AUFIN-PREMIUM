@@ -95,6 +95,7 @@ export default function Lightbox({
               src={photos[index]}
               alt={`${title} — fotografie ${index + 1}`}
               sizes="(min-width: 1024px) 60vw, 100vw"
+              unoptimized={false}
               className="h-full w-full"
             />
           </motion.div>
@@ -122,7 +123,14 @@ export default function Lightbox({
               i === index ? "opacity-100 ring-1 ring-white" : "opacity-45 hover:opacity-75"
             }`}
           >
-            <PhotoImage src={photo} alt="" sizes="80px" className="h-full w-full" />
+            <PhotoImage
+              src={photo}
+              alt=""
+              width={80}
+              height={56}
+              unoptimized={false}
+              className="h-full w-full"
+            />
           </button>
         ))}
       </div>

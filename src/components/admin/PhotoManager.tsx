@@ -79,7 +79,14 @@ export default function PhotoManager({
               key={photo}
               className="relative aspect-[4/3] overflow-hidden border border-stone-200"
             >
-              <PhotoImage src={photo} alt="" sizes="200px" className="h-full w-full" />
+              <PhotoImage
+                src={photo}
+                alt=""
+                width={200}
+                height={150}
+                unoptimized={false}
+                className="h-full w-full"
+              />
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-1 bg-graphite/70 px-1.5 py-1">
                 <button
                   type="button"

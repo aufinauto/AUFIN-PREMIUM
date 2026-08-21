@@ -34,6 +34,7 @@ export default function CarGallery({
             alt={title}
             priority
             sizes="100vw"
+            unoptimized={false}
             className="h-full w-full transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.03]"
           />
           {photos.length > 1 ? (
@@ -61,6 +62,7 @@ export default function CarGallery({
                   src={photo}
                   alt={`${title} — fotografie ${i + 2}`}
                   sizes="20vw"
+                  unoptimized={false}
                   className="h-full w-full transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.03]"
                 />
                 {i === 4 && photos.length > 6 ? (
@@ -88,6 +90,7 @@ export default function CarGallery({
             alt={title}
             priority
             sizes="(min-width: 640px) 66vw, 100vw"
+            unoptimized={false}
             className="h-full w-full transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.03]"
           />
         </button>
@@ -103,6 +106,7 @@ export default function CarGallery({
               src={photo}
               alt={`${title} — fotografie ${i + 2}`}
               sizes="(min-width: 640px) 33vw, 100vw"
+              unoptimized={false}
               className="h-full w-full transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.03]"
             />
             {i === 1 && photos.length > 3 ? (
