@@ -16,3 +16,4 @@ export const supabaseAdmin = createClient(
 );
 
 export const CAR_PHOTOS_BUCKET = "car-photos";
+export const SELL_CAR_PHOTOS_BUCKET = "sell-car-photos";

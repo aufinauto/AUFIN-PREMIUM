@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Car } from "@/lib/types";
 
-const PHONE = "+420777123456";
-const PHONE_DISPLAY = "+420 777 123 456";
+const PHONE = "+420704901148";
+const PHONE_DISPLAY = "+420 704 901 148";
 
 export default function MobileStickyCTA({ cars }: { cars: Car[] }) {
   const pathname = usePathname();

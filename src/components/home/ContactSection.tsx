@@ -19,13 +19,13 @@ export default function ContactSection() {
                 Kontakt
               </p>
               <a
-                href="tel:+420777123456"
+                href="tel:+420704901148"
                 className="underline-reveal mt-3 flex items-center gap-2.5 font-display text-xl text-graphite"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-accent">
                   <path d="M6.5 3.5c-1 0-1.8.8-1.8 1.8 0 7.5 6 13.5 13.5 13.5 1 0 1.8-.8 1.8-1.8v-2.2a1 1 0 0 0-.7-1l-3-1a1 1 0 0 0-1.1.3l-1.2 1.5a11 11 0 0 1-5-5l1.5-1.2a1 1 0 0 0 .3-1.1l-1-3a1 1 0 0 0-1-.7Z" />
                 </svg>
-                +420 777 123 456
+                +420 704 901 148
               </a>
               <a
                 href="mailto:info@aufin.cz"
@@ -38,7 +38,7 @@ export default function ContactSection() {
                 info@aufin.cz
               </a>
               <a
-                href="https://wa.me/420777123456"
+                href="https://wa.me/420704901148"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline-reveal mt-2 flex items-center gap-2.5 font-display text-xl text-graphite"

@@ -1,16 +1,78 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Field, Input, Textarea, CurrencyInput } from "@/components/ui/FormField";
 import { submitLead } from "@/lib/submitLead";
+import { compressImage } from "@/lib/compressImage";
+import { createSellCarUploadUrls } from "@/app/actions/sellCarUpload";
 import Reveal from "@/components/ui/Reveal";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+interface PendingPhoto {
+  file: File;
+  previewUrl: string;
+  uploadedUrl: string | null;
+  uploading: boolean;
+  error: boolean;
+}
+
 export default function SellCarForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [photos, setPhotos] = useState<File[]>([]);
+  const [photos, setPhotos] = useState<PendingPhoto[]>([]);
   const [priceValue, setPriceValue] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (files.length === 0) return;
+
+    const newEntries: PendingPhoto[] = files.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+      uploadedUrl: null,
+      uploading: true,
+      error: false,
+    }));
+    setPhotos((prev) => [...prev, ...newEntries]);
+
+    try {
+      const targets = await createSellCarUploadUrls(files.map((f) => f.name));
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const target = targets[i];
+        try {
+          const uploadBody = await compressImage(file);
+          const res = await fetch(target.signedUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "image/jpeg" },
+            body: uploadBody,
+          });
+          if (!res.ok) throw new Error("upload_failed");
+          setPhotos((prev) =>
+            prev.map((p) =>
+              p.file === file ? { ...p, uploadedUrl: target.publicUrl, uploading: false } : p
+            )
+          );
+        } catch {
+          setPhotos((prev) =>
+            prev.map((p) => (p.file === file ? { ...p, uploading: false, error: true } : p))
+          );
+        }
+      }
+    } catch {
+      setPhotos((prev) =>
+        prev.map((p) =>
+          newEntries.includes(p) ? { ...p, uploading: false, error: true } : p
+        )
+      );
+    }
+  }
+
+  function removePhoto(index: number) {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,10 +80,12 @@ export default function SellCarForm() {
 
     setStatus("submitting");
     const form = new FormData(e.currentTarget);
+    const uploadedPhotoUrls = photos.map((p) => p.uploadedUrl).filter((u): u is string => !!u);
     try {
       await submitLead("sell-car", {
         ...Object.fromEntries(form.entries()),
         photoCount: photos.length,
+        photos: uploadedPhotoUrls,
       });
       setStatus("success");
     } catch {
@@ -136,11 +200,12 @@ export default function SellCarForm() {
         <Field label="Fotografie" htmlFor="s-photos">
           <div className="border-2 border-dashed border-stone-300 bg-stone-50 px-6 py-8 text-center transition-colors hover:border-stone-400 hover:bg-stone-100">
             <input
+              ref={fileInputRef}
               id="s-photos"
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => setPhotos(Array.from(e.target.files ?? []))}
+              onChange={handleFilesSelected}
               className="hidden"
             />
             <label htmlFor="s-photos" className="cursor-pointer">
@@ -157,13 +222,22 @@ export default function SellCarForm() {
                 {photos.map((photo, idx) => (
                   <div key={idx} className="relative aspect-square overflow-hidden border border-stone-200">
                     <img
-                      src={URL.createObjectURL(photo)}
+                      src={photo.previewUrl}
                       alt={`Preview ${idx + 1}`}
                       className="h-full w-full object-cover"
                     />
+                    {photo.uploading ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <span className="font-sans text-[11px] text-white">Nahrávám…</span>
+                      </div>
+                    ) : photo.error ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-status-reserved/70">
+                        <span className="font-sans text-[11px] text-white">Chyba</span>
+                      </div>
+                    ) : null}
                     <button
                       type="button"
-                      onClick={() => setPhotos(photos.filter((_, i) => i !== idx))}
+                      onClick={() => removePhoto(idx)}
                       className="absolute inset-0 flex items-center justify-center bg-black/50 text-white opacity-0 transition-opacity hover:opacity-100"
                     >
                       ✕
@@ -181,8 +255,8 @@ export default function SellCarForm() {
         <div className="mb-6 border border-status-reserved/30 bg-status-reserved/5 p-4">
           <p className="font-sans text-sm text-status-reserved">
             Odeslání se nezdařilo. Zkuste to prosím znovu nebo nám zavolejte na{" "}
-            <a href="tel:+420777123456" className="underline">
-              +420 777 123 456
+            <a href="tel:+420704901148" className="underline">
+              +420 704 901 148
             </a>
             .
           </p>
@@ -193,10 +267,14 @@ export default function SellCarForm() {
       <div className="flex flex-col gap-6">
         <button
           type="submit"
-          disabled={status === "submitting"}
+          disabled={status === "submitting" || photos.some((p) => p.uploading)}
           className="w-full bg-graphite px-8 py-4 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent disabled:opacity-50 sm:py-3.5"
         >
-          {status === "submitting" ? "Odesílám…" : "Odeslat vůz k posouzení"}
+          {status === "submitting"
+            ? "Odesílám…"
+            : photos.some((p) => p.uploading)
+              ? "Nahrávám fotky…"
+              : "Odeslat vůz k posouzení"}
         </button>
         <p className="text-center font-sans text-xs text-graphite-faint">
           Odesláním formuláře nevzniká žádný závazek k prodeji vozu.

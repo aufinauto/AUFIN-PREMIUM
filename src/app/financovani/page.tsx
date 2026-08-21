@@ -139,8 +139,8 @@ export default async function FinancovaniPage({
               <p className="mt-5 max-w-md text-[17px] leading-relaxed text-graphite-soft">
                 Vyplňte formulář a do 24 hodin se vám ozveme s orientační
                 nabídkou financování. Preferujete telefon? Zavolejte nám na{" "}
-                <a href="tel:+420777123456" className="underline-reveal text-graphite">
-                  +420 777 123 456
+                <a href="tel:+420704901148" className="underline-reveal text-graphite">
+                  +420 704 901 148
                 </a>{" "}
                 nebo napište na{" "}
                 <a href="mailto:info@aufin.cz" className="underline-reveal text-graphite">

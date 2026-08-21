@@ -68,10 +68,10 @@ export default function KontaktPage() {
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
                   <a
-                    href="tel:+420777123456"
+                    href="tel:+420704901148"
                     className="underline-reveal font-display text-xl text-graphite"
                   >
-                    +420 777 123 456
+                    +420 704 901 148
                   </a>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
@@ -92,7 +92,7 @@ export default function KontaktPage() {
                     <polyline points="9 22 9 12 15 12 15 22" />
                   </svg>
                   <a
-                    href="https://wa.me/420777123456"
+                    href="https://wa.me/420704901148"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline-reveal font-display text-xl text-graphite"

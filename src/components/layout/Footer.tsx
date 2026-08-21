@@ -20,8 +20,8 @@ const columns = [
     title: "Kontakt",
     links: [
       {
-        href: "tel:+420777123456",
-        label: "+420 777 123 456",
+        href: "tel:+420704901148",
+        label: "+420 704 901 148",
         icon: "phone"
       },
       {
@@ -30,7 +30,7 @@ const columns = [
         icon: "email"
       },
       {
-        href: "https://wa.me/420777123456",
+        href: "https://wa.me/420704901148",
         label: "WhatsApp",
         external: true,
         icon: "whatsapp"

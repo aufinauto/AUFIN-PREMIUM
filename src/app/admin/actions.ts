@@ -6,7 +6,8 @@ import { revalidatePath } from "next/cache";
 import { ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
 import { createCar, deleteCar, updateCar } from "@/lib/cars-data";
 import { addEquipmentOptions } from "@/lib/equipmentOptions";
-import { CAR_PHOTOS_BUCKET, supabaseAdmin } from "@/lib/supabaseClient";
+import { CAR_PHOTOS_BUCKET } from "@/lib/supabaseClient";
+import { createSignedUploadUrls, type UploadTarget } from "@/lib/uploadUrls";
 import { slugify } from "@/lib/utils";
 import type { Car, EquipmentGroup } from "@/lib/types";
 
@@ -16,36 +17,11 @@ export async function logoutAction() {
   redirect("/admin/login");
 }
 
-// Generates short-lived signed upload URLs so the browser can upload photos
-// straight to Supabase Storage — bypassing Vercel's serverless function
-// entirely (which has a hard ~4.5MB request body limit, far too small for
-// a batch of full-size phone photos).
 export async function createUploadUrls(
   folder: string,
   fileNames: string[]
-): Promise<
-  { fileName: string; signedUrl: string; token: string; publicUrl: string }[]
-> {
-  const safeFolder = folder.replace(/[^a-zA-Z0-9-]/g, "-") || "new";
-  const results = [];
-  for (const fileName of fileNames) {
-    const safeName = fileName.replace(/[^a-zA-Z0-9.\-]/g, "_");
-    const path = `${safeFolder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
-    const { data, error } = await supabaseAdmin.storage
-      .from(CAR_PHOTOS_BUCKET)
-      .createSignedUploadUrl(path);
-    if (error) {
-      throw new Error(`Nepodařilo se připravit nahrání pro "${fileName}": ${error.message}`);
-    }
-    const { data: pub } = supabaseAdmin.storage.from(CAR_PHOTOS_BUCKET).getPublicUrl(path);
-    results.push({
-      fileName,
-      signedUrl: data.signedUrl,
-      token: data.token,
-      publicUrl: pub.publicUrl,
-    });
-  }
-  return results;
+): Promise<UploadTarget[]> {
+  return createSignedUploadUrls(CAR_PHOTOS_BUCKET, folder, fileNames);
 }
 
 const VAT_RATE = 1.21;

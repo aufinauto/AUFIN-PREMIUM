@@ -82,7 +82,7 @@ export default function ContactForm() {
                 </button>
               ))}
             </div>
-            <input type="hidden" id="c-type" name="type" value={type} />
+            <input type="hidden" id="c-type" name="inquiryType" value={type} />
           </Field>
         </div>
 

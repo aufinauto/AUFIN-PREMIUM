@@ -88,10 +88,10 @@ export default function MobileMenu({ open, onClose, links }: MobileMenuProps) {
               Nabídnout vůz
             </Link>
             <a
-              href="tel:+420777123456"
+              href="tel:+420704901148"
               className="text-center font-sans text-sm text-graphite-soft"
             >
-              +420 777 123 456
+              +420 704 901 148
             </a>
           </motion.div>
         </motion.div>
