@@ -16,6 +16,38 @@ export async function logoutAction() {
   redirect("/admin/login");
 }
 
+// Generates short-lived signed upload URLs so the browser can upload photos
+// straight to Supabase Storage — bypassing Vercel's serverless function
+// entirely (which has a hard ~4.5MB request body limit, far too small for
+// a batch of full-size phone photos).
+export async function createUploadUrls(
+  folder: string,
+  fileNames: string[]
+): Promise<
+  { fileName: string; signedUrl: string; token: string; publicUrl: string }[]
+> {
+  const safeFolder = folder.replace(/[^a-zA-Z0-9-]/g, "-") || "new";
+  const results = [];
+  for (const fileName of fileNames) {
+    const safeName = fileName.replace(/[^a-zA-Z0-9.\-]/g, "_");
+    const path = `${safeFolder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
+    const { data, error } = await supabaseAdmin.storage
+      .from(CAR_PHOTOS_BUCKET)
+      .createSignedUploadUrl(path);
+    if (error) {
+      throw new Error(`Nepodařilo se připravit nahrání pro "${fileName}": ${error.message}`);
+    }
+    const { data: pub } = supabaseAdmin.storage.from(CAR_PHOTOS_BUCKET).getPublicUrl(path);
+    results.push({
+      fileName,
+      signedUrl: data.signedUrl,
+      token: data.token,
+      publicUrl: pub.publicUrl,
+    });
+  }
+  return results;
+}
+
 const VAT_RATE = 1.21;
 
 function parseMoney(formData: FormData, key: string): number | undefined {
@@ -61,24 +93,6 @@ export async function saveCarAction(
     equipment = JSON.parse(String(formData.get("equipmentJson") ?? "[]"));
   } catch {
     equipment = [];
-  }
-
-  const newFiles = formData
-    .getAll("newPhotos")
-    .filter((f): f is File => f instanceof File && f.size > 0);
-
-  for (const file of newFiles) {
-    const safeName = file.name.replace(/[^a-zA-Z0-9.\-]/g, "_");
-    const path = `${slug}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const { error: uploadError } = await supabaseAdmin.storage
-      .from(CAR_PHOTOS_BUCKET)
-      .upload(path, buffer, { contentType: file.type || "image/jpeg", upsert: false });
-    if (uploadError) {
-      return { error: `Nahrání fotky "${file.name}" selhalo: ${uploadError.message}` };
-    }
-    const { data: pub } = supabaseAdmin.storage.from(CAR_PHOTOS_BUCKET).getPublicUrl(path);
-    photos.push(pub.publicUrl);
   }
 
   const description = String(formData.get("description") ?? "")

@@ -27,6 +27,7 @@ export default function CarForm({
   equipmentOptions?: Record<string, string[]>;
 }) {
   const router = useRouter();
+  const [uploadFolder] = useState(() => car?.slug ?? crypto.randomUUID());
   const [photos, setPhotos] = useState<string[]>(car?.photos ?? []);
   const [equipment, setEquipment] = useState<EquipmentGroup[]>(car?.equipment ?? []);
   const [tags, setTags] = useState<string[]>(car?.tags ?? []);
@@ -239,7 +240,7 @@ export default function CarForm({
       <section>
         <h2 className="font-display text-xl text-graphite">Fotky</h2>
         <div className="mt-5">
-          <PhotoManager photos={photos} onChange={setPhotos} />
+          <PhotoManager photos={photos} onChange={setPhotos} folder={uploadFolder} />
         </div>
       </section>
 

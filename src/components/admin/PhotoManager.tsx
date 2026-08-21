@@ -1,14 +1,22 @@
 "use client";
 
+import { useRef, useState } from "react";
 import PhotoImage from "@/components/ui/PhotoImage";
+import { createUploadUrls } from "@/app/admin/actions";
 
 export default function PhotoManager({
   photos,
   onChange,
+  folder,
 }: {
   photos: string[];
   onChange: (next: string[]) => void;
+  folder: string;
 }) {
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   function move(index: number, dir: -1 | 1) {
     const next = [...photos];
     const target = index + dir;
@@ -19,6 +27,47 @@ export default function PhotoManager({
 
   function remove(index: number) {
     onChange(photos.filter((_, i) => i !== index));
+  }
+
+  async function handleFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (files.length === 0) return;
+
+    setError(null);
+    setProgress({ done: 0, total: files.length });
+
+    const uploaded: string[] = [];
+    try {
+      const uploadTargets = await createUploadUrls(
+        folder,
+        files.map((f) => f.name)
+      );
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const target = uploadTargets[i];
+        const res = await fetch(target.signedUrl, {
+          method: "PUT",
+          headers: { "Content-Type": file.type || "application/octet-stream" },
+          body: file,
+        });
+        if (!res.ok) {
+          throw new Error(`Nahrání fotky "${file.name}" selhalo (${res.status}).`);
+        }
+        uploaded.push(target.publicUrl);
+        onChange([...photos, ...uploaded]);
+        setProgress({ done: i + 1, total: files.length });
+      }
+    } catch (e) {
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Nahrání fotek se nezdařilo. Zkuste to prosím znovu."
+      );
+    } finally {
+      setProgress(null);
+    }
   }
 
   return (
@@ -72,12 +121,22 @@ export default function PhotoManager({
           Přidat nové fotky
         </label>
         <input
+          ref={fileInputRef}
           type="file"
-          name="newPhotos"
           multiple
           accept="image/*"
-          className="mt-2 block w-full font-sans text-sm text-graphite file:mr-4 file:border file:border-graphite/25 file:bg-white file:px-4 file:py-2 file:font-sans file:text-sm file:text-graphite hover:file:border-graphite"
+          onChange={handleFilesSelected}
+          disabled={progress !== null}
+          className="mt-2 block w-full font-sans text-sm text-graphite file:mr-4 file:border file:border-graphite/25 file:bg-white file:px-4 file:py-2 file:font-sans file:text-sm file:text-graphite hover:file:border-graphite disabled:opacity-50"
         />
+        {progress ? (
+          <p className="mt-2 font-sans text-sm text-graphite-soft">
+            Nahrávám fotku {progress.done + 1} z {progress.total}…
+          </p>
+        ) : null}
+        {error ? (
+          <p className="mt-2 font-sans text-sm text-status-reserved">{error}</p>
+        ) : null}
       </div>
     </div>
   );
