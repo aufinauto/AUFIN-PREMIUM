@@ -44,8 +44,9 @@ const steps = [
 ];
 
 const whatWeBuy = [
-  "Doplacené i financované vozy — pomůžeme vyplatit zůstatek úvěru nebo leasingu",
   "Osobní automobily napříč značkami, palivy i kategoriemi",
+  "Prémiové a sportovní vozy — naše dlouhodobá specializace",
+  "Doplacené i financované vozy — pomůžeme vyplatit zůstatek úvěru nebo leasingu",
   "Vozy k okamžitému výkupu i jako protiúčet při koupi jiného vozu z naší nabídky",
 ];
 
@@ -214,14 +215,6 @@ export default function VykupVozidelPage() {
                 </h2>
               </Reveal>
               <Reveal delay={0.1}>
-                <p className="mt-5 max-w-md text-[17px] leading-relaxed text-graphite-soft">
-                  Ať už jde o běžný rodinný vůz, nebo prémiový a sportovní
-                  automobil, rádi ho posoudíme. Na prémiové a sportovní vozy
-                  se navíc dlouhodobě specializujeme, takže jejich hodnotu
-                  dokážeme ocenit obzvlášť přesně.
-                </p>
-              </Reveal>
-              <Reveal delay={0.15}>
                 <ul className="mt-8 space-y-3">
                   {whatWeBuy.map((b) => (
                     <li key={b} className="flex items-start gap-3">
@@ -297,7 +290,7 @@ export default function VykupVozidelPage() {
         <Reveal className="mb-10 text-center">
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-accent">Nezávazná poptávka</p>
           <h2 className="mt-4 font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-            Nechte si vůz ocenit
+            Nechte si vůz nacenit
           </h2>
         </Reveal>
         <SellCarForm />
