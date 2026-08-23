@@ -11,7 +11,7 @@ export default function TradeInBlock() {
         </p>
       </div>
       <Link
-        href="/prodej-vozu"
+        href="/vykup-vozidel"
         className="inline-flex shrink-0 items-center justify-center bg-accent px-6 py-3 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors hover:bg-graphite"
       >
         Nabídnout vůz

@@ -22,8 +22,8 @@ export default function Hero() {
     >
       {/* Desktop */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.06 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ scale: 1.06 }}
+        animate={{ scale: 1 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ y: parallaxY, scale }}
         className="absolute inset-0 hidden lg:block"
@@ -33,15 +33,15 @@ export default function Hero() {
           alt="Sportovní vůz na lesní silnici"
           priority
           sizes="100vw"
-          unoptimized
+          unoptimized={false}
           className="h-full w-full object-cover"
         />
       </motion.div>
 
       {/* Tablet/MacBook */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.06 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ scale: 1.06 }}
+        animate={{ scale: 1 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ y: parallaxY, scale }}
         className="absolute inset-0 hidden md:block lg:hidden"
@@ -51,15 +51,15 @@ export default function Hero() {
           alt="Sportovní vůz"
           priority
           sizes="100vw"
-          unoptimized
+          unoptimized={false}
           className="h-full w-full object-cover"
         />
       </motion.div>
 
       {/* Mobile */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.06 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ scale: 1.06 }}
+        animate={{ scale: 1 }}
         transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         style={{ y: parallaxY, scale }}
         className="absolute inset-0 md:hidden"
@@ -69,7 +69,7 @@ export default function Hero() {
           alt="Sportovní vůz"
           priority
           sizes="100vw"
-          unoptimized
+          unoptimized={false}
           className="h-full w-full object-cover"
         />
       </motion.div>
@@ -124,7 +124,7 @@ export default function Hero() {
                   Prohlédnout vozy
                 </Link>
                 <Link
-                  href="/prodej-vozu"
+                  href="/vykup-vozidel"
                   className="inline-flex items-center justify-center border border-white/35 px-7 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:border-white"
                 >
                   Nabídnout svůj vůz

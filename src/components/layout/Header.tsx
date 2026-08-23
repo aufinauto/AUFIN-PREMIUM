@@ -11,7 +11,7 @@ import type { Car } from "@/lib/types";
 const NAV_LINKS = [
   { href: "/vozy", label: "Vozy" },
   { href: "/financovani", label: "Financování" },
-  { href: "/prodej-vozu", label: "Prodej vašeho vozu" },
+  { href: "/vykup-vozidel", label: "Výkup vozidel" },
   { href: "/o-nas", label: "O nás" },
   { href: "/kontakt", label: "Kontakt" },
 ];
@@ -75,7 +75,7 @@ export default function Header({ cars }: { cars: Car[] }) {
           <div className="flex items-center gap-1 sm:gap-2">
             <HeaderSearch cars={cars} />
             <Link
-              href="/prodej-vozu"
+              href="/vykup-vozidel"
               className="ml-2 hidden items-center rounded-full border border-accent/50 px-5 py-2.5 font-sans text-[13px] uppercase tracking-[0.1em] text-accent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white lg:inline-flex"
             >
               Nabídnout vůz

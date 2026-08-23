@@ -4,11 +4,17 @@ import Reveal from "@/components/ui/Reveal";
 import PhotoImage from "@/components/ui/PhotoImage";
 import { StaggerGroup, StaggerItem } from "@/components/ui/StaggerReveal";
 
+const description =
+  "Specializujeme se na sportovní, prémiové a zajímavé automobily. Nabídku nestavíme na množství, ale na pečlivém výběru.";
+
 export const metadata: Metadata = {
   title: "O nás",
-  description:
-    "Specializujeme se na sportovní, prémiové a zajímavé automobily. Nabídku nestavíme na množství, ale na pečlivém výběru.",
+  description,
   alternates: { canonical: "/o-nas" },
+  openGraph: {
+    title: "O nás | ICONcars",
+    description,
+  },
 };
 
 const values = [

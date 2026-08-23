@@ -3,11 +3,17 @@ import Reveal from "@/components/ui/Reveal";
 import PhotoImage from "@/components/ui/PhotoImage";
 import ContactForm from "@/components/contact/ContactForm";
 
+const description =
+  "Kontaktujte nás. Vozy si můžete prohlédnout v partnerském showroomu SilverCars v pražském Karlíně. Telefon, e-mail, otevírací doba a formulář.";
+
 export const metadata: Metadata = {
   title: "Kontakt",
-  description:
-    "Kontaktujte nás. Vozy si můžete prohlédnout v partnerském showroomu SilverCars v pražském Karlíně. Telefon, e-mail, otevírací doba a formulář.",
+  description,
   alternates: { canonical: "/kontakt" },
+  openGraph: {
+    title: "Kontakt | ICONcars",
+    description,
+  },
 };
 
 export default function KontaktPage() {

@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/prodej-vozu",
+        destination: "/vykup-vozidel",
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     serverActions: {
       // Default is 1MB — too small for photo uploads (admin photo manager

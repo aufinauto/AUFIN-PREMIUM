@@ -10,7 +10,7 @@ const columns = [
     links: [
       { href: "/vozy", label: "Vozy" },
       { href: "/financovani", label: "Financování" },
-      { href: "/prodej-vozu", label: "Prodej vozu" },
+      { href: "/vykup-vozidel", label: "Výkup vozidel" },
       { href: "/o-nas", label: "O nás" },
       { href: "/kontakt", label: "Kontakt" },
     ],
@@ -35,7 +35,7 @@ const columns = [
         icon: "whatsapp"
       },
       {
-        href: "https://instagram.com",
+        href: "https://www.instagram.com/iconcars.cz/",
         label: "Instagram",
         external: true,
         icon: "instagram"

@@ -18,7 +18,7 @@ export default function SellCarSection() {
         <div className="px-6 py-8 lg:px-16 lg:py-0">
           <Reveal>
             <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">
-              Prodej vozu
+              Výkup vozidel
             </p>
           </Reveal>
           <Reveal delay={0.05}>
@@ -34,7 +34,7 @@ export default function SellCarSection() {
           </Reveal>
           <Reveal delay={0.18} className="mt-9">
             <Link
-              href="/prodej-vozu"
+              href="/vykup-vozidel"
               className="inline-flex items-center justify-center bg-accent px-7 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:bg-graphite"
             >
               Nabídnout vůz

@@ -80,7 +80,7 @@ export default function MobileMenu({ open, onClose, links }: MobileMenuProps) {
             className="flex flex-col gap-4 px-6 pb-10"
           >
             <Link
-              href="/prodej-vozu"
+              href="/vykup-vozidel"
               onClick={onClose}
               className="flex items-center justify-center border border-graphite bg-graphite px-6 py-4 font-sans text-sm uppercase tracking-[0.1em] text-white"
             >

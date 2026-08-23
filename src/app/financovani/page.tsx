@@ -5,11 +5,17 @@ import PhotoImage from "@/components/ui/PhotoImage";
 import FinanceCalculator from "@/components/finance/FinanceCalculator";
 import FinanceForm from "@/components/finance/FinanceForm";
 
+const description =
+  "Financování vozu podle vašich možností. Spolupracujeme s bankovními a finančními partnery a připravíme individuální nabídku.";
+
 export const metadata: Metadata = {
   title: "Financování",
-  description:
-    "Financování vozu podle vašich možností. Spolupracujeme s bankovními a finančními partnery a připravíme individuální nabídku.",
+  description,
   alternates: { canonical: "/financovani" },
+  openGraph: {
+    title: "Financování | ICONcars",
+    description,
+  },
 };
 
 const benefits = [

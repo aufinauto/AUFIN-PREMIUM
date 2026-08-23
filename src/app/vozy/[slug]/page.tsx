@@ -20,6 +20,7 @@ import InterestForm from "@/components/cars/InterestForm";
 import FinanceCalculator from "@/components/finance/FinanceCalculator";
 import Reveal from "@/components/ui/Reveal";
 import Index from "@/components/ui/Index";
+import { SITE_URL } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -74,11 +75,24 @@ export default async function CarDetailPage({
     },
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Vozy", item: `${SITE_URL}/vozy` },
+      { "@type": "ListItem", position: 2, name },
+    ],
+  };
+
   return (
     <div className="pb-24 lg:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <div className="mx-auto max-w-[1440px] px-6 pt-8 lg:px-10">
