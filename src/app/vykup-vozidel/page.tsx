@@ -3,6 +3,7 @@ import Reveal from "@/components/ui/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/ui/StaggerReveal";
 import SellCarForm from "@/components/sell/SellCarForm";
 import PhotoImage from "@/components/ui/PhotoImage";
+import FaqAccordion from "@/components/ui/FaqAccordion";
 import { NAP } from "@/lib/site";
 
 const title = "Výkup vozidel Praha";
@@ -56,29 +57,10 @@ const priceFactors = [
   "Aktuální poptávka po daném modelu na trhu",
 ];
 
-const whyIcon = [
-  {
-    title: "Individuální posouzení",
-    text: "Žádné automatické online kalkulačky — každý vůz posuzujeme podle jeho skutečného stavu.",
-  },
-  {
-    title: "Transparentní jednání",
-    text: "Víte přesně, z čeho naše nabídka vychází, a odesláním poptávky se k ničemu nezavazujete.",
-  },
-  {
-    title: "Zkušenost s prémiovými vozy",
-    text: "Specializujeme se na prémiové, sportovní a zajímavé automobily — rozumíme jejich specifikům.",
-  },
-  {
-    title: "Řešíme i financování",
-    text: "Pokud vůz ještě splácíte, pomůžeme s vyřešením zůstatku úvěru nebo leasingu.",
-  },
-];
-
 const faqs = [
   {
     q: "Vykupujete i prémiová a sportovní vozidla?",
-    a: "Ano, na prémiové, sportovní a zajímavé automobily se dlouhodobě specializujeme — je to segment, kterému rozumíme nejlépe.",
+    a: "Ano — na prémiové a sportovní vozy se dlouhodobě specializujeme. Výkup ale rozhodně není jen pro ně, vykoupíme i běžné automobily libovolné značky.",
   },
   {
     q: "Jak rychle dokážete auto vykoupit?",
@@ -86,7 +68,7 @@ const faqs = [
   },
   {
     q: "Musím s autem přijet osobně?",
-    a: "K prvnímu posouzení stačí vyplnit formulář a přiložit fotografie vozu. Osobně se potkáme až při domlouvání finální nabídky a předání vozu.",
+    a: "Ne, k prvnímu posouzení stačí vyplnit formulář a přiložit fotografie vozu. Pokud vám to ale vyhovuje víc, klidně přijeďte i osobně — domluvíme se individuálně.",
   },
   {
     q: "Jaké dokumenty budu k výkupu potřebovat?",
@@ -151,15 +133,15 @@ export default function VykupVozidelPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-md text-[17px] leading-relaxed text-graphite-soft">
-              Nabídneme vám individuální výkupní cenu podle skutečného stavu
-              vozu — včetně prémiových, sportovních i financovaných
-              automobilů. Působíme v Praze i po celé ČR.
+              Individuální ocenění prémiových, sportovních i běžných vozů.
+              Výkup vyřešíme rychle, bezpečně a včetně veškeré
+              administrativy.
             </p>
           </Reveal>
 
           <Reveal delay={0.15} className="mt-10">
             <ul className="space-y-3">
-              {["Výkup i protiúčet", "Financovaná vozidla bez komplikací", "Nezávazné posouzení"].map((b) => (
+              {["Individuální ocenění vozu", "Peníze za vůz už do 1 pracovního dne", "Kompletní administrativu vyřešíme za vás"].map((b) => (
                 <li key={b} className="flex items-center gap-3">
                   <span className="h-px w-3 shrink-0 bg-accent" />
                   <span className="text-sm text-graphite-soft">{b}</span>
@@ -173,7 +155,7 @@ export default function VykupVozidelPage() {
               href="#poptavka"
               className="inline-flex items-center justify-center bg-graphite px-8 py-4 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:bg-accent"
             >
-              Nechat ocenit vůz
+              Nechat nacenit vůz
             </a>
           </Reveal>
         </div>
@@ -228,15 +210,15 @@ export default function VykupVozidelPage() {
               </Reveal>
               <Reveal delay={0.05}>
                 <h2 className="mt-4 max-w-md font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-                  Zaměřujeme se na to, čemu rozumíme nejlépe
+                  Vykupujeme vozidla všech značek a kategorií
                 </h2>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="mt-5 max-w-md text-[17px] leading-relaxed text-graphite-soft">
-                  Specializujeme se především na prémiové, sportovní a
-                  zajímavé automobily. Pokud si nejste jistí, zda váš vůz do
-                  tohoto profilu zapadá, napište nám — posoudíme ho
-                  individuálně.
+                  Ať už jde o běžný rodinný vůz, nebo prémiový a sportovní
+                  automobil, rádi ho posoudíme. Na prémiové a sportovní vozy
+                  se navíc dlouhodobě specializujeme, takže jejich hodnotu
+                  dokážeme ocenit obzvlášť přesně.
                 </p>
               </Reveal>
               <Reveal delay={0.15}>
@@ -281,32 +263,6 @@ export default function VykupVozidelPage() {
         </div>
       </div>
 
-      {/* WHY ICON SECTION */}
-      <section className="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-16">
-        <Reveal>
-          <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">
-            Proč prodat vůz přes ICON
-          </p>
-        </Reveal>
-        <Reveal delay={0.05}>
-          <h2 className="max-w-2xl font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-            Výkup vozidel v Praze s osobním přístupem
-          </h2>
-        </Reveal>
-
-        <StaggerGroup className="mt-14 grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
-          {whyIcon.map((v, i) => (
-            <StaggerItem key={v.title} className="flex flex-col">
-              <p className="font-display text-3xl font-normal text-graphite">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-4 font-display text-lg text-graphite">{v.title}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-graphite-soft">{v.text}</p>
-            </StaggerItem>
-          ))}
-        </StaggerGroup>
-      </section>
-
       {/* FAQ SECTION */}
       <div className="border-t border-stone-200 bg-stone-50">
         <div className="mx-auto max-w-[900px] px-6 py-10 lg:px-10 lg:py-16">
@@ -316,16 +272,9 @@ export default function VykupVozidelPage() {
             </h2>
           </Reveal>
 
-          <StaggerGroup className="space-y-8">
-            {faqs.map((f) => (
-              <StaggerItem key={f.q}>
-                <div className="border-b border-stone-200 pb-8">
-                  <h3 className="font-display text-lg text-graphite">{f.q}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-graphite-soft">{f.a}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
+          <Reveal delay={0.05}>
+            <FaqAccordion items={faqs} />
+          </Reveal>
 
           <Reveal delay={0.1} className="mt-10 text-center">
             <p className="text-[15px] text-graphite-soft">
