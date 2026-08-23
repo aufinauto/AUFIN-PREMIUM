@@ -6,10 +6,10 @@ import { getAllCars } from "@/lib/cars-data";
 export const metadata: Metadata = {
   title: "Vozy",
   description:
-    "Pečlivě vybrané automobily, které máme aktuálně v nabídce. Prohlédněte si prémiové a sportovní vozy Aufin.",
+    "Pečlivě vybrané automobily, které máme aktuálně v nabídce. Prohlédněte si prémiové a sportovní vozy ICONcars.",
   alternates: { canonical: "/vozy" },
   openGraph: {
-    title: "Vozy | Aufin",
+    title: "Vozy | ICONcars",
     description: "Pečlivě vybrané automobily, které máme aktuálně v nabídce.",
   },
 };

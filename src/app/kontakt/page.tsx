@@ -80,10 +80,10 @@ export default function KontaktPage() {
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                   </svg>
                   <a
-                    href="mailto:info@aufin.cz"
+                    href="mailto:zakaznik.iconcars@gmail.com"
                     className="underline-reveal font-display text-xl text-graphite"
                   >
-                    info@aufin.cz
+                    zakaznik.iconcars@gmail.com
                   </a>
                 </div>
                 <div className="mt-3 flex items-center gap-3">

@@ -28,14 +28,14 @@ export default function ContactSection() {
                 +420 704 901 148
               </a>
               <a
-                href="mailto:info@aufin.cz"
+                href="mailto:zakaznik.iconcars@gmail.com"
                 className="underline-reveal mt-2 flex items-center gap-2.5 font-display text-xl text-graphite"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-accent">
                   <path d="M4 6.5h16v11H4v-11Z" />
                   <path d="M4.5 7l7.5 6 7.5-6" />
                 </svg>
-                info@aufin.cz
+                zakaznik.iconcars@gmail.com
               </a>
               <a
                 href="https://wa.me/420704901148"

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
-import LogoMark from "@/components/ui/LogoMark";
 import HomeLogoLink from "@/components/ui/HomeLogoLink";
 
 interface NavLink {
@@ -38,10 +37,10 @@ export default function MobileMenu({ open, onClose, links }: MobileMenuProps) {
           <div className="flex h-20 items-center justify-between px-6">
             <HomeLogoLink
               onNavigate={onClose}
-              className="flex items-center gap-2.5 font-display text-xl italic text-graphite transition-opacity duration-300 hover:opacity-70"
+              className="flex items-center font-sans text-xl tracking-tight text-graphite transition-opacity duration-300 hover:opacity-70"
             >
-              <LogoMark className="h-8 w-8" />
-              Aufin
+              <span className="font-extrabold">ICON</span>
+              <span className="font-light">cars</span>
             </HomeLogoLink>
             <button
               type="button"

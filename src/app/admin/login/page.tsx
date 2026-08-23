@@ -41,7 +41,10 @@ export default async function AdminLoginPage({
   return (
     <div className="flex min-h-screen items-center justify-center bg-graphite px-6">
       <form action={login} className="w-full max-w-sm bg-white p-8">
-        <h1 className="font-display text-2xl italic text-graphite">Aufin</h1>
+        <h1 className="font-sans text-2xl tracking-tight text-graphite">
+          <span className="font-extrabold">ICON</span>
+          <span className="font-light">cars</span>
+        </h1>
         <p className="mt-1 font-sans text-xs uppercase tracking-[0.14em] text-graphite-faint">
           Administrace
         </p>

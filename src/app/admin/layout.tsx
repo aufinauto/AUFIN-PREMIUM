@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: { absolute: "Administrace | Aufin" },
+  title: { absolute: "Administrace | ICONcars" },
   robots: { index: false, follow: false },
 };
 

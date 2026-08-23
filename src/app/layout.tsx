@@ -16,16 +16,16 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Aufin — Prémiové a sportovní automobily",
-    template: "%s | Aufin",
+    default: "ICONcars — Ikonická auta",
+    template: "%s | ICONcars",
   },
   description:
     "Pečlivě vybrané prémiové, sportovní a zajímavé automobily. Prodej, výkup a bankovní financování na jednom místě.",
   openGraph: {
     type: "website",
     locale: "cs_CZ",
-    siteName: "Aufin",
-    title: "Aufin — Prémiové a sportovní automobily",
+    siteName: "ICONcars",
+    title: "ICONcars — Ikonická auta",
     description:
       "Pečlivě vybrané prémiové, sportovní a zajímavé automobily. Prodej, výkup a bankovní financování na jednom místě.",
   },

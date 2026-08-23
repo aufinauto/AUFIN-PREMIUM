@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import LogoMark from "@/components/ui/LogoMark";
 import HomeLogoLink from "@/components/ui/HomeLogoLink";
 
 const columns = [
@@ -25,8 +24,8 @@ const columns = [
         icon: "phone"
       },
       {
-        href: "mailto:info@aufin.cz",
-        label: "info@aufin.cz",
+        href: "mailto:zakaznik.iconcars@gmail.com",
+        label: "zakaznik.iconcars@gmail.com",
         icon: "email"
       },
       {
@@ -54,9 +53,9 @@ export default function Footer() {
       <div className="mx-auto max-w-[1440px] px-6 py-12 lg:py-20 lg:px-10">
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-[1.6fr_1fr_1fr] lg:gap-14">
           <div className="col-span-2 lg:col-span-1">
-            <HomeLogoLink className="flex items-center gap-2.5 font-display text-2xl italic transition-opacity duration-300 hover:opacity-70">
-              <LogoMark className="h-9 w-9" variant="light" />
-              Aufin
+            <HomeLogoLink className="flex items-center font-sans text-[26px] tracking-tight transition-opacity duration-300 hover:opacity-70">
+              <span className="font-extrabold">ICON</span>
+              <span className="font-light">cars</span>
             </HomeLogoLink>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
               Pečlivě vybrané prémiové, sportovní a zajímavé automobily. Prodej,
@@ -104,7 +103,7 @@ export default function Footer() {
 
         <div className="mt-16 border-t border-white/10 pt-8 font-sans text-xs text-white/40">
           <p>
-            © {new Date().getFullYear()} Aufin. Všechna práva vyhrazena. —
+            © {new Date().getFullYear()} ICONcars. Všechna práva vyhrazena. —
             Dejvetech s.r.o., IČO 22491872, DIČ CZ22491872, Humpolecká 1886/26,
             Krč, 140 00 Praha, spisová značka C 417382/MSPH Městský soud v Praze{" "}
             <Link

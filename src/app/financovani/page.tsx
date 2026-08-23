@@ -143,8 +143,8 @@ export default async function FinancovaniPage({
                   +420 704 901 148
                 </a>{" "}
                 nebo napište na{" "}
-                <a href="mailto:info@aufin.cz" className="underline-reveal text-graphite">
-                  info@aufin.cz
+                <a href="mailto:zakaznik.iconcars@gmail.com" className="underline-reveal text-graphite">
+                  zakaznik.iconcars@gmail.com
                 </a>
                 .
               </p>

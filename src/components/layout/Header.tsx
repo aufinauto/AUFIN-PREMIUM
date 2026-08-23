@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import HeaderSearch from "./HeaderSearch";
 import MobileMenu from "./MobileMenu";
-import LogoMark from "@/components/ui/LogoMark";
 import HomeLogoLink from "@/components/ui/HomeLogoLink";
 import type { Car } from "@/lib/types";
 
@@ -56,9 +55,9 @@ export default function Header({ cars }: { cars: Car[] }) {
             scrolled ? "h-16" : "h-20"
           }`}
         >
-          <HomeLogoLink className="flex items-center gap-2.5 font-display text-[22px] italic tracking-tight text-graphite transition-opacity duration-300 hover:opacity-70">
-            <LogoMark className="h-8 w-8" />
-            Aufin
+          <HomeLogoLink className="flex items-center font-sans text-[21px] tracking-tight text-graphite transition-opacity duration-300 hover:opacity-70">
+            <span className="font-extrabold">ICON</span>
+            <span className="font-light">cars</span>
           </HomeLogoLink>
 
           <nav className="hidden items-center gap-9 lg:flex">

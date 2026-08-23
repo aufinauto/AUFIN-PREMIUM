@@ -6,9 +6,12 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const fontData = await readFile(
-    join(process.cwd(), "src/assets/fonts/PT_Serif-Italic.ttf")
-  );
+  const fontsDir = join(process.cwd(), "src/assets/fonts");
+  const [extraBold, light, medium] = await Promise.all([
+    readFile(join(fontsDir, "Poppins-ExtraBold.ttf")),
+    readFile(join(fontsDir, "Poppins-Light.ttf")),
+    readFile(join(fontsDir, "Poppins-Medium.ttf")),
+  ]);
 
   return new ImageResponse(
     (
@@ -17,40 +20,54 @@ export default async function OpengraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           background: "#fbfaf7",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 36 }}>
-          <svg width="130" height="130" viewBox="0 0 64 64" fill="none">
-            <circle cx="32" cy="32" r="28.5" stroke="#17181A" strokeWidth="1.3" opacity="0.85" />
-            <path d="M32 17 L16 47" stroke="#17181A" strokeWidth="3" strokeLinecap="round" />
-            <path d="M32 17 L48 47" stroke="#17181A" strokeWidth="5.2" strokeLinecap="round" />
-            <path d="M21.3 37 L40.5 33" stroke="#96703f" strokeWidth="3" strokeLinecap="round" />
-            <circle cx="32" cy="17" r="2.4" fill="#96703f" />
-          </svg>
+        <div style={{ display: "flex", alignItems: "baseline" }}>
           <div
             style={{
-              fontFamily: "PT Serif Italic",
-              fontStyle: "italic",
+              fontFamily: "Poppins ExtraBold",
               fontSize: 128,
+              letterSpacing: -2,
               color: "#17181A",
             }}
           >
-            Aufin
+            ICON
           </div>
+          <div
+            style={{
+              fontFamily: "Poppins Light",
+              fontSize: 128,
+              letterSpacing: -2,
+              color: "#8a8680",
+            }}
+          >
+            cars
+          </div>
+        </div>
+        <div
+          style={{
+            marginTop: 20,
+            fontFamily: "Poppins Medium",
+            fontSize: 22,
+            letterSpacing: 6,
+            textTransform: "uppercase",
+            color: "#96703f",
+          }}
+        >
+          Ikonická auta
         </div>
       </div>
     ),
     {
       ...size,
       fonts: [
-        {
-          name: "PT Serif Italic",
-          data: fontData,
-          style: "italic",
-        },
+        { name: "Poppins ExtraBold", data: extraBold, weight: 800, style: "normal" },
+        { name: "Poppins Light", data: light, weight: 300, style: "normal" },
+        { name: "Poppins Medium", data: medium, weight: 500, style: "normal" },
       ],
     }
   );

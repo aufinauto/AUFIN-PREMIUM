@@ -39,7 +39,7 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `/vozy/${car.slug}` },
-    openGraph: { title: `${title} | Aufin`, description },
+    openGraph: { title: `${title} | ICONcars`, description },
   };
 }
 

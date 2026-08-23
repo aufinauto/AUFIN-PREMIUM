@@ -56,7 +56,7 @@ export default function ONasPage() {
         <div className="aspect-[4/3] overflow-hidden lg:aspect-[16/9]">
           <PhotoImage
             src="/images/sections/about-showroom.jpg"
-            alt="Showroom Aufin"
+            alt="Showroom ICONcars"
             sizes="100vw"
             className="h-full w-full object-cover"
           />
