@@ -1,4 +1,7 @@
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iconcars.cz";
+// The live domain redirects iconcars.cz -> www.iconcars.cz (308), so the
+// canonical/sitemap/OG base must be the www version to avoid every URL
+// resolving through an extra redirect hop.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.iconcars.cz";
 
 export const NAP = {
   name: "ICONcars",
