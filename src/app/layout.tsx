@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -6,6 +7,7 @@ import MobileStickyCTA from "@/components/layout/MobileStickyCTA";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import { getAllCars } from "@/lib/cars-data";
 import { SITE_URL, NAP } from "@/lib/site";
+import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 
 // Car inventory changes at runtime via /admin — never prerender pages that
 // depend on it at build time (also avoids build-container network/clock
@@ -99,6 +101,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} strategy="afterInteractive" />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');`}
+        </Script>
         <Header cars={cars} />
         <main className="flex-1">{children}</main>
         <Footer />

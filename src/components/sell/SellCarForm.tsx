@@ -5,6 +5,7 @@ import { Field, Input, Textarea, CurrencyInput } from "@/components/ui/FormField
 import { submitLead } from "@/lib/submitLead";
 import { compressImage } from "@/lib/compressImage";
 import { createSellCarUploadUrls } from "@/app/actions/sellCarUpload";
+import { trackEvent } from "@/lib/analytics";
 import Reveal from "@/components/ui/Reveal";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -88,6 +89,7 @@ export default function SellCarForm() {
         photos: uploadedPhotoUrls,
       });
       setStatus("success");
+      trackEvent("generate_lead", { form_name: "vykup_vozidel" });
     } catch {
       setStatus("error");
     }
