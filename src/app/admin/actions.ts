@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
 import { createCar, deleteCar, updateCar } from "@/lib/cars-data";
 import { addEquipmentOptions } from "@/lib/equipmentOptions";
+import { fetchSautoEquipment } from "@/lib/sautoImport";
 import { CAR_PHOTOS_BUCKET } from "@/lib/supabaseClient";
 import { createSignedUploadUrls, type UploadTarget } from "@/lib/uploadUrls";
 import { slugify } from "@/lib/utils";
@@ -130,6 +131,20 @@ export async function saveCarAction(
   revalidatePath("/admin");
   revalidatePath("/");
   redirect("/admin");
+}
+
+export async function importSautoEquipmentAction(
+  url: string
+): Promise<{ error: string } | { equipment: EquipmentGroup[] }> {
+  try {
+    const equipment = await fetchSautoEquipment(url);
+    if (equipment.length === 0) {
+      return { error: "Na této stránce se nepodařilo najít žádnou výbavu." };
+    }
+    return { equipment };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "Načtení výbavy se nezdařilo." };
+  }
 }
 
 export async function deleteCarAction(id: string) {

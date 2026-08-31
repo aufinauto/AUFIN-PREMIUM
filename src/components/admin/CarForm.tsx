@@ -13,7 +13,7 @@ import {
   transmissionLabels,
 } from "@/lib/utils";
 import { generateDescription } from "@/lib/generateDescription";
-import { saveCarAction } from "@/app/admin/actions";
+import { saveCarAction, importSautoEquipmentAction } from "@/app/admin/actions";
 import EquipmentEditor from "./EquipmentEditor";
 import PhotoManager from "./PhotoManager";
 import TagsEditor from "./TagsEditor";
@@ -36,6 +36,9 @@ export default function CarForm({
   const [price, setPrice] = useState(car?.price ? String(car.price) : "");
   const [description, setDescription] = useState(car?.description.join("\n") ?? "");
   const [genError, setGenError] = useState<string | null>(null);
+  const [sautoUrl, setSautoUrl] = useState("");
+  const [sautoLoading, setSautoLoading] = useState(false);
+  const [sautoError, setSautoError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -78,6 +81,36 @@ export default function CarForm({
       equipment,
     });
     setDescription(generated.join("\n"));
+  }
+
+  async function handleImportSauto() {
+    const url = sautoUrl.trim();
+    if (!url) return;
+    setSautoLoading(true);
+    setSautoError(null);
+
+    const result = await importSautoEquipmentAction(url);
+    setSautoLoading(false);
+
+    if ("error" in result) {
+      setSautoError(result.error);
+      return;
+    }
+
+    // Merge into what's already checked, don't replace it.
+    setEquipment((prev) => {
+      const next = prev.map((g) => ({ ...g, items: [...g.items] }));
+      for (const group of result.equipment) {
+        const existing = next.find((g) => g.category === group.category);
+        if (existing) {
+          existing.items = Array.from(new Set([...existing.items, ...group.items]));
+        } else {
+          next.push({ ...group });
+        }
+      }
+      return next;
+    });
+    setSautoUrl("");
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -282,6 +315,29 @@ export default function CarForm({
 
       <section>
         <h2 className="font-display text-xl text-graphite">Výbava</h2>
+        <p className="mt-1 font-sans text-xs text-graphite-faint">
+          Umí doplnit výbavu z odkazu na inzerát sauto.cz — přidá se k tomu, co je už zaškrtnuté.
+        </p>
+        <div className="mt-3 flex gap-2">
+          <input
+            type="url"
+            value={sautoUrl}
+            onChange={(e) => setSautoUrl(e.target.value)}
+            placeholder="https://www.sauto.cz/osobni/detail/..."
+            className="w-full border border-stone-200 bg-transparent px-3 py-2 font-sans text-[13px] text-graphite placeholder:text-graphite-faint focus:border-graphite focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={handleImportSauto}
+            disabled={sautoLoading || !sautoUrl.trim()}
+            className="shrink-0 border border-graphite/25 px-4 py-2 font-sans text-xs uppercase tracking-[0.08em] text-graphite hover:border-graphite disabled:opacity-50"
+          >
+            {sautoLoading ? "Načítám…" : "Načíst ze Sauto"}
+          </button>
+        </div>
+        {sautoError ? (
+          <p className="mt-2 font-sans text-xs text-status-reserved">{sautoError}</p>
+        ) : null}
         <div className="mt-5">
           <EquipmentEditor value={equipment} onChange={setEquipment} options={equipmentOptions} />
         </div>

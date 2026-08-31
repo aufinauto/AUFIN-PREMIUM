@@ -23,7 +23,8 @@ export interface EquipmentGroup {
     | "Asistenti"
     | "Sport"
     | "Exteriér"
-    | "Interiér";
+    | "Interiér"
+    | "Ostatní";
   items: string[];
 }
 
