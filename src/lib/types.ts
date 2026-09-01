@@ -17,14 +17,17 @@ export type BodyType =
 
 export interface EquipmentGroup {
   category:
-    | "Komfort"
-    | "Technologie"
-    | "Bezpečnost"
-    | "Asistenti"
-    | "Sport"
-    | "Exteriér"
-    | "Interiér"
-    | "Ostatní";
+    | "Bezpečnostní systémy"
+    | "Asistenční systémy"
+    | "Zabezpečení vozidla"
+    | "Vnitřní výbava a komfort"
+    | "Palubní systémy a konektivita"
+    | "Sedadla"
+    | "Světelná technika"
+    | "Vnější výbava"
+    | "Pohon a podvozek"
+    | "Ostatní"
+    | "Speciální";
   items: string[];
 }
 

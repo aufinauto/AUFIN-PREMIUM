@@ -7,17 +7,22 @@ import type { EquipmentGroup } from "./types";
 const ROW_REGEX =
   /<th[^>]*class="[^"]*__equipment-label[^"]*"[^>]*>([\s\S]*?)<\/th>\s*<td[^>]*class="[^"]*__equipment-value[^"]*"[^>]*>([\s\S]*?)<\/td>/g;
 
-// Sauto's own category labels, mapped onto ours — best-effort only, since
-// the admin UI shows equipment as one flat list regardless of category.
-const CATEGORY_MAP: Record<string, EquipmentGroup["category"]> = {
-  "Bezpečnostní systémy": "Bezpečnost",
-  "Zabezpečení vozidla": "Bezpečnost",
-  "Asistenční systémy": "Asistenti",
-  "Vnitřní výbava a komfort": "Komfort",
-  "Info-zábavní systém": "Technologie",
-  Multimédia: "Technologie",
-  Karoserie: "Exteriér",
-};
+// Our EquipmentGroup categories were deliberately named to match Sauto's own
+// labels verbatim (see src/lib/types.ts) — so a recognized label is used
+// as-is; anything unexpected (a new Sauto category we don't know about)
+// falls back to "Ostatní" instead of being dropped.
+const KNOWN_CATEGORIES: EquipmentGroup["category"][] = [
+  "Bezpečnostní systémy",
+  "Asistenční systémy",
+  "Zabezpečení vozidla",
+  "Vnitřní výbava a komfort",
+  "Palubní systémy a konektivita",
+  "Sedadla",
+  "Světelná technika",
+  "Vnější výbava",
+  "Pohon a podvozek",
+  "Ostatní",
+];
 
 function stripTags(html: string): string {
   return html
@@ -61,7 +66,9 @@ export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]
       .filter(Boolean);
     if (items.length === 0) continue;
 
-    const category = CATEGORY_MAP[rawLabel] ?? "Ostatní";
+    const category = (KNOWN_CATEGORIES as string[]).includes(rawLabel)
+      ? (rawLabel as EquipmentGroup["category"])
+      : "Ostatní";
     const existing = groups.find((g) => g.category === category);
     if (existing) {
       existing.items = Array.from(new Set([...existing.items, ...items]));

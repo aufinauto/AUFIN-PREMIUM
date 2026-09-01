@@ -1,12 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { EquipmentGroup } from "@/lib/types";
 
-// Category is still tracked per item under the hood (kept for the shared
-// equipment_options catalog in Supabase), just not surfaced here — the
-// admin sees one flat, checkable list instead of category sections.
-const FALLBACK_CATEGORY: EquipmentGroup["category"] = "Ostatní";
+const CATEGORIES: EquipmentGroup["category"][] = [
+  "Bezpečnostní systémy",
+  "Asistenční systémy",
+  "Zabezpečení vozidla",
+  "Vnitřní výbava a komfort",
+  "Palubní systémy a konektivita",
+  "Sedadla",
+  "Světelná technika",
+  "Vnější výbava",
+  "Pohon a podvozek",
+  "Ostatní",
+  "Speciální",
+];
+
+// Custom items added by hand here (not picked from the known catalog) go
+// into their own category — no need to make the admin pick one each time.
+const CUSTOM_ITEM_CATEGORY: EquipmentGroup["category"] = "Speciální";
+
+function normalize(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+}
 
 export default function EquipmentEditor({
   value,
@@ -17,31 +37,22 @@ export default function EquipmentEditor({
   onChange: (next: EquipmentGroup[]) => void;
   options: Record<string, string[]>;
 }) {
-  const [draft, setDraft] = useState("");
+  const [search, setSearch] = useState("");
   const [localOptions, setLocalOptions] = useState<Record<string, string[]>>(options);
+  const [newItem, setNewItem] = useState("");
 
-  const itemToCategory = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const [category, items] of Object.entries(localOptions)) {
-      for (const item of items) map.set(item, category);
-    }
-    for (const group of value) {
-      for (const item of group.items) {
-        if (!map.has(item)) map.set(item, group.category);
-      }
-    }
-    return map;
-  }, [localOptions, value]);
+  const getItems = (category: string) => value.find((g) => g.category === category)?.items ?? [];
 
-  const checkedItems = useMemo(() => new Set(value.flatMap((g) => g.items)), [value]);
+  const getAvailableItems = (category: string) => {
+    const known = localOptions[category] ?? [];
+    const current = getItems(category);
+    const all = Array.from(new Set([...known, ...current])).sort((a, b) => a.localeCompare(b, "cs"));
+    const query = normalize(search.trim());
+    if (!query) return all;
+    return all.filter((item) => normalize(item).includes(query));
+  };
 
-  const allItems = useMemo(() => {
-    const set = new Set<string>([...itemToCategory.keys(), ...checkedItems]);
-    return Array.from(set).sort((a, b) => a.localeCompare(b, "cs"));
-  }, [itemToCategory, checkedItems]);
-
-  function toggleItem(item: string, checked: boolean) {
-    const category = (itemToCategory.get(item) ?? FALLBACK_CATEGORY) as EquipmentGroup["category"];
+  function toggleItem(category: EquipmentGroup["category"], item: string, checked: boolean) {
     if (checked) {
       const existing = value.find((g) => g.category === category);
       const next = existing
@@ -59,62 +70,91 @@ export default function EquipmentEditor({
     }
   }
 
-  function addItem() {
-    const text = draft.trim();
+  function addNewItem() {
+    const text = newItem.trim();
     if (!text) return;
-    if (!checkedItems.has(text)) toggleItem(text, true);
+    if (!getItems(CUSTOM_ITEM_CATEGORY).includes(text)) {
+      toggleItem(CUSTOM_ITEM_CATEGORY, text, true);
+    }
     setLocalOptions((o) => ({
       ...o,
-      [FALLBACK_CATEGORY]: o[FALLBACK_CATEGORY]?.includes(text)
-        ? o[FALLBACK_CATEGORY]
-        : [...(o[FALLBACK_CATEGORY] ?? []), text],
+      [CUSTOM_ITEM_CATEGORY]: o[CUSTOM_ITEM_CATEGORY]?.includes(text)
+        ? o[CUSTOM_ITEM_CATEGORY]
+        : [...(o[CUSTOM_ITEM_CATEGORY] ?? []), text],
     }));
-    setDraft("");
+    setNewItem("");
   }
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 md:grid-cols-3">
-        {allItems.length > 0 ? (
-          allItems.map((item) => (
-            <label
-              key={item}
-              className="flex items-center gap-2 font-sans text-[13px] text-graphite"
-            >
-              <input
-                type="checkbox"
-                checked={checkedItems.has(item)}
-                onChange={(e) => toggleItem(item, e.target.checked)}
-                className="h-3.5 w-3.5 shrink-0 accent-graphite"
-              />
-              {item}
-            </label>
-          ))
-        ) : (
-          <p className="font-sans text-xs text-graphite-faint">Zatím žádné položky.</p>
-        )}
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Hledat ve výbavě…"
+        className="mb-5 w-full border border-stone-200 bg-transparent px-3 py-2 font-sans text-[13px] text-graphite placeholder:text-graphite-faint focus:border-graphite focus:outline-none"
+      />
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {CATEGORIES.map((category) => {
+          const items = getAvailableItems(category);
+          if (search.trim() && items.length === 0) return null;
+          return (
+            <div key={category}>
+              <p className="mb-2 font-sans text-xs uppercase tracking-[0.12em] text-graphite-faint">
+                {category}
+              </p>
+              <div className="flex flex-col gap-1.5">
+                {items.length > 0 ? (
+                  items.map((item) => (
+                    <label
+                      key={item}
+                      className="flex items-center gap-2 font-sans text-[13px] text-graphite"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={getItems(category).includes(item)}
+                        onChange={(e) => toggleItem(category, item, e.target.checked)}
+                        className="h-3.5 w-3.5 shrink-0 accent-graphite"
+                      />
+                      {item}
+                    </label>
+                  ))
+                ) : (
+                  <p className="font-sans text-xs text-graphite-faint">Zatím žádné položky.</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <div className="mt-4 flex gap-2">
-        <input
-          type="text"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              addItem();
-            }
-          }}
-          placeholder="Přidat novou položku…"
-          className="w-full border border-stone-200 bg-transparent px-3 py-2 font-sans text-[13px] text-graphite placeholder:text-graphite-faint focus:border-graphite focus:outline-none"
-        />
-        <button
-          type="button"
-          onClick={addItem}
-          className="shrink-0 border border-graphite/25 px-3 py-2 font-sans text-[13px] text-graphite hover:border-graphite"
-        >
-          +
-        </button>
+
+      <div className="mt-8 border-t border-stone-200 pt-6">
+        <p className="mb-2 font-sans text-xs uppercase tracking-[0.12em] text-graphite-faint">
+          Přidat novou položku (kategorie „{CUSTOM_ITEM_CATEGORY}“)
+        </p>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <input
+            type="text"
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addNewItem();
+              }
+            }}
+            placeholder="Název položky…"
+            className="w-full border border-stone-200 bg-transparent px-3 py-2 font-sans text-[13px] text-graphite placeholder:text-graphite-faint focus:border-graphite focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={addNewItem}
+            className="shrink-0 border border-graphite/25 px-4 py-2 font-sans text-[13px] text-graphite hover:border-graphite"
+          >
+            + Přidat
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
-// One-off seed: populates the `equipment_options` catalog with Sauto.cz's
-// full standard equipment taxonomy, so future cars can be checked off this
-// list instead of retyping everything by hand. Categories are mapped onto
-// our own fixed EquipmentGroup categories (see src/lib/types.ts).
+// One-off seed: REPLACES the `equipment_options` catalog with exactly
+// Sauto.cz's standard equipment taxonomy (categories verbatim), so future
+// cars can be checked off this list instead of retyping everything by hand.
 //
 // Usage: node scripts/seed-equipment-options.mjs
 
@@ -26,9 +25,10 @@ const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY, {
   auth: { persistSession: false },
 });
 
-// category -> items, transcribed from Sauto.cz's own listing-creation form.
+// category -> items, transcribed verbatim from Sauto.cz's own
+// listing-creation form (category names kept exactly as shown there).
 const CATALOG = {
-  Bezpečnost: [
+  "Bezpečnostní systémy": [
     "ABS",
     "Aktivní kapota",
     "Asistent stability přívěsu (TSA)",
@@ -41,6 +41,8 @@ const CATALOG = {
     "Sledování únavy řidiče",
     "Systém nouzového zastavení",
     "Upozornění na přijíždějící vozidla při couvání (RCTA)",
+  ],
+  "Zabezpečení vozidla": [
     "Alarm",
     "Bezpečnostní pískování oken",
     "Centrální zamykání",
@@ -49,7 +51,7 @@ const CATALOG = {
     "Zaslepení zámků",
     "Zámek řadící páky",
   ],
-  Asistenti: [
+  "Asistenční systémy": [
     "360° monitorovací systém (AVM)",
     "Adaptivní tempomat",
     "Aktivní asistent řízení",
@@ -68,7 +70,7 @@ const CATALOG = {
     "Rozpoznávání dopravních značek",
     "Tempomat",
   ],
-  Komfort: [
+  "Vnitřní výbava a komfort": [
     "Akustická skla",
     "Ambientní LED osvětlení interiéru",
     "Bezklíčkové ovládání",
@@ -108,7 +110,7 @@ const CATALOG = {
     "Zadní loketní opěrka",
     "Zásuvka na 220 V",
   ],
-  Technologie: [
+  "Palubní systémy a konektivita": [
     "2 monitory",
     "Android Auto",
     "Apple Car Play",
@@ -140,7 +142,7 @@ const CATALOG = {
     "Vstup paměťové karty",
     "Wifi hotspot",
   ],
-  Interiér: [
+  Sedadla: [
     "Dělená zadní sedadla",
     "El. nastavitelná zadní sedadla",
     "El. seřiditelná sedadla",
@@ -164,7 +166,7 @@ const CATALOG = {
     "Výškově nastavitelná sedadla",
     "Výškově nastavitelné sedadlo řidiče",
   ],
-  Exteriér: [
+  "Světelná technika": [
     "Automatické přepínání dálkových světel",
     "Automatické svícení",
     "Bi-xenony",
@@ -179,6 +181,8 @@ const CATALOG = {
     "Ostřikovače světlometů",
     "Přídavná světla",
     "Xenony",
+  ],
+  "Vnější výbava": [
     "Boční nášlapy",
     "Dojezdové rezervní kolo",
     "Elektrické dovírání dveří",
@@ -202,7 +206,7 @@ const CATALOG = {
     "Zatmavená zadní skla",
     "Závěsné zařízení v TP",
   ],
-  Sport: [
+  "Pohon a podvozek": [
     "Adaptivní regulace podvozku",
     "Automatická uzávěrka diferenciálu",
     "LPG v TP",
@@ -223,14 +227,21 @@ const rows = Object.entries(CATALOG).flatMap(([category, items]) =>
   items.map((item) => ({ category, item }))
 );
 
-console.log(`Upserting ${rows.length} equipment options…`);
-
-const { error } = await supabase
+console.log("Clearing existing equipment_options…");
+const { error: deleteError } = await supabase
   .from("equipment_options")
-  .upsert(rows, { onConflict: "category,item", ignoreDuplicates: true });
+  .delete()
+  .not("item", "is", null); // delete-all guard (Supabase requires a filter)
+if (deleteError) {
+  console.error("Failed to clear:", deleteError.message);
+  process.exit(1);
+}
 
-if (error) {
-  console.error("Failed:", error.message);
+console.log(`Inserting ${rows.length} equipment options…`);
+const { error: insertError } = await supabase.from("equipment_options").insert(rows);
+
+if (insertError) {
+  console.error("Failed to insert:", insertError.message);
   process.exit(1);
 }
 
