@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCarBySlug } from "@/lib/cars-data";
+import Link from "next/link";
+import { getAvailableCars, getCarBySlug } from "@/lib/cars-data";
 import {
   bodyTypeLabels,
   displayName,
@@ -20,6 +21,7 @@ import InterestForm from "@/components/cars/InterestForm";
 import FinanceCalculator from "@/components/finance/FinanceCalculator";
 import Reveal from "@/components/ui/Reveal";
 import Index from "@/components/ui/Index";
+import CarCard from "@/components/cars/CarCard";
 import { SITE_URL } from "@/lib/site";
 
 export async function generateMetadata({
@@ -31,10 +33,23 @@ export async function generateMetadata({
   const car = await getCarBySlug(slug);
   if (!car) return {};
 
-  const title = `${displayName(car)} ${car.year}`;
-  const description = `${displayName(car)}, ${car.year}, ${formatMileage(
-    car.mileage
-  )}, ${kwToHp(car.powerKw)} k, ${fuelLabels[car.fuel]}. Cena ${formatPrice(car.price)}.`;
+  const name = `${displayName(car)} ${car.year}`;
+  const title = `${name} | Prodej Praha`;
+  const specs = [
+    name,
+    formatMileage(car.mileage),
+    `${kwToHp(car.powerKw)} k`,
+    fuelLabels[car.fuel].toLowerCase(),
+    car.color?.toLowerCase(),
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const description =
+    car.status === "sold"
+      ? `${specs}. Vůz byl prodán – prohlédněte si aktuální nabídku prémiových a sportovních vozů ICONcars v Praze.`
+      : `${specs}. Cena ${formatPrice(car.price)}. ${
+          car.vatDeductible ? "Možnost odpočtu DPH, financování a protiúčtu" : "Možnost financování a protiúčtu"
+        }. Prohlídka v Praze.`;
 
   return {
     title,
@@ -54,6 +69,16 @@ export default async function CarDetailPage({
   if (!car) notFound();
 
   const name = displayName(car);
+  const isSold = car.status === "sold";
+
+  // A sold car keeps its URL (and any ranking it earned) — instead of a 404
+  // it points visitors to similar cars, same brand first.
+  const similarCars = isSold
+    ? (await getAvailableCars())
+        .filter((c) => c.id !== car.id)
+        .sort((a, b) => Number(b.brand === car.brand) - Number(a.brand === car.brand))
+        .slice(0, 3)
+    : [];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -71,7 +96,9 @@ export default async function CarDetailPage({
       availability:
         car.status === "available"
           ? "https://schema.org/InStock"
-          : "https://schema.org/LimitedAvailability",
+          : isSold
+            ? "https://schema.org/SoldOut"
+            : "https://schema.org/LimitedAvailability",
     },
   };
 
@@ -104,6 +131,40 @@ export default async function CarDetailPage({
         />
       </div>
 
+      {isSold && (
+        <div className="mx-auto mt-5 max-w-[1440px] px-6 lg:px-10">
+          <div className="flex flex-col gap-5 border border-stone-200 bg-stone-50 px-6 py-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+            <div>
+              <p className="font-display text-2xl text-graphite">Tento vůz byl prodán</p>
+              <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-graphite-soft">
+                Prohlédněte si aktuální nabídku, nebo nám napište, jaký vůz
+                hledáte — rádi vám podobný najdeme.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/vozy"
+                className="inline-flex items-center justify-center bg-graphite px-6 py-3 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:bg-accent"
+              >
+                Aktuální nabídka
+              </Link>
+              <a
+                href="#zajem"
+                className="inline-flex items-center justify-center border border-graphite px-6 py-3 font-sans text-sm uppercase tracking-[0.08em] text-graphite transition-colors duration-300 hover:bg-graphite hover:text-white"
+              >
+                Poptat podobný vůz
+              </a>
+              <Link
+                href="/vykup-vozidel"
+                className="inline-flex items-center justify-center border border-graphite px-6 py-3 font-sans text-sm uppercase tracking-[0.08em] text-graphite transition-colors duration-300 hover:bg-graphite hover:text-white"
+              >
+                Výkup vašeho vozu
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto mt-5 max-w-[1440px] px-6 lg:px-10">
         <CarGallery photos={car.photos} title={name} />
       </div>
@@ -113,7 +174,7 @@ export default async function CarDetailPage({
           <div>
             <Reveal>
               <h1 className="font-display text-4xl font-normal text-graphite sm:text-5xl">
-                {name}
+                {name} {car.year}
               </h1>
             </Reveal>
             <Reveal delay={0.05}>
@@ -171,7 +232,7 @@ export default async function CarDetailPage({
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr]">
           <Reveal>
-            <div>
+            <div id="zajem" className="scroll-mt-28">
               <p className="mb-2 font-sans text-xs uppercase tracking-[0.22em] text-accent">
                 Zájem o vůz
               </p>
@@ -195,6 +256,20 @@ export default async function CarDetailPage({
             </div>
           </Reveal>
         </div>
+
+        {similarCars.length > 0 && (
+          <div className="mt-20">
+            <p className="mb-2 font-sans text-xs uppercase tracking-[0.22em] text-accent">
+              Aktuálně v nabídce
+            </p>
+            <h2 className="font-display text-3xl text-graphite">Podobné vozy</h2>
+            <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {similarCars.map((c) => (
+                <CarCard key={c.id} car={c} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

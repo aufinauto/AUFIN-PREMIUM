@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Field, Input, Textarea } from "@/components/ui/FormField";
 import { submitLead } from "@/lib/submitLead";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -21,6 +22,7 @@ export default function ContactForm() {
     try {
       await submitLead("contact", Object.fromEntries(form.entries()));
       setStatus("success");
+      trackEvent("generate_lead", { form_name: "kontakt" });
     } catch {
       setStatus("error");
     }

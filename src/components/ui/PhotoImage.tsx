@@ -9,6 +9,8 @@ interface PhotoImageProps {
   /** Skip Next.js image optimization — needed for transparent PNGs, since the
    * optimizer's palette output currently drops the alpha channel. */
   unoptimized?: boolean;
+  /** Must be one of `images.qualities` in next.config.ts (75 or 85). */
+  quality?: number;
   /** CSS object-position for the cropped image, e.g. "center 75%". */
   objectPosition?: string;
   /** Fixed small thumbnail mode (e.g. admin previews): switches away from
@@ -25,7 +27,8 @@ export default function PhotoImage({
   className = "",
   sizes = "100vw",
   priority = false,
-  unoptimized = true,
+  unoptimized = false,
+  quality,
   objectPosition = "50% 50%",
   width,
   height,
@@ -40,6 +43,7 @@ export default function PhotoImage({
           height={height}
           priority={priority}
           unoptimized={unoptimized}
+          quality={quality}
           className="h-full w-full object-cover"
           style={{ objectPosition }}
         />
@@ -56,6 +60,7 @@ export default function PhotoImage({
         sizes={sizes}
         priority={priority}
         unoptimized={unoptimized}
+        quality={quality}
         className="object-cover"
         style={{ objectPosition }}
       />

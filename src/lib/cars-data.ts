@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import type { Car } from "./types";
+import { formatBrand } from "./utils";
 import { supabaseAdmin } from "./supabaseClient";
 
 type CarRow = Record<string, unknown>;
@@ -10,7 +11,7 @@ function rowToCar(row: CarRow): Car {
     id: row.id as string,
     slug: row.slug as string,
     status: row.status as Car["status"],
-    brand: row.brand as string,
+    brand: formatBrand(row.brand as string),
     model: row.model as string,
     version: (row.version as string) ?? "",
     year: row.year as number,

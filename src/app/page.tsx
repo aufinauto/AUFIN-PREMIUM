@@ -7,9 +7,15 @@ import TrustPillars from "@/components/home/TrustPillars";
 import ScrollCar from "@/components/home/ScrollCar";
 import ContactSection from "@/components/home/ContactSection";
 
+const title = "Prémiové vozy Praha | Prodej a výkup aut | ICONcars";
+const description =
+  "Prodej prověřených prémiových a sportovních vozů v Praze. BMW, Mercedes-Benz, Audi, Porsche a další. Výkup aut po celé ČR, financování i protiúčet.";
+
 export const metadata: Metadata = {
+  title: { absolute: title },
+  description,
   alternates: { canonical: "/" },
-  openGraph: { url: "/" },
+  openGraph: { url: "/", title, description },
 };
 
 export default function Home() {

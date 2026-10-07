@@ -6,9 +6,9 @@ import PhotoImage from "@/components/ui/PhotoImage";
 import FaqAccordion from "@/components/ui/FaqAccordion";
 import { NAP } from "@/lib/site";
 
-const title = "Výkup vozidel Praha";
+const title = "Výkup aut Praha | Prémiové a sportovní vozy";
 const description =
-  "Vykoupíme váš vůz rychle, férově a diskrétně — včetně prémiových a sportovních automobilů i vozidel na úvěr nebo leasing. Nezávazné posouzení, Praha i celá ČR.";
+  "Výkup aut v Praze a po celé ČR. Nezávazné ocenění vozu, výkup prémiových i sportovních aut, vozů na úvěr či leasing. Administrativu a přepis vyřešíme za vás.";
 
 export const metadata: Metadata = {
   title,
@@ -23,23 +23,23 @@ export const metadata: Metadata = {
 const steps = [
   {
     number: "01",
-    title: "Pošlete nám vůz",
-    description: "Vyplňte formulář se základními údaji a přiložte fotografie vozu.",
+    title: "Pošlete nám informace o voze",
+    description: "Značka, model, rok výroby, nájezd, VIN, výbava a fotografie.",
   },
   {
     number: "02",
-    title: "Posoudíme stav vozu",
-    description: "Zkontrolujeme historii, výbavu a technický stav podle zaslaných podkladů.",
+    title: "Vůz předběžně oceníme",
+    description: "Na základě informací vám připravíme orientační nabídku.",
   },
   {
     number: "03",
-    title: "Připravíme nabídku",
-    description: "Ozveme se s individuální nabídkou výkupu nebo protiúčtu.",
+    title: "Prohlédneme vůz",
+    description: "Ověříme stav, historii a dokumentaci vozu.",
   },
   {
     number: "04",
-    title: "Domluvíme předání",
-    description: "Po odsouhlasení nabídky se domluvíme na předání vozu a administrativě.",
+    title: "Dokončíme výkup",
+    description: "Podepíšeme smlouvu, vyřešíme platbu a administrativu.",
   },
 ];
 
@@ -51,53 +51,50 @@ const whatWeBuy = [
 ];
 
 const priceFactors = [
-  "Celkový stav karoserie, interiéru a mechaniky",
-  "Počet najetých kilometrů",
-  "Servisní historie a pravidelnost údržby",
-  "Výbava a specifikace vozu",
-  "Aktuální poptávka po daném modelu na trhu",
+  "Značka, model a motorizace",
+  "Rok výroby",
+  "Nájezd kilometrů",
+  "Technický stav",
+  "Stav karoserie a interiéru",
+  "Výbava",
+  "Servisní historie",
+  "Původ vozidla",
+  "Počet majitelů",
+  "Aktuální situace na trhu",
 ];
 
 const faqs = [
-  {
-    q: "Vykupujete i prémiová a sportovní vozidla?",
-    a: "Ano — na prémiové a sportovní vozy se dlouhodobě specializujeme. Výkup ale rozhodně není jen pro ně, vykoupíme i běžné automobily libovolné značky.",
-  },
   {
     q: "Jak rychle dokážete auto vykoupit?",
     a: "Ve většině případů dokážeme výkup dokončit během jednoho pracovního dne — pokud máte k dispozici všechny potřebné dokumenty a nevzniknou komplikace, například s doplacením financování.",
   },
   {
-    q: "Musím s autem přijet osobně?",
-    a: "Ne, k prvnímu posouzení stačí vyplnit formulář a přiložit fotografie vozu. Pokud vám to ale vyhovuje víc, klidně přijeďte i osobně — domluvíme se individuálně.",
+    q: "Je ocenění auta zdarma?",
+    a: "Ano. Ocenění vozu je zdarma a nezávazné — odeslání formuláře ani prvotní posouzení vás k ničemu nezavazuje a je jen na vás, zda nabídku přijmete.",
   },
   {
-    q: "Jaké dokumenty budu k výkupu potřebovat?",
-    a: "Přesný seznam dokumentů se liší podle toho, zda vůz prodáváte jako soukromá osoba nebo firma a zda je doplacený. Probereme to individuálně po prvotním posouzení.",
+    q: "Musím přijet s autem do Prahy?",
+    a: "Ne. K prvnímu posouzení stačí vyplnit formulář a přiložit fotografie vozu. S výkupem pomáháme zákazníkům z celé České republiky — prohlídku a předání vozu domluvíme individuálně.",
   },
   {
-    q: "Vykupujete i financovaná nebo leasingová vozidla?",
+    q: "Vykupujete auta na úvěr nebo leasing?",
     a: "Ano. Pokud vůz ještě splácíte, pomůžeme i s vyřešením zůstatku úvěru nebo leasingu jako součástí výkupu.",
   },
   {
-    q: "Jak probíhá platba?",
-    a: "Platba probíhá většinou bankovním převodem. Po individuální domluvě je možná i platba v hotovosti.",
+    q: "Vykupujete havarovaná auta?",
+    a: "Ano, vykupujeme i havarovaná a poškozená auta. Pošlete nám informace o voze a fotografie poškození a připravíme vám individuální nabídku.",
   },
   {
-    q: "Kdo řeší přepis vozidla?",
-    a: "Přepis vozidla a související administrativu vyřídíme my v rámci výkupu — nemusíte nic dalšího zařizovat.",
+    q: "Jaké dokumenty potřebuji k výkupu?",
+    a: "Přesný seznam dokumentů se liší podle toho, zda vůz prodáváte jako soukromá osoba nebo firma a zda je doplacený. Probereme to individuálně po prvotním posouzení.",
   },
   {
-    q: "Zavazuje mě odeslání poptávky k něčemu?",
-    a: "Ne. Odeslání formuláře ani prvotní posouzení vozu vás k ničemu nezavazuje — nabídku k výkupu dostanete až po prověření vozu a je jen na vás, zda ji přijmete.",
+    q: "Kdy dostanu peníze za auto?",
+    a: "Ve většině případů už do jednoho pracovního dne. Platba probíhá většinou bankovním převodem, po individuální domluvě je možná i platba v hotovosti.",
   },
   {
-    q: "Vykupujete vozidla i mimo Prahu?",
-    a: "Ano. Přestože primárně působíme v Praze, s výkupem vozidla pomáháme zákazníkům z celé České republiky.",
-  },
-  {
-    q: "Co ovlivňuje výslednou výkupní cenu?",
-    a: "Nejvíc záleží na celkovém stavu vozu, počtu najetých kilometrů, servisní historii, výbavě a také na aktuální poptávce po konkrétním modelu na trhu.",
+    q: "Vyřídíte přepis vozidla?",
+    a: "Ano. Přepis vozidla a související administrativu vyřídíme my v rámci výkupu — nemusíte nic dalšího zařizovat.",
   },
 ];
 
@@ -124,19 +121,19 @@ export default function VykupVozidelPage() {
         <div className="flex flex-col justify-center px-6 py-8 lg:px-16 lg:py-16">
           <Reveal>
             <p className="mb-4 font-sans text-xs uppercase tracking-[0.22em] text-accent">
-              Výkup vozidel
+              Výkup vozidel ICONcars
             </p>
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="max-w-lg font-display text-5xl font-normal leading-[1.05] text-graphite balance sm:text-6xl">
-              Vykoupíme váš vůz rychle, férově a bez starostí
+              Výkup aut v Praze – rychle, férově a bez starostí
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-md text-[17px] leading-relaxed text-graphite-soft">
-              Individuální ocenění prémiových, sportovních i běžných vozů.
-              Výkup vyřešíme rychle, bezpečně a včetně veškeré
-              administrativy.
+              Vykupujeme prémiové, sportovní i běžné osobní vozy v Praze a po
+              celé ČR. Vůz individuálně oceníme, připravíme nabídku výkupu a
+              postaráme se o smlouvy, přepis i související administrativu.
             </p>
           </Reveal>
 
@@ -156,7 +153,7 @@ export default function VykupVozidelPage() {
               href="#poptavka"
               className="inline-flex items-center justify-center bg-graphite px-8 py-4 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:bg-accent"
             >
-              Nechat nacenit vůz
+              Chci ocenit vůz
             </a>
           </Reveal>
         </div>
@@ -176,7 +173,7 @@ export default function VykupVozidelPage() {
       <section className="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-16">
         <Reveal className="mb-16 text-center">
           <h2 className="font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-            Jak výkup probíhá
+            Jak probíhá výkup auta
           </h2>
         </Reveal>
 
@@ -211,8 +208,16 @@ export default function VykupVozidelPage() {
               </Reveal>
               <Reveal delay={0.05}>
                 <h2 className="mt-4 max-w-md font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-                  Vykupujeme vozidla všech značek a kategorií
+                  Vykupujeme vozy různých značek a kategorií
                 </h2>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <p className="mt-6 max-w-md text-[15px] leading-relaxed text-graphite-soft">
+                  Zaměřujeme se především na prémiové, sportovní a zánovní
+                  automobily. Vykupujeme například vozy BMW, Mercedes-Benz,
+                  Audi, Porsche, Volkswagen, Škoda, CUPRA, Volvo, Land Rover a
+                  další.
+                </p>
               </Reveal>
               <Reveal delay={0.1}>
                 <ul className="mt-8 space-y-3">
@@ -256,6 +261,27 @@ export default function VykupVozidelPage() {
         </div>
       </div>
 
+      {/* FINANCED CAR SECTION */}
+      <section className="mx-auto max-w-[900px] px-6 py-10 text-center lg:px-10 lg:py-16">
+        <Reveal>
+          <p className="font-sans text-xs uppercase tracking-[0.22em] text-accent">
+            Financovaný vůz
+          </p>
+        </Reveal>
+        <Reveal delay={0.05}>
+          <h2 className="mt-4 font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
+            Výkup auta na úvěr nebo leasing
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-graphite-soft">
+            Máte vůz, který je stále financovaný? I tak může být výkup možný.
+            Podle konkrétní situace prověříme možnosti doplacení financování a
+            převodu vozidla.
+          </p>
+        </Reveal>
+      </section>
+
       {/* FAQ SECTION */}
       <div className="border-t border-stone-200 bg-stone-50">
         <div className="mx-auto max-w-[900px] px-6 py-10 lg:px-10 lg:py-16">
@@ -290,7 +316,7 @@ export default function VykupVozidelPage() {
         <Reveal className="mb-10 text-center">
           <p className="font-sans text-xs uppercase tracking-[0.22em] text-accent">Nezávazná poptávka</p>
           <h2 className="mt-4 font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-            Nechte si vůz nacenit
+            Nechte si zdarma ocenit svůj vůz
           </h2>
         </Reveal>
         <SellCarForm />

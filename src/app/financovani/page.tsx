@@ -6,14 +6,15 @@ import FinanceCalculator from "@/components/finance/FinanceCalculator";
 import FinanceForm from "@/components/finance/FinanceForm";
 
 const description =
-  "Financování vozu podle vašich možností. Spolupracujeme s bankovními a finančními partnery a připravíme individuální nabídku.";
+  "Úvěr nebo leasing na ojeté auto podle vašich možností. Spočítejte si orientační splátku a my vám připravíme individuální nabídku financování.";
+const title = "Financování ojetého auta | Úvěr a leasing";
 
 export const metadata: Metadata = {
-  title: "Financování",
+  title,
   description,
   alternates: { canonical: "/financovani" },
   openGraph: {
-    title: "Financování | ICONcars",
+    title: `${title} | ICONcars`,
     description,
   },
 };
@@ -47,7 +48,7 @@ export default async function FinancovaniPage({
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="max-w-md font-display text-5xl font-normal leading-[1.05] text-graphite balance sm:text-6xl">
-              Vaše auto. Financování podle vás
+              Financování ojetého auta podle vašich možností
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
@@ -90,7 +91,7 @@ export default async function FinancovaniPage({
               </Reveal>
               <Reveal delay={0.05}>
                 <h2 className="mt-4 max-w-md font-display text-4xl font-normal leading-[1.1] text-graphite sm:text-5xl">
-                  Spočítejte si orientační splátku
+                  Kalkulačka splátek auta
                 </h2>
               </Reveal>
               <Reveal delay={0.1}>

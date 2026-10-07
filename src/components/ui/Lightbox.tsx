@@ -95,7 +95,7 @@ export default function Lightbox({
               src={photos[index]}
               alt={`${title} — fotografie ${index + 1}`}
               sizes="(min-width: 1024px) 60vw, 100vw"
-              unoptimized={false}
+              quality={85}
               className="h-full w-full"
             />
           </motion.div>

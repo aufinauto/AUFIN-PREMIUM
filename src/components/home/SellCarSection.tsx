@@ -23,13 +23,14 @@ export default function SellCarSection() {
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="max-w-md font-display text-4xl font-normal leading-[1.1] text-graphite balance sm:text-5xl">
-              Chcete prodat svůj vůz?
+              Výkup aut v Praze a po celé ČR
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-md text-[17px] leading-relaxed text-graphite-soft">
-              Nabídněte nám své auto. Po základním prověření Vám
+              Nabídněte nám svůj vůz. Po základním prověření vám
               připravíme individuální nabídku výkupu nebo protiúčtu.
+              Zaměřujeme se především na prémiové, sportovní a zánovní vozy.
             </p>
           </Reveal>
           <Reveal delay={0.18} className="mt-9">
@@ -37,7 +38,7 @@ export default function SellCarSection() {
               href="/vykup-vozidel"
               className="inline-flex items-center justify-center bg-accent px-7 py-3.5 font-sans text-sm uppercase tracking-[0.08em] text-white transition-colors duration-300 hover:bg-graphite"
             >
-              Nabídnout vůz
+              Nechat ocenit vůz
             </Link>
           </Reveal>
         </div>

@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileStickyCTA from "@/components/layout/MobileStickyCTA";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import ContactClickTracker from "@/components/layout/ContactClickTracker";
 import { getAllCars } from "@/lib/cars-data";
 import { SITE_URL, NAP } from "@/lib/site";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
@@ -15,12 +16,12 @@ import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 export const dynamic = "force-dynamic";
 
 const description =
-  "ICON je pražská značka specializovaná na prémiové a sportovní automobily — prodej vybraných vozů a výkup vozidel po celé ČR. Financování, protiúčet i kompletní administrativa na jednom místě.";
+  "ICONcars je pražský prodejce prémiových a sportovních vozů. Nabízíme prověřené ojeté vozy, výkup automobilů po celé ČR, financování, protiúčet a kompletní administrativu.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "ICONcars — Prémiové a sportovní vozy, výkup vozidel",
+    default: "Prémiové vozy Praha | Prodej a výkup aut | ICONcars",
     template: "%s | ICONcars",
   },
   description,
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "cs_CZ",
     siteName: "ICONcars",
-    title: "ICONcars — Prémiové a sportovní vozy, výkup vozidel",
+    title: "Prémiové vozy Praha | Prodej a výkup aut | ICONcars",
     description,
   },
   twitter: {
@@ -113,6 +114,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
         <MobileStickyCTA cars={cars} />
         <ScrollToTop />
+        <ContactClickTracker />
       </body>
     </html>
   );

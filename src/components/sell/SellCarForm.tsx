@@ -276,7 +276,7 @@ export default function SellCarForm() {
             ? "Odesílám…"
             : photos.some((p) => p.uploading)
               ? "Nahrávám fotky…"
-              : "Odeslat vůz k posouzení"}
+              : "Chci ocenit vůz"}
         </button>
         <p className="text-center font-sans text-xs text-graphite-faint">
           Odesláním formuláře nevzniká žádný závazek k prodeji vozu.

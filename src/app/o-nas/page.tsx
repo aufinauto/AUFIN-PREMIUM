@@ -5,14 +5,15 @@ import PhotoImage from "@/components/ui/PhotoImage";
 import { StaggerGroup, StaggerItem } from "@/components/ui/StaggerReveal";
 
 const description =
-  "Specializujeme se na sportovní, prémiové a zajímavé automobily. Nabídku nestavíme na množství, ale na pečlivém výběru.";
+  "Specializujeme se na pečlivě vybrané prémiové a sportovní vozy v Praze. Nabídku nestavíme na množství, ale na kvalitě, historii a individuálním výběru.";
+const title = "O nás | Prodejce prémiových vozů Praha";
 
 export const metadata: Metadata = {
-  title: "O nás",
+  title,
   description,
   alternates: { canonical: "/o-nas" },
   openGraph: {
-    title: "O nás | ICONcars",
+    title: `${title} | ICONcars`,
     description,
   },
 };
@@ -95,7 +96,7 @@ export default function ONasPage() {
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite-soft">
               Naší ambicí není mít největší nabídku. Chceme mít auta, za kterými si můžeme stát.
-              Každý automobil, který zařadíme do prodeje, musí splňovat naše přísné kritéria.
+              Každý automobil, který zařadíme do prodeje, musí splňovat naše přísná kritéria.
             </p>
           </Reveal>
         </div>

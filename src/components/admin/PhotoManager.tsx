@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import PhotoImage from "@/components/ui/PhotoImage";
+import { compressImage } from "@/lib/compressImage";
 import { createUploadUrls } from "@/app/admin/actions";
 
 export default function PhotoManager({
@@ -47,10 +48,13 @@ export default function PhotoManager({
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const target = uploadTargets[i];
+        // Phone photos are often 5+ MB / 4000+ px — shrink to 2560 px at high
+        // quality so the site loads them fast without visible quality loss.
+        const body = await compressImage(file, 2560, 0.88);
         const res = await fetch(target.signedUrl, {
           method: "PUT",
-          headers: { "Content-Type": file.type || "application/octet-stream" },
-          body: file,
+          headers: { "Content-Type": body.type || file.type || "application/octet-stream" },
+          body,
         });
         if (!res.ok) {
           throw new Error(`Nahrání fotky "${file.name}" selhalo (${res.status}).`);

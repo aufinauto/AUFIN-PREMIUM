@@ -94,17 +94,28 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                Prémiové a sportovní automobily
+                ICONcars Praha
               </motion.span>
             </p>
 
-            <h1 className="mt-2 max-w-4xl font-display text-[8vw] font-normal leading-[0.98] text-white sm:text-[4.8vw] lg:text-[3.6rem]">
+            {/* H1 carries the search phrase; the big display line below is
+                the brand claim, kept visually dominant. */}
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.65 }}
+              className="mt-3 font-sans text-base font-normal text-white/80 sm:text-lg"
+            >
+              Prémiové a sportovní vozy v Praze
+            </motion.h1>
+
+            <p className="mt-1 max-w-4xl font-display text-[8vw] font-normal leading-[0.98] text-white sm:text-[4.8vw] lg:text-[3.6rem]">
               <RevealText text="Auta, která" delay={0.7} />
               <br />
               <span className="italic text-accent-soft">
-                <RevealText text="stojí za pozornost" delay={1.05} />
+                <RevealText text="stojí za pozornost." delay={1.05} />
               </span>
-            </h1>
+            </p>
 
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -113,8 +124,9 @@ export default function Hero() {
               className="mt-4 flex flex-col items-start gap-5 sm:flex-row sm:items-end sm:justify-between"
             >
               <p className="max-w-md text-[17px] leading-relaxed text-white/70">
-                Sportovní a prémiové automobily pro klienty, kteří hledají víc
-                než jen způsob dopravy.
+                Prověřené prémiové a sportovní vozy v Praze pro klienty, kteří
+                hledají víc než jen způsob dopravy. Prodej, výkup, financování
+                i protiúčet na jednom místě.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link

@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Field, Input, Select, Textarea } from "@/components/ui/FormField";
 import { submitLead } from "@/lib/submitLead";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -27,6 +28,7 @@ export default function InterestForm({ carLabel }: { carLabel: string }) {
         note: form.get("note"),
       });
       setStatus("success");
+      trackEvent("generate_lead", { form_name: "zajem_o_vuz", car: carLabel });
     } catch {
       setStatus("error");
     }

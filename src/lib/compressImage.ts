@@ -22,13 +22,17 @@ export async function compressImage(
     const ctx = canvas.getContext("2d");
     if (!ctx) return file;
 
+    // JPEG has no alpha — paint white first so transparent PNGs don't turn black.
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, width, height);
     ctx.drawImage(bitmap, 0, 0, width, height);
     bitmap.close?.();
 
     const blob = await new Promise<Blob | null>((resolve) =>
       canvas.toBlob(resolve, "image/jpeg", quality)
     );
-    return blob ?? file;
+    // Already-small files can come out bigger after re-encoding — keep the original then.
+    return blob && blob.size < file.size ? blob : file;
   } catch {
     return file;
   }

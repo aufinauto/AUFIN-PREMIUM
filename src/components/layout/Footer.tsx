@@ -58,8 +58,9 @@ export default function Footer() {
               <span className="font-light">cars</span>
             </HomeLogoLink>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
-              Pečlivě vybrané prémiové, sportovní a zajímavé automobily. Prodej,
-              výkup a bankovní financování na jednom místě.
+              ICONcars je pražský prodejce prémiových a sportovních vozů.
+              Nabízíme prověřené ojeté vozy, výkup automobilů po celé ČR,
+              financování, protiúčet a kompletní administrativu.
             </p>
           </div>
 

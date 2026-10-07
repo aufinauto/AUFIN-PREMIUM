@@ -20,7 +20,7 @@ export default function FinanceSection() {
         <div>
           <SectionHeader
             eyebrow="Financování"
-            title="Financování bez zbytečných komplikací"
+            title="Financování auta bez zbytečných komplikací"
             description="Pomůžeme vám nastavit financování vozu podle vašich možností a preferencí. Spolupracujeme s bankovními a finančními partnery a připravíme individuální nabídku."
           />
 

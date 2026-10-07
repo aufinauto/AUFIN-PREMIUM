@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { CurrencyInput, Field, Input, Select, Textarea } from "@/components/ui/FormField";
 import { submitLead } from "@/lib/submitLead";
+import { trackEvent } from "@/lib/analytics";
 import type { Car } from "@/lib/types";
 import { displayName } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ export default function FinanceForm({
     try {
       await submitLead("finance", Object.fromEntries(form.entries()));
       setStatus("success");
+      trackEvent("generate_lead", { form_name: "financovani" });
     } catch {
       setStatus("error");
     }

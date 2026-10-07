@@ -10,7 +10,7 @@ export default async function FeaturedCars() {
   return (
     <section className="mx-auto max-w-[1440px] px-6 pb-6 pt-12 lg:px-10 lg:pb-8 lg:pt-32">
       <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-        <SectionHeader eyebrow="Aktuálně v nabídce" title="Vybrané vozy" />
+        <SectionHeader eyebrow="Aktuálně v nabídce" title="Vybrané vozy skladem" />
         <Link
           href="/vozy"
           className="underline-reveal hidden shrink-0 font-sans text-sm uppercase tracking-[0.1em] text-graphite sm:inline-block"

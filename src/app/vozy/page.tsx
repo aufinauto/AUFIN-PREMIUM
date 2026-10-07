@@ -3,14 +3,17 @@ import VozyPageClient from "@/components/cars/VozyPageClient";
 import Reveal from "@/components/ui/Reveal";
 import { getAllCars } from "@/lib/cars-data";
 
+const title = "Prémiové vozy na prodej Praha";
+const description =
+  "Aktuální nabídka prověřených prémiových a sportovních vozů. BMW, Mercedes-Benz, Audi a další. Financování, protiúčet a prohlídka vozů v Praze.";
+
 export const metadata: Metadata = {
-  title: "Vozy",
-  description:
-    "Pečlivě vybrané automobily, které máme aktuálně v nabídce. Prohlédněte si prémiové a sportovní vozy ICONcars.",
+  title,
+  description,
   alternates: { canonical: "/vozy" },
   openGraph: {
-    title: "Vozy | ICONcars",
-    description: "Pečlivě vybrané automobily, které máme aktuálně v nabídce.",
+    title: `${title} | ICONcars`,
+    description,
   },
 };
 
@@ -32,12 +35,14 @@ export default async function VozyPage({
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="font-display text-5xl font-normal text-graphite sm:text-6xl">
-            Vozy
+            Prémiové a sportovní vozy skladem
           </h1>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mt-5 max-w-lg text-[17px] leading-relaxed text-graphite-soft">
-            Pečlivě vybrané automobily, které máme aktuálně v nabídce.
+            Pečlivě vybrané prémiové a sportovní ojeté vozy s prověřenou
+            historií. Vozy si můžete osobně prohlédnout v našem showroomu v
+            Praze.
           </p>
         </Reveal>
       </div>

@@ -4,14 +4,15 @@ import PhotoImage from "@/components/ui/PhotoImage";
 import ContactForm from "@/components/contact/ContactForm";
 
 const description =
-  "Kontaktujte nás. Vozy si můžete prohlédnout v partnerském showroomu SilverCars v pražském Karlíně. Telefon, e-mail, otevírací doba a formulář.";
+  "Kontaktujte ICONcars. Vozy si můžete prohlédnout v partnerském showroomu SilverCars v Praze 8 – Karlíně. Najdete zde telefon, e-mail, otevírací dobu i kontaktní formulář.";
+const title = "Kontakt | Showroom Praha 8 – Karlín";
 
 export const metadata: Metadata = {
-  title: "Kontakt",
+  title,
   description,
   alternates: { canonical: "/kontakt" },
   openGraph: {
-    title: "Kontakt | ICONcars",
+    title: `${title} | ICONcars`,
     description,
   },
 };
@@ -25,7 +26,7 @@ export default function KontaktPage() {
         </Reveal>
         <Reveal delay={0.05}>
           <h1 className="font-display text-5xl font-normal text-graphite sm:text-6xl">
-            Rádi vás uvidíme v showroomu
+            Rádi vás uvidíme v showroomu v Praze 8
           </h1>
         </Reveal>
         <Reveal delay={0.1}>
@@ -175,7 +176,7 @@ export default function KontaktPage() {
           <Reveal y={0}>
             <div className="flex flex-col">
               <p className="mb-4 font-sans text-sm text-graphite-soft">
-                Zadejte do map „SilverCars" a ono vás to nasměruje na správné místo.
+                Do navigace zadejte SilverCars, Rohanské nábřeží 693/10, Praha 8 – Karlín.
               </p>
               <div className="relative aspect-[4/3] overflow-hidden border border-stone-200 grayscale-[0.3] contrast-[1.05]">
                 <iframe
