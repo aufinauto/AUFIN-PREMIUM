@@ -99,7 +99,15 @@ function stripTags(html: string): string {
     .trim();
 }
 
-export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]> {
+export type SautoImportResult = {
+  equipment: EquipmentGroup[];
+  /** Where the data came from + what failed before it — shown in admin so a
+   * partial import can be diagnosed without server logs. */
+  source: string;
+};
+
+export async function fetchSautoEquipment(url: string): Promise<SautoImportResult> {
+  const notes: string[] = [];
   let parsed: URL;
   try {
     parsed = new URL(url);
@@ -115,6 +123,7 @@ export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]
   // is rendered for the requesting server (on Vercel the page sometimes came
   // back without the embedded JSON, leaving only the truncated table).
   const adId = parsed.pathname.match(/\/(\d{6,})\/?$/)?.[1];
+  if (!adId) notes.push("v odkazu chybí číslo inzerátu");
   if (adId) {
     try {
       const apiRes = await fetch(`https://www.sauto.cz/api/v1/items/${adId}`, {
@@ -127,10 +136,16 @@ export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]
       if (apiRes.ok) {
         const data = (await apiRes.json()) as { result?: { equipment_cb?: unknown } };
         const list = data.result?.equipment_cb;
-        if (Array.isArray(list) && list.length > 0) return groupsFromJson(list);
+        if (Array.isArray(list) && list.length > 0) {
+          return { equipment: groupsFromJson(list), source: "Sauto API" };
+        }
+        notes.push("API bez výbavy");
+      } else {
+        notes.push(`API HTTP ${apiRes.status}`);
       }
-    } catch {
+    } catch (e) {
       // fall through to HTML parsing
+      notes.push(`API chyba: ${e instanceof Error ? e.message : "neznámá"}`);
     }
   }
 
@@ -144,14 +159,18 @@ export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]
   const html = await res.text();
 
   const json = extractEquipmentJson(html);
-  if (json && json.length > 0) return groupsFromJson(json);
+  if (json && json.length > 0) {
+    return { equipment: groupsFromJson(json), source: `data stránky (${notes.join(", ")})` };
+  }
+  notes.push("stránka bez dat výbavy");
 
   // Fallback: parse the visible table (may be incomplete, see above).
 
   const sectionMatch = html.match(
     /<h3 class="c-car-details-section__heading">Výbava vozu<\/h3>([\s\S]*?)<\/table>/
   );
-  if (!sectionMatch) return [];
+  const tableSource = `jen viditelná tabulka — může být neúplné (${notes.join(", ")})`;
+  if (!sectionMatch) return { equipment: [], source: tableSource };
 
   const groups: EquipmentGroup[] = [];
   let match: RegExpExecArray | null;
@@ -174,5 +193,5 @@ export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]
       groups.push({ category, items });
     }
   }
-  return groups;
+  return { equipment: groups, source: tableSource };
 }

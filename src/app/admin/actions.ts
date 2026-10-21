@@ -135,13 +135,13 @@ export async function saveCarAction(
 
 export async function importSautoEquipmentAction(
   url: string
-): Promise<{ error: string } | { equipment: EquipmentGroup[] }> {
+): Promise<{ error: string } | { equipment: EquipmentGroup[]; source: string }> {
   try {
-    const equipment = await fetchSautoEquipment(url);
+    const { equipment, source } = await fetchSautoEquipment(url);
     if (equipment.length === 0) {
-      return { error: "Na této stránce se nepodařilo najít žádnou výbavu." };
+      return { error: `Na této stránce se nepodařilo najít žádnou výbavu (${source}).` };
     }
-    return { equipment };
+    return { equipment, source };
   } catch (e) {
     return { error: e instanceof Error ? e.message : "Načtení výbavy se nezdařilo." };
   }

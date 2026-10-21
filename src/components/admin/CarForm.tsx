@@ -100,7 +100,7 @@ export default function CarForm({
     }
 
     const importedCount = result.equipment.reduce((sum, g) => sum + g.items.length, 0);
-    setSautoInfo(`Načteno ${importedCount} položek výbavy ze Sauto.`);
+    setSautoInfo(`Načteno ${importedCount} položek výbavy ze Sauto (zdroj: ${result.source}).`);
 
     // Merge into what's already checked, don't replace it.
     setEquipment((prev) => {
