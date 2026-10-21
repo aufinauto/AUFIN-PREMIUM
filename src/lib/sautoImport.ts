@@ -120,11 +120,9 @@ export async function fetchSautoEquipment(url: string): Promise<SautoImportResul
 
   // Preferred source: Sauto's own JSON API (/api/v1/items/{id}) — it always
   // returns the complete equipment list, independent of how the HTML page
-  // is rendered for the requesting server (on Vercel the page sometimes came
-  // back without the embedded JSON, leaving only the truncated table).
-  const adId = parsed.pathname.match(/\/(\d{6,})\/?$/)?.[1];
-  if (!adId) notes.push("v odkazu chybí číslo inzerátu");
-  if (adId) {
+  // is rendered for the requesting server (on Vercel the page came back
+  // without the embedded JSON, leaving only the truncated table).
+  async function fromApi(adId: string): Promise<SautoImportResult | null> {
     try {
       const apiRes = await fetch(`https://www.sauto.cz/api/v1/items/${adId}`, {
         headers: {
@@ -133,20 +131,31 @@ export async function fetchSautoEquipment(url: string): Promise<SautoImportResul
         },
         cache: "no-store",
       });
-      if (apiRes.ok) {
-        const data = (await apiRes.json()) as { result?: { equipment_cb?: unknown } };
-        const list = data.result?.equipment_cb;
-        if (Array.isArray(list) && list.length > 0) {
-          return { equipment: groupsFromJson(list), source: "Sauto API" };
-        }
-        notes.push("API bez výbavy");
-      } else {
+      if (!apiRes.ok) {
         notes.push(`API HTTP ${apiRes.status}`);
+        return null;
       }
+      const data = (await apiRes.json()) as { result?: { equipment_cb?: unknown } };
+      const list = data.result?.equipment_cb;
+      if (Array.isArray(list) && list.length > 0) {
+        return { equipment: groupsFromJson(list), source: "Sauto API" };
+      }
+      notes.push("API bez výbavy");
     } catch (e) {
-      // fall through to HTML parsing
       notes.push(`API chyba: ${e instanceof Error ? e.message : "neznámá"}`);
     }
+    return null;
+  }
+
+  // Ad links come in several shapes (…/detail/audi/s6/211231191, with query
+  // strings, shortened/shared links…) — take the last long number anywhere
+  // in the path or query.
+  const idFromUrl = (parsed.pathname + parsed.search).match(/\d{6,}/g)?.pop();
+  if (idFromUrl) {
+    const result = await fromApi(idFromUrl);
+    if (result) return result;
+  } else {
+    notes.push("v odkazu chybí číslo inzerátu");
   }
 
   const res = await fetch(parsed.toString(), {
@@ -157,6 +166,14 @@ export async function fetchSautoEquipment(url: string): Promise<SautoImportResul
     throw new Error(`Stránku se nepodařilo načíst (HTTP ${res.status}).`);
   }
   const html = await res.text();
+
+  // The page always references its own ad via /api/v1/items/{id} — use it
+  // when the link itself didn't contain the number (e.g. redirected links).
+  const idFromPage = html.match(/api\/v1\/items\/(\d{6,})/)?.[1];
+  if (idFromPage && idFromPage !== idFromUrl) {
+    const result = await fromApi(idFromPage);
+    if (result) return result;
+  }
 
   const json = extractEquipmentJson(html);
   if (json && json.length > 0) {
