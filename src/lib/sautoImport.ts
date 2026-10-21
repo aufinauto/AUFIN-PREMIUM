@@ -110,8 +110,33 @@ export async function fetchSautoEquipment(url: string): Promise<EquipmentGroup[]
     throw new Error("Podporované jsou pouze odkazy na sauto.cz.");
   }
 
+  // Preferred source: Sauto's own JSON API (/api/v1/items/{id}) — it always
+  // returns the complete equipment list, independent of how the HTML page
+  // is rendered for the requesting server (on Vercel the page sometimes came
+  // back without the embedded JSON, leaving only the truncated table).
+  const adId = parsed.pathname.match(/\/(\d{6,})\/?$/)?.[1];
+  if (adId) {
+    try {
+      const apiRes = await fetch(`https://www.sauto.cz/api/v1/items/${adId}`, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; ICONcarsBot/1.0)",
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      });
+      if (apiRes.ok) {
+        const data = (await apiRes.json()) as { result?: { equipment_cb?: unknown } };
+        const list = data.result?.equipment_cb;
+        if (Array.isArray(list) && list.length > 0) return groupsFromJson(list);
+      }
+    } catch {
+      // fall through to HTML parsing
+    }
+  }
+
   const res = await fetch(parsed.toString(), {
     headers: { "User-Agent": "Mozilla/5.0 (compatible; ICONcarsBot/1.0)" },
+    cache: "no-store",
   });
   if (!res.ok) {
     throw new Error(`Stránku se nepodařilo načíst (HTTP ${res.status}).`);

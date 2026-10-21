@@ -8,11 +8,12 @@ export default function SellCarSection() {
       <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-0 lg:grid-cols-2">
         <Reveal y={0} className="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-[520px]">
           <PhotoImage
-            src="/images/sections/sell-car.jpg"
+            src="/images/sections/sell-car-hq.jpg"
             alt="Výkup a protiúčet vozu"
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="h-full w-full"
-          />
+          quality={90}
+        />
         </Reveal>
 
         <div className="px-6 py-8 lg:px-16 lg:py-0">

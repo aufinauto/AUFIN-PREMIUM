@@ -9,7 +9,7 @@ interface PhotoImageProps {
   /** Skip Next.js image optimization — needed for transparent PNGs, since the
    * optimizer's palette output currently drops the alpha channel. */
   unoptimized?: boolean;
-  /** Must be one of `images.qualities` in next.config.ts (75 or 85). */
+  /** Must be one of `images.qualities` in next.config.ts (75, 85 or 90). */
   quality?: number;
   /** CSS object-position for the cropped image, e.g. "center 75%". */
   objectPosition?: string;

@@ -29,12 +29,13 @@ export default function Hero() {
         className="absolute inset-0 hidden lg:block"
       >
         <PhotoImage
-          src="/images/sections/hero-ferrari.jpg"
+          src="/images/sections/hero-ferrari-hq.jpg"
           alt="Sportovní vůz na lesní silnici"
           priority
           sizes="100vw"
           unoptimized={false}
           className="h-full w-full object-cover"
+          quality={90}
         />
       </motion.div>
 
@@ -47,12 +48,13 @@ export default function Hero() {
         className="absolute inset-0 hidden md:block lg:hidden"
       >
         <PhotoImage
-          src="/images/sections/hero-tablet.jpg"
+          src="/images/sections/hero-tablet-hq.jpg"
           alt="Sportovní vůz"
           priority
           sizes="100vw"
           unoptimized={false}
           className="h-full w-full object-cover"
+          quality={90}
         />
       </motion.div>
 
@@ -65,12 +67,13 @@ export default function Hero() {
         className="absolute inset-0 md:hidden"
       >
         <PhotoImage
-          src="/images/sections/hero-mobile.jpg"
+          src="/images/sections/hero-mobile-hq.jpg"
           alt="Sportovní vůz"
           priority
           sizes="100vw"
           unoptimized={false}
           className="h-full w-full object-cover"
+          quality={90}
         />
       </motion.div>
 

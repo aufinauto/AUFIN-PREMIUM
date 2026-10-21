@@ -62,12 +62,13 @@ export default async function FinancovaniPage({
         </div>
         <Reveal y={0} className="relative aspect-[4/3] overflow-hidden lg:aspect-auto">
           <PhotoImage
-            src="/images/sections/finance-mercedes-new.jpg"
+            src="/images/sections/finance-mercedes-new-hq.jpg"
             alt="Financování vozu"
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="h-full w-full object-cover object-center"
-          />
+          quality={90}
+        />
         </Reveal>
       </div>
 
@@ -158,11 +159,12 @@ export default async function FinancovaniPage({
             </Reveal>
             <Reveal delay={0.15} y={0} className="relative mt-10 aspect-[4/3] overflow-hidden">
               <PhotoImage
-                src="/images/sections/finance-interior.jpg"
+                src="/images/sections/finance-interior-hq.jpg"
                 alt="Interiér vozu"
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="h-full w-full"
-              />
+          quality={90}
+        />
             </Reveal>
           </div>
 

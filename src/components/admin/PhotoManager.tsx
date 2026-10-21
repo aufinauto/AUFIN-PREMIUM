@@ -38,30 +38,49 @@ export default function PhotoManager({
     setError(null);
     setProgress({ done: 0, total: files.length });
 
-    const uploaded: string[] = [];
+    // Results are kept by index so photos stay in the order they were picked,
+    // even though several upload at once.
+    const uploaded: (string | null)[] = files.map(() => null);
+    const failed: string[] = [];
+    let finished = 0;
     try {
       const uploadTargets = await createUploadUrls(
         folder,
         files.map((f) => f.name)
       );
 
-      for (let i = 0; i < files.length; i++) {
+      async function uploadOne(i: number) {
         const file = files[i];
         const target = uploadTargets[i];
-        // Phone photos are often 5+ MB / 4000+ px — shrink to 2560 px at high
-        // quality so the site loads them fast without visible quality loss.
-        const body = await compressImage(file, 2560, 0.88);
-        const res = await fetch(target.signedUrl, {
-          method: "PUT",
-          headers: { "Content-Type": body.type || file.type || "application/octet-stream" },
-          body,
-        });
-        if (!res.ok) {
-          throw new Error(`Nahrání fotky "${file.name}" selhalo (${res.status}).`);
+        try {
+          // Phone photos are often 5+ MB / 4000+ px — shrink to 2560 px at high
+          // quality so the site loads them fast without visible quality loss.
+          const body = await compressImage(file, 2560, 0.88);
+          const res = await fetch(target.signedUrl, {
+            method: "PUT",
+            headers: { "Content-Type": body.type || file.type || "application/octet-stream" },
+            body,
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          uploaded[i] = target.publicUrl;
+          onChange([...photos, ...uploaded.filter((u): u is string => !!u)]);
+        } catch {
+          failed.push(file.name);
+        } finally {
+          finished++;
+          setProgress({ done: finished, total: files.length });
         }
-        uploaded.push(target.publicUrl);
-        onChange([...photos, ...uploaded]);
-        setProgress({ done: i + 1, total: files.length });
+      }
+
+      // 4 parallel workers: compressing one photo while others upload.
+      let next = 0;
+      const worker = async () => {
+        while (next < files.length) await uploadOne(next++);
+      };
+      await Promise.all(Array.from({ length: Math.min(4, files.length) }, worker));
+
+      if (failed.length > 0) {
+        setError(`Nepodařilo se nahrát: ${failed.join(", ")}. Zkuste je nahrát znovu.`);
       }
     } catch (e) {
       setError(

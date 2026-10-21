@@ -160,12 +160,13 @@ export default function VykupVozidelPage() {
 
         <Reveal y={0} className="relative aspect-[4/3] overflow-hidden lg:aspect-auto">
           <PhotoImage
-            src="/images/sections/sell-car.jpg"
+            src="/images/sections/sell-car-hq.jpg"
             alt="Výkup vozidla ICONcars"
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="h-full w-full object-cover object-center"
-          />
+          quality={90}
+        />
         </Reveal>
       </div>
 

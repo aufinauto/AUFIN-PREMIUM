@@ -62,11 +62,12 @@ export default function ONasPage() {
       <Reveal y={0} className="relative w-full overflow-hidden lg:mx-auto lg:max-w-[1440px] lg:px-10">
         <div className="aspect-[4/3] overflow-hidden lg:aspect-[16/9]">
           <PhotoImage
-            src="/images/sections/about-showroom.jpg"
+            src="/images/sections/about-showroom-hq.jpg"
             alt="Showroom ICONcars"
             sizes="100vw"
             className="h-full w-full object-cover"
-          />
+          quality={90}
+        />
         </div>
       </Reveal>
 

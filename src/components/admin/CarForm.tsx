@@ -39,6 +39,7 @@ export default function CarForm({
   const [sautoUrl, setSautoUrl] = useState("");
   const [sautoLoading, setSautoLoading] = useState(false);
   const [sautoError, setSautoError] = useState<string | null>(null);
+  const [sautoInfo, setSautoInfo] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,6 +89,7 @@ export default function CarForm({
     if (!url) return;
     setSautoLoading(true);
     setSautoError(null);
+    setSautoInfo(null);
 
     const result = await importSautoEquipmentAction(url);
     setSautoLoading(false);
@@ -96,6 +98,9 @@ export default function CarForm({
       setSautoError(result.error);
       return;
     }
+
+    const importedCount = result.equipment.reduce((sum, g) => sum + g.items.length, 0);
+    setSautoInfo(`Načteno ${importedCount} položek výbavy ze Sauto.`);
 
     // Merge into what's already checked, don't replace it.
     setEquipment((prev) => {
@@ -337,6 +342,9 @@ export default function CarForm({
         </div>
         {sautoError ? (
           <p className="mt-2 font-sans text-xs text-status-reserved">{sautoError}</p>
+        ) : null}
+        {sautoInfo ? (
+          <p className="mt-2 font-sans text-xs text-graphite-soft">{sautoInfo}</p>
         ) : null}
         <div className="mt-5">
           <EquipmentEditor value={equipment} onChange={setEquipment} options={equipmentOptions} />

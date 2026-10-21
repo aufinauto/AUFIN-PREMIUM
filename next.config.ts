@@ -20,8 +20,8 @@ const nextConfig: NextConfig = {
   images: {
     // AVIF first (smallest), WebP fallback for older browsers.
     formats: ["image/avif", "image/webp"],
-    // 85 is used for the car gallery / lightbox, 75 everywhere else.
-    qualities: [75, 85],
+    // 90: car gallery, lightbox, hero and section photos; 85: car cards.
+    qualities: [75, 85, 90],
     // Car photos get unique (timestamped) file names on upload, so optimized
     // versions can be cached for a long time. When replacing a static image
     // in public/images, give it a new file name.

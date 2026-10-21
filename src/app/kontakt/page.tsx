@@ -42,11 +42,12 @@ export default function KontaktPage() {
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1fr]">
           <Reveal y={0} className="relative aspect-[4/3] overflow-hidden lg:aspect-auto">
             <PhotoImage
-              src="/images/sections/contact-showroom-new.jpg"
+              src="/images/sections/contact-showroom-new-hq.jpg"
               alt="Partnerský showroom SilverCars"
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="h-full w-full object-cover"
-            />
+          quality={90}
+        />
           </Reveal>
 
           <div className="flex flex-col gap-10">
